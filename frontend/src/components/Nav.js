@@ -17,6 +17,9 @@ class Navigation extends Component {
         <NavLink exact to={"/component4"} activeClassName={"active"}>
           Component 4
         </NavLink>
+        <NavLink exact to={"/logout"} activeClassName={"active"}>
+          Logout
+        </NavLink>
       </div>
     );
   }
