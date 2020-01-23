@@ -9,6 +9,7 @@ import Component3 from "./components/Component3";
 import Component4 from "./components/Component4";
 import Login from './components/Login';
 import Signup from './components/Signup';
+import Logout from './components/Logout';
 
 class App extends React.Component {
   constructor(props) {
@@ -35,6 +36,7 @@ class App extends React.Component {
             <Route path={"/component4"} component={Component4} />
             <Route exact path={"/login"} component={Login} />
             <Route exact path={"/signup"} component={Signup} />
+            <Route exact path={"/logout"} component={Logout} />
 
             <Route
               render={props => {
