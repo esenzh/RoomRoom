@@ -2,9 +2,9 @@ var express = require('express');
 var router = express.Router();
 const nodemailer = require("nodemailer");
 
-
 /* GET home page. */
-router.get('/', function(req, res, next) {
+router.post('/api/newForm', function(req, res, next) {
+  console.log(req.body)
   res.send('ok');
 });
 

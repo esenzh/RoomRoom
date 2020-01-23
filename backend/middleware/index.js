@@ -4,6 +4,7 @@ module.exports = function (app) {
     const session = require('express-session');
     const cookieParser = require('cookie-parser');
     const FileStore = require('session-file-store')(session);
+    const dbConnection = require('./db-connect');
 
     app.use(morgan('dev'));
 
