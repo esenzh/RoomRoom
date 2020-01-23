@@ -9,6 +9,7 @@ import Component3 from "./components/Component3";
 import Component4 from "./components/Component4";
 import Login from './components/Login';
 import Signup from './components/Signup';
+import WrappedDynamicRule from "./components/WrappedDynamicRule";
 import Logout from './components/Logout';
 
 class App extends React.Component {
@@ -27,7 +28,6 @@ class App extends React.Component {
               <h1>Roomroom</h1>
             </div>
           </header>
-
           <Route component={Navigation} />
           <Switch>
             <Route exact path={"/component1"} component={Component1} />
@@ -37,13 +37,6 @@ class App extends React.Component {
             <Route exact path={"/login"} component={Login} />
             <Route exact path={"/signup"} component={Signup} />
             <Route exact path={"/logout"} component={Logout} />
-
-            <Route
-              render={props => {
-                return <div>ERROR!!!!!!!!!!</div>;
-              }}
-            />
-          </Switch>
         </div>
       </Router>
     );
@@ -51,5 +44,3 @@ class App extends React.Component {
 }
 
 export default App;
-
-// require('test-pages')
