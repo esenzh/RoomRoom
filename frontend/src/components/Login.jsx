@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
-import { Form, Icon, Input, Button, Checkbox } from 'antd';
-import { Link } from 'react-router-dom';
+import { Form, Icon, Input, Button, Alert } from 'antd';
+import { Link, Redirect } from 'react-router-dom';
+import { withCookies } from 'react-cookie';
 
 class Login extends Component {
     constructor(props) {
@@ -12,67 +13,78 @@ class Login extends Component {
     }
     handleSubmit = async event => {
         event.preventDefault();
-        const response = await fetch('/api/login', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({
-                username: this.state.username,
-                password: this.state.password
-            })
+        this.props.form.validateFields(async (err, values) => {
+            if (!err) {
+                const response = await fetch('/api/login', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        username: values.username,
+                        password: values.password
+                    })
+                })
+                const result = await response.json();
+                if (result.response === 'success') {
+                    this.props.cookies.set('isLogin', true);
+                    this.setState({
+                        isRedirect: true
+                    })
+                } else {
+                    this.setState({
+                        alertMessage: true
+                    })
+                }
+            }
         })
-        const result = await response.json();
-        if (result.response === 'success') {
-            this.setState({
-                isRedirect: true
-            })
-        } else {
-            this.setState({
-                alertMessage: true
-            })
-        }
+
     };
 
-    handleGlobalChange = (name) => (event) => {
-        if (name === 'username') {
-            this.setState({
-                username: event.target.value
-            })
-        } else {
-            this.setState({
-                password: event.target.value
-            })
-        }
-    }
-
     render() {
+        console.log(this.props);
+        if (this.state.isRedirect) {
+            return <Redirect to={'/component1'} />
+        }
+        const { getFieldDecorator } = this.props.form;
         return (<div className='loginForm'>
+            {this.state.alertMessage && (<Alert
+                description="Неверный логин и пароль, пожалуйста попробуйте еще раз!"
+                type="error"
+            />)}
+            <br />
+            <h2>Вход</h2>
             <Form onSubmit={this.handleSubmit} className="login-form">
-                <h2>Login</h2>
                 <Form.Item>
-                    <Input
-                        prefix={<Icon type="user" style={{ color: 'rgba(0,0,0,.25)' }} />}
-                        placeholder="Username"
-                        onChange={this.handleGlobalChange('username')}
-                    />
+                    {getFieldDecorator('username', {
+                        rules: [{ required: true, message: 'Пожалуйста, введите логин!' }],
+                    })(
+                        <Input
+                            prefix={<Icon type="user" style={{ color: 'rgba(0,0,0,.25)' }} />}
+                            placeholder="Логин"
+                        />,
+                    )}
                 </Form.Item>
                 <Form.Item>
-                    <Input
-                        prefix={<Icon type="lock" style={{ color: 'rgba(0,0,0,.25)' }} />}
-                        type='password'
-                        placeholder="Password"
-                        onChange={this.handleGlobalChange('password')}
-                    />
+                    {getFieldDecorator('password', {
+                        rules: [{ required: true, message: 'Пожалуйста, введите пароль!' }],
+                    })(
+                        <Input
+                            prefix={<Icon type="lock" style={{ color: 'rgba(0,0,0,.25)' }} />}
+                            type="password"
+                            placeholder="Пароль"
+                        />,
+                    )}
                 </Form.Item>
                 <Form.Item>
                     <Button type="primary" htmlType="submit" className="login-form-button">
-                        Log in
+                        Войти
                     </Button>
-                    Or <Link to={"/signup"}>register now!</Link>
+                    Или <Link to={"/signup"}>зарегистрируйтесь!</Link>
                 </Form.Item>
             </Form>
 
         </div>);
     }
 }
+const Signin = Form.create({ name: 'normal_login' })(Login);
 
-export default Login;
+export default withCookies(Signin);
