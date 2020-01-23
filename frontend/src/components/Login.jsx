@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { Form, Icon, Input, Button, Checkbox } from 'antd';
-import {Link} from 'react-router-dom';
+import { Link } from 'react-router-dom';
 
 class Login extends Component {
     constructor(props) {
@@ -52,7 +52,7 @@ class Login extends Component {
                     <Input
                         prefix={<Icon type="user" style={{ color: 'rgba(0,0,0,.25)' }} />}
                         placeholder="Username"
-                        onChange={() => this.handleGlobalChange('username')}
+                        onChange={this.handleGlobalChange('username')}
                     />
                 </Form.Item>
                 <Form.Item>
@@ -60,7 +60,7 @@ class Login extends Component {
                         prefix={<Icon type="lock" style={{ color: 'rgba(0,0,0,.25)' }} />}
                         type='password'
                         placeholder="Password"
-                        onChange={() => this.handleGlobalChange('password')}
+                        onChange={this.handleGlobalChange('password')}
                     />
                 </Form.Item>
                 <Form.Item>
