@@ -15,3 +15,12 @@ code {
 a {
   margin: 0 5px;
 }
+
+.loginForm{
+  max-width: 300px;
+  margin: auto;
+  margin-top: 200px
+}
+.login-form-button {
+  width: 100%;
+}
