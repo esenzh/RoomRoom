@@ -1,10 +1,33 @@
 var express = require('express');
 var router = express.Router();
 const nodemailer = require("nodemailer");
+const Form = require("../models/form");
 
-/* GET home page. */
-router.post('/api/newForm', function(req, res, next) {
-  console.log(req.body)
+
+router.post('/api/newForm', async (req, res, next) => {
+  const {
+    metro,
+    interest,
+    budget,
+    about
+  } = req.body.value;
+  console.log(req.body.value)
+
+  const form = new Form({
+    idAuthor: "req.session.user_id",
+    location: metro,
+    interest,
+    data:new Date(),
+    about,
+    likes:[],
+    prise: budget
+  });
+  try {
+    await form.save();
+    res.send('form is save');
+  }catch (e) {
+    res.send('form is NO save');
+  }
   res.send('ok');
 });
 

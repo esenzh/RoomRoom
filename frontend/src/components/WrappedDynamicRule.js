@@ -30,11 +30,11 @@ class DynamicRule extends Component {
     this.props.form.validateFields(err => {
       if (!err) {
          this.props.form.validateFieldsAndScroll(async (err,value)=>{
+           console.log(value)
           const response = await fetch('/api/newForm', {
             method: 'POST',
             body: JSON.stringify({
               value: value
-
             }),
             headers: {
               'Content-Type': 'application/json'
