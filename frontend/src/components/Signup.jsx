@@ -1,12 +1,14 @@
 import React, { Component } from 'react';
+import {withCookies} from 'react-cookie';
 import {
     Form,
     Input,
     Select,
     Checkbox,
     Button,
+    Alert
 } from 'antd';
-import { Redirect } from 'react-router-dom';
+import { Redirect, Link } from 'react-router-dom';
 
 const { Option } = Select;
 
@@ -14,7 +16,8 @@ class Signup extends Component {
     state = {
         confirmDirty: false,
         autoCompleteResult: [],
-        isRedirect: false
+        isRedirect: false,
+        warningMessage: '',
     };
 
     handleSubmit = e => {
@@ -47,6 +50,7 @@ class Signup extends Component {
                 })
                 const result = await response.json();
                 if (result.response === 'success') {
+                    this.props.cookies.set('isLogin', true);
                     this.setState({
                         isRedirect: true
                     })
@@ -71,7 +75,7 @@ class Signup extends Component {
     compareToFirstPassword = (rule, value, callback) => {
         const { form } = this.props;
         if (value && value !== form.getFieldValue('password')) {
-            callback('Two passwords that you enter is inconsistent!');
+            callback('Два пароля которые вы ввели не совпадают друг с другом!');
         } else {
             callback();
         }
@@ -132,23 +136,34 @@ class Signup extends Component {
         );
         return (
             <div className='registerForm'>
+                {this.state.warningMessage === 'usernameExist' && (<Alert
+                    description="Такой логин уже используется, пожалуйста выберите другой!"
+                    type="error"
+                />)}
+                {this.state.warningMessage === 'emailExist' && (<Alert
+                    description="Этот E-mail уже используется!"
+                    type="error"
+                />)}
+                <br />
+                <h2 className='registerHeader'>Регистрация</h2>
+                <br />
                 <Form {...formItemLayout} onSubmit={this.handleSubmit}>
-                    <Form.Item label="First Name">
+                    <Form.Item label="Имя">
                         {getFieldDecorator('first_name', {
                             rules: [
                                 {
                                     required: true,
-                                    message: 'Please input your first name!',
+                                    message: 'Пожалуйста, введите имя!',
                                 },
                             ],
                         })(<Input />)}
                     </Form.Item>
-                    <Form.Item label="Last Name">
+                    <Form.Item label="Фамилия">
                         {getFieldDecorator('last_name', {
                             rules: [
                                 {
                                     required: true,
-                                    message: 'Please input your last name!',
+                                    message: 'Пожалуйста, введите фамилию!',
                                 },
                             ],
                         })(<Input />)}
@@ -158,16 +173,16 @@ class Signup extends Component {
                             rules: [
                                 {
                                     type: 'email',
-                                    message: 'The input is not valid E-mail!',
+                                    message: 'Введите правильные E-mail!',
                                 },
                                 {
                                     required: true,
-                                    message: 'Please input your E-mail!',
+                                    message: 'Пожалуйста, введите E-mail!',
                                 },
                             ],
                         })(<Input />)}
                     </Form.Item>
-                    <Form.Item label="Phone Number (optional)">
+                    <Form.Item label="Номер телефона">
                         {getFieldDecorator('phone', {
                         })(<Input addonBefore={prefixSelector} style={{ width: '100%' }} />)}
                     </Form.Item>
@@ -175,22 +190,22 @@ class Signup extends Component {
                         {getFieldDecorator('vk', {
                         })(<Input />)}
                     </Form.Item>
-                    <Form.Item label="Username">
+                    <Form.Item label="Логин">
                         {getFieldDecorator('username', {
                             rules: [
                                 {
                                     required: true,
-                                    message: 'Please input your username!',
+                                    message: 'Пожалуйста, введите логин!',
                                 },
                             ],
                         })(<Input />)}
                     </Form.Item>
-                    <Form.Item label="Password" hasFeedback>
+                    <Form.Item label="Пароль" hasFeedback>
                         {getFieldDecorator('password', {
                             rules: [
                                 {
                                     required: true,
-                                    message: 'Please input your password!',
+                                    message: 'Пожалуйста, введите пароль!',
                                 },
                                 {
                                     validator: this.validateToNextPassword,
@@ -198,12 +213,12 @@ class Signup extends Component {
                             ],
                         })(<Input.Password />)}
                     </Form.Item>
-                    <Form.Item label="Confirm Password" hasFeedback>
+                    <Form.Item label="Подвердите пароль" hasFeedback>
                         {getFieldDecorator('confirm', {
                             rules: [
                                 {
                                     required: true,
-                                    message: 'Please confirm your password!',
+                                    message: 'Пожалуйста, подвердите пароль!',
                                 },
                                 {
                                     validator: this.compareToFirstPassword,
@@ -216,14 +231,16 @@ class Signup extends Component {
                             valuePropName: 'checked',
                         })(
                             <Checkbox>
-                                I have read the <a href="">agreement</a>
+                                Прочитал <a href="">условия и соглашение</a>
                             </Checkbox>,
                         )}
                     </Form.Item>
                     <Form.Item {...tailFormItemLayout}>
                         <Button type="primary" htmlType="submit">
-                            Register
-            </Button>
+                            Зарегестрироваться
+                        </Button>
+                        &nbsp;&nbsp;&nbsp;
+                        Или <Link to={"/login"}>Войти!</Link>
                     </Form.Item>
                 </Form>
             </div>
@@ -232,5 +249,4 @@ class Signup extends Component {
 }
 
 const Register = Form.create({ name: 'register' })(Signup);
-
-export default Register;
+export default withCookies(Register);
