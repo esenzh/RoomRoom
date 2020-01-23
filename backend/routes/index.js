@@ -14,7 +14,7 @@ router.get('/', function(req, res, next) {
 // });
 
 router
-    .route("/sendLikeMail")
+    .route("/api/sendLikeMail")
     .get(async (req, res, next) => {
       try {
        await console.log('пришел запрос')
