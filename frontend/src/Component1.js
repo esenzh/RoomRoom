@@ -10,7 +10,7 @@ class Component1 extends React.Component {
 
     async sendLikeMail(){
         console.log("Запрос ушел")
-        const resp = await fetch('/sendLikeMail');
+        const resp = await fetch('/api/sendLikeMail');
         const data = await resp.json();
         console.log(data)
     }
