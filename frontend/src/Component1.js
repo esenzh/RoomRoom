@@ -33,7 +33,7 @@ class Component1 extends React.Component {
     render() {
         return (
             <div>
-                <button onClick={this.sendLikeMail}>Обновить статус поиска (+ три дня)</button>
+                <button onClick={this.sendLikeMail}><img src="https://img.icons8.com/flat_round/48/000000/filled-like.png"/></button>
             </div>
         );
     }
