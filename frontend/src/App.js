@@ -1,5 +1,5 @@
 import React from "react";
-import { BrowserRouter as Router, Link, Route, Switch } from "react-router-dom";
+import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 import "./App.css";
 
 import Navigation from "./components/Nav";
@@ -11,6 +11,7 @@ import Login from './components/Login';
 import Signup from './components/Signup';
 import WrappedDynamicRule from "./components/WrappedDynamicRule";
 import Logout from './components/Logout';
+//import DashBoard from "./components/DashBoard";
 
 class App extends React.Component {
   constructor(props) {
@@ -28,6 +29,8 @@ class App extends React.Component {
               <h1>Roomroom</h1>
             </div>
           </header>
+          {/*<DashBoard/>*/}
+          <WrappedDynamicRule/>
           <Route component={Navigation} />
           <Switch>
             <Route exact path={"/component1"} component={Component1} />

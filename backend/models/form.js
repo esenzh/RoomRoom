@@ -3,7 +3,7 @@ const mongoose = require("mongoose");
 const formSchema = new mongoose.Schema({
   idAuthor: String,
   location: String,
-  interest: String,
+  interest: [],
   data: Date,
   about: String,
   likes: [],

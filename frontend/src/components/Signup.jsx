@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import {withCookies} from 'react-cookie';
+import { withCookies } from 'react-cookie';
 import {
     Form,
     Input,
@@ -9,6 +9,7 @@ import {
     Alert
 } from 'antd';
 import { Redirect, Link } from 'react-router-dom';
+import UploadPhoto from './UploadPhoto';
 
 const { Option } = Select;
 
@@ -185,6 +186,9 @@ class Signup extends Component {
                     <Form.Item label="Номер телефона">
                         {getFieldDecorator('phone', {
                         })(<Input addonBefore={prefixSelector} style={{ width: '100%' }} />)}
+                    </Form.Item>
+                    <Form.Item label='Загрузите фото, пожалуйста'>
+                        <UploadPhoto />
                     </Form.Item>
                     <Form.Item label="VK">
                         {getFieldDecorator('vk', {

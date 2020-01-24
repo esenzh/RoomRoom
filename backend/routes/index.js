@@ -11,8 +11,8 @@ router.post('/api/newForm', async (req, res, next) => {
     interest,
     budget,
     about
-  } = req.body.value;
-  console.log(req.body.value)
+  } = req.body;
+  console.log(req.body)
 
   const form = new Form({
     idAuthor: "req.session.user_id",
@@ -24,6 +24,7 @@ router.post('/api/newForm', async (req, res, next) => {
     prise: budget
   });
   try {
+
     await form.save();
     res.send('form is save');
   }catch (e) {
