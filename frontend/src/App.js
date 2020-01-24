@@ -11,6 +11,7 @@ import Login from './components/Login';
 import Signup from './components/Signup';
 import WrappedDynamicRule from "./components/WrappedDynamicRule";
 import Logout from './components/Logout';
+import DashBoard from "./components/DashBoard";
 
 class App extends React.Component {
   constructor(props) {
@@ -23,21 +24,23 @@ class App extends React.Component {
     return (
       <Router>
         <div className="App">
-          <header className="App-header">
-            <div>
-              <h1>Roomroom</h1>
-            </div>
-          </header>
-          <Route component={Navigation} />
-          <Switch>
-            <Route exact path={"/component1"} component={Component1} />
-            <Route exact path={"/component2"} component={Component2} />
-            <Route exact path={"/component3"} component={Component3} />
-            <Route path={"/component4"} component={Component4} />
-            <Route exact path={"/login"} component={Login} />
-            <Route exact path={"/signup"} component={Signup} />
-            <Route exact path={"/logout"} component={Logout} />
-            </Switch>
+          {/*<header className="App-header">*/}
+          {/*  <div>*/}
+          {/*    <h1>Roomroom</h1>*/}
+          {/*  </div>*/}
+          {/*</header>*/}
+          <DashBoard/>
+          <WrappedDynamicRule/>
+          {/*<Route component={Navigation} />*/}
+          {/*<Switch>*/}
+          {/*  <Route exact path={"/component1"} component={Component1} />*/}
+          {/*  <Route exact path={"/component2"} component={Component2} />*/}
+          {/*  <Route exact path={"/component3"} component={Component3} />*/}
+          {/*  <Route path={"/component4"} component={Component4} />*/}
+          {/*  <Route exact path={"/login"} component={Login} />*/}
+          {/*  <Route exact path={"/signup"} component={Signup} />*/}
+          {/*  <Route exact path={"/logout"} component={Logout} />*/}
+          {/*  </Switch>*/}
         </div>
       </Router>
     );
