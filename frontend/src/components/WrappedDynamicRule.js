@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import {Form, Input, Button, Select, InputNumber,Modal} from 'antd';
-const imgMetro = require('./metro.png');
+const imgMetro = require('../images/metro.png');
 
 const {Option} = Select;
 const { TextArea } = Input;
