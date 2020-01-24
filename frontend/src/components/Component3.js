@@ -5,7 +5,6 @@ class Component3 extends Component {
     render() {
         return (
             <div>
-                <WrappedDynamicRule />
             </div>
         );
     }

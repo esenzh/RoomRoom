@@ -12,33 +12,34 @@ class Component2 extends Component {
         // const resp = await fetch('/api/findSimilarUsers');
         // const data = await resp.json();
         // console.log(data)
-        let arr1= {
+
+        let arr1FromSession= {
             idAuthor: '_idjlkjlkg8997867ghg',
-            location: 'Академическая',
-            interest: ["компьютерные игры", "автомобили"],
+            location: 'Бульвар Рокоссовского',
+            interest: [ "программирование"],
             data: 'Date',
             about: 'String',
             likes: [],
             prise: 20
         }
-        const zapros_response = await fetch(
+        const reqComparison = await fetch(
             '/api/findSimilarUsers',
             {
                 headers: {
                     'Content-Type': 'application/json',
                 },
                 method: 'POST',
-                body: JSON.stringify()
+                body: JSON.stringify(arr1FromSession)
             });
-        const resultFinish = await zapros_response.json(arr1);
-        console.log(resultFinish)
+        const arrSortUserId = await reqComparison.json();
+        console.log(arrSortUserId)
     }
 
 
     render() {
         return (
             <div>
-                <button onClick={this.findSimilarUsers}>показать подходящих пользователей</button>
+                <button onClick={this.findSimilarUsers}>Показать подходящих пользователей</button>
             </div>
         );
     }
