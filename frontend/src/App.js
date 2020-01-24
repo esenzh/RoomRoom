@@ -30,7 +30,7 @@ class App extends React.Component {
             </div>
           </header>
           {/*<DashBoard/>*/}
-          <WrappedDynamicRule/>
+          {/* <WrappedDynamicRule/> */}
           <Route component={Navigation} />
           <Switch>
             <Route exact path={"/component1"} component={Component1} />
