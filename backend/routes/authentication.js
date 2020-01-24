@@ -14,6 +14,7 @@ router
       last_name,
       email,
       phone,
+      photo,
       vk,
       username,
       password
@@ -23,6 +24,7 @@ router
       last_name,
       email,
       phone,
+      photo,
       vk,
       username,
       password: await bcrypt.hash(password, saltRounds)

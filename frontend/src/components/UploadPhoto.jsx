@@ -1,4 +1,6 @@
 import React, { Component } from 'react';
+import { connect } from "react-redux";
+import { AddPhotoAC } from "../redux/type";
 
 import { Upload, Icon, Modal } from 'antd';
 
@@ -15,7 +17,7 @@ class PicturesWall extends Component {
     state = {
         previewVisible: false,
         previewImage: '',
-        fileList: [],
+        fileList: '',
     };
 
     handleCancel = () => this.setState({ previewVisible: false });
@@ -31,10 +33,12 @@ class PicturesWall extends Component {
         });
     };
 
-    handleChange = ({ fileList }) => this.setState({ fileList });
+    handleChange = ({ fileList }) => {
+        this.props.addPhoto(fileList)
+        return this.setState({ fileList })
+    };
 
     render() {
-        console.log(this.state.fileList)
         const { previewVisible, previewImage, fileList } = this.state;
         const uploadButton = (
             <div>
@@ -61,4 +65,12 @@ class PicturesWall extends Component {
     }
 }
 
-export default PicturesWall;
+function mapDispatchToProps(dispatch) {
+    return {
+        addPhoto: photo => {
+            dispatch(AddPhotoAC(photo));
+        }
+    };
+}
+
+export default connect(null, mapDispatchToProps)(PicturesWall);

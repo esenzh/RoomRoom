@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { withCookies } from 'react-cookie';
+import { connect } from "react-redux";
 import {
     Form,
     Input,
@@ -44,6 +45,7 @@ class Signup extends Component {
                         last_name,
                         email,
                         phone: `${prefix}${phone}`,
+                        photo: this.props.photos,
                         vk,
                         username,
                         password
@@ -101,6 +103,7 @@ class Signup extends Component {
     };
 
     render() {
+        console.log(this.props)
         if (this.state.isRedirect) {
             return <Redirect to={'/component1'} />
         }
@@ -252,5 +255,11 @@ class Signup extends Component {
     }
 }
 
+function mapStateToProps(store) {
+    return {
+        photos: store.photos
+    };
+}
+
 const Register = Form.create({ name: 'register' })(Signup);
-export default withCookies(Register);
+export default withCookies(connect(mapStateToProps)(Register));
