@@ -119,7 +119,7 @@ class DynamicRule extends Component {
     const {getFieldDecorator} = this.props.form;
     const { cities } = this.state;
     return (
-      <div>
+      <div className='registerForm'>
         <Form {...formItemLayout} onSubmit={this.handleSubmit}>
           <h1>Новая анкета</h1>
           <Form.Item {...formItemLayout} label="Метро" hasFeedback>
