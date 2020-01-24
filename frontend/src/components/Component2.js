@@ -16,11 +16,11 @@ class Component2 extends Component {
         let arr1FromSession= {
             idAuthor: '_idjlkjlkg8997867ghg',
             location: 'Бульвар Рокоссовского',
-            interest: [ "программирование"],
+            interest: [],
             data: 'Date',
             about: 'String',
             likes: [],
-            prise: 20
+            prise: 25
         }
         const reqComparison = await fetch(
             '/api/findSimilarUsers',

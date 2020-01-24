@@ -160,7 +160,7 @@ router
           arrSortUserId.push(sortUserPrise[i][0].idAuthor)
         }
         console.log(arrSortUserId)
-        res.json(arrSortUserId)
+        res.json(sortUserPrise)
       } catch (error) {
         next(error);
       }
