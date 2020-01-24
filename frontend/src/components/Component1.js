@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-
+// require('test-pages')
 class Component1 extends React.Component {
     constructor(props) {
         super(props);
