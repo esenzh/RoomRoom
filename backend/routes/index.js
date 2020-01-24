@@ -2,6 +2,7 @@ var express = require('express');
 var router = express.Router();
 const nodemailer = require("nodemailer");
 const Form = require("../models/form");
+const User = require("../models/user");
 
 
 router.post('/api/newForm', async (req, res, next) => {
@@ -67,6 +68,24 @@ router
 
         main().catch(console.error);
 
+      } catch (error) {
+        next(error);
+      }
+    });
+
+
+
+
+
+
+router
+    .route('/api/findSimilarUsers')
+    .post(async (req, res, next) => {
+      try {
+        await console.log('пришел запрос')
+        let allUsers = await User.find();
+        console.log(allUsers)
+        res.json(allUsers)
       } catch (error) {
         next(error);
       }
