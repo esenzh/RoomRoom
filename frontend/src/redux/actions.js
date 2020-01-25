@@ -1,3 +1,4 @@
 const ADD_PHOTO ='ADD_PHOTO';
+const ADD_ISLOGIN ='ADD_ISLOGIN';
 
-export {ADD_PHOTO}
+export {ADD_PHOTO, ADD_ISLOGIN}
