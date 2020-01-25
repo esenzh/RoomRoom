@@ -75,16 +75,30 @@ router
     });
 
 
-
-
-
+router.get('/api/profile', async (req, res, next) => {
+  try {
+    let user = req.session.user;
+    res.json({first_name: user.first_name,
+      last_name: user.last_name,
+      email: user.email,
+      phone: user.phone,
+      vk: user.vk,
+      photo: user.photo
+    });
+  }catch (e) {
+    res.send('profile not found');
+  }
+});
 
 router
     .route('/api/findSimilarUsers')
     .post(async (req, res, next) => {
       try {
         await console.log('пришел запрос')
-        let arr1 = req.body;
+
+          let user = req.session.user;
+          const userForm = await Form.findOne({ idAuthor: user._id })
+        let arr1 = userForm.interest;
         let arr2 = []
         let arr3 = await Form.find();
         for (let i = 0; i <arr3.length ; i++) {
