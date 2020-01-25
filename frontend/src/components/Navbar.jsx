@@ -7,9 +7,7 @@ import { withCookies } from 'react-cookie';
 class Navigation extends Component {
   constructor(props) {
     super(props);
-    this.state = {
-      isLogin: false
-    };
+    this.state = {};
   }
 
   componentDidMount = () => {
@@ -27,7 +25,6 @@ class Navigation extends Component {
       this.setState({
         photoUrl: result.response.photo[0].thumbUrl,
         first_name: result.response.first_name,
-        isLogin: true,
       })
     } else {
       console.log('Fail to get profile')
@@ -37,36 +34,33 @@ class Navigation extends Component {
   render() {
     return (
       <div>
-        {this.state.isLogin && (
-          <Menu mode="horizontal">
-            {/* TODO: Put user profile photo */}
-            <Menu.Item key='profiles'>
-              <Link to={'/profile'}>
-                <Avatar size="large" icon="user" src={this.state.photoUrl} />
-                &nbsp;&nbsp;&nbsp;&nbsp;
+        <Menu mode="horizontal">
+          <Menu.Item key='profiles'>
+            <Link to={'/profile'}>
+              <Avatar size="large" icon="user" src={this.state.photoUrl} />
+              &nbsp;&nbsp;&nbsp;&nbsp;
                 {this.state.first_name}
-              </Link>
-            </Menu.Item>
-            <Menu.Item key='home'>
-              <Link to={'/home'}>
-                <Icon type="home" />
-                ДОМОЙ
             </Link>
-            </Menu.Item>
-            <Menu.Item key='anketa'>
-              <Link to={'/anketa'}>
-                <Icon type="form" />
-                АНКЕТА
+          </Menu.Item>
+          <Menu.Item key='home'>
+            <Link to={'/home'}>
+              <Icon type="home" />
+              ДОМОЙ
             </Link>
-            </Menu.Item>
-            <Menu.Item key='logout'>
-              <Link to={'/logout'}>
-                <Icon type="logout" />
-                ВЫХОД
+          </Menu.Item>
+          <Menu.Item key='anketa'>
+            <Link to={'/anketa'}>
+              <Icon type="form" />
+              АНКЕТА
             </Link>
-            </Menu.Item>
-          </Menu>
-        )}
+          </Menu.Item>
+          <Menu.Item key='logout'>
+            <Link to={'/logout'}>
+              <Icon type="logout" />
+              ВЫХОД
+            </Link>
+          </Menu.Item>
+        </Menu>
       </div>
     );
   }

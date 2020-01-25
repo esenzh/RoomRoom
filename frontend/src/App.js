@@ -1,18 +1,18 @@
-import React, {Profiler} from "react";
+import React, { Profiler } from "react";
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 import "./App.css";
+import { connect } from "react-redux";
+import { withCookies } from "react-cookie";
 
-import Navigation from "./components/Navbar";
+import Navbar from "./components/Navbar";
 import Component1 from "./components/Component1";
 import Component2 from "./components/Component2";
-import Component3 from "./components/Component3";
-import Component4 from "./components/Component4";
 
 import Profile from "./components/Profile";
-import Login from './components/Login';
-import Signup from './components/Signup';
+import Login from "./components/Login";
+import Signup from "./components/Signup";
 import WrappedDynamicRule from "./components/WrappedDynamicRule";
-import Logout from './components/Logout';
+import Logout from "./components/Logout";
 import DashBoard from "./components/DashBoard";
 
 class App extends React.Component {
@@ -20,19 +20,15 @@ class App extends React.Component {
     super(props);
   }
   render() {
+    const isLogin = this.props.cookies.get("isLogin");
     return (
       <Router>
         <div>
-          {/* TODO: use logical operator for navbar */}
-          {/*<DashBoard/>*/}
-          {/* <WrappedDynamicRule/> */}
-          <Route component={Navigation} />
+          {this.props.isLogin || isLogin ? <Navbar /> : ""}
           <Switch>
-            <Route exact path={"/home"} component={DashBoard} />
+            <Route exact path={"/"} component={DashBoard} />
             <Route exact path={"/anketa"} component={WrappedDynamicRule} />
             <Route exact path={"/component2"} component={Component2} />
-            <Route exact path={"/component3"} component={Component3} />
-            <Route path={"/component4"} component={Component4} />
             <Route path={"/profile"} component={Profile} />
             <Route exact path={"/login"} component={Login} />
             <Route exact path={"/signup"} component={Signup} />
@@ -44,4 +40,10 @@ class App extends React.Component {
   }
 }
 
-export default App;
+function mapStateToProps(store) {
+  return {
+    isLogin: store.isLogin
+  };
+}
+
+export default withCookies(connect(mapStateToProps)(App));

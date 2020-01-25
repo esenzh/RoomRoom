@@ -2,6 +2,8 @@ import React, { Component } from 'react';
 import { Form, Icon, Input, Button, Alert } from 'antd';
 import { Link, Redirect } from 'react-router-dom';
 import { withCookies } from 'react-cookie';
+import { connect } from "react-redux";
+import { AddIsLogin } from "../redux/type";
 
 class Login extends Component {
     constructor(props) {
@@ -26,6 +28,7 @@ class Login extends Component {
                 const result = await response.json();
                 if (result.response === 'success') {
                     this.props.cookies.set('isLogin', true);
+                    this.props.addIsLogin(true);
                     this.setState({
                         isRedirect: true
                     })
@@ -36,12 +39,11 @@ class Login extends Component {
                 }
             }
         })
-
     };
 
     render() {
         if (this.state.isRedirect) {
-            return <Redirect to={'/home'} />
+            return <Redirect to={'/'} />
         }
         const { getFieldDecorator } = this.props.form;
         return (<div className='loginForm'>
@@ -80,10 +82,17 @@ class Login extends Component {
                     Или <Link to={"/signup"}>зарегистрируйтесь!</Link>
                 </Form.Item>
             </Form>
-
         </div>);
     }
 }
-const Signin = Form.create({ name: 'normal_login' })(Login);
 
-export default withCookies(Signin);
+function mapDispatchToProps(dispatch) {
+    return {
+        addIsLogin: (toogle) => {
+            dispatch(AddIsLogin(toogle));
+        }
+    };
+}
+
+const Signin = Form.create({ name: 'normal_login' })(Login);
+export default withCookies(connect(null, mapDispatchToProps)(Signin));

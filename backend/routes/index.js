@@ -1,4 +1,4 @@
-var express = require('express');
+var express = require("express");
 var router = express.Router();
 const nodemailer = require("nodemailer");
 const Form = require("../models/form");
@@ -28,7 +28,7 @@ router.post('/api/newForm', async (req, res, next) => {
   } catch (e) {
     res.send('form is NO save');
   }
-  res.send('ok');
+  res.send("ok");
 });
 
 router
@@ -69,7 +69,7 @@ router
   });
 
 
-router.get('/api/profile', async (req, res, next) => {
+router.get("/api/profile", async (req, res, next) => {
   try {
     let user = req.session.user;
     res.json({

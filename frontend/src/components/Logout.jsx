@@ -1,6 +1,8 @@
 import React, { Component } from "react";
 import { withCookies } from "react-cookie";
 import { Redirect } from "react-router-dom";
+import { connect } from "react-redux";
+import { AddIsLogin } from "../redux/type";
 
 class Logout extends Component {
   constructor(props) {
@@ -15,6 +17,7 @@ class Logout extends Component {
     const result = await response.json();
     if (result.response === "success") {
       this.props.cookies.remove("isLogin");
+      this.props.addIsLogin(false)
       this.setState({
           isRedirect: true
       });
@@ -31,4 +34,12 @@ class Logout extends Component {
   }
 }
 
-export default withCookies(Logout);
+function mapDispatchToProps(dispatch) {
+  return {
+      addIsLogin: (toogle) => {
+          dispatch(AddIsLogin(toogle));
+      }
+  };
+}
+
+export default withCookies(connect(null, mapDispatchToProps)(Logout));
