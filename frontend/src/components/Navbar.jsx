@@ -17,7 +17,7 @@ class Navigation extends Component {
   }
 
   fetchUserProfile = async () => {
-    const response = await fetch('/api/user', {
+    const response = await fetch('/api/profile', {
       headers: { 'Content-Type': 'application/json' }
     })
     const result = await response.json();
