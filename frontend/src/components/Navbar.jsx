@@ -43,7 +43,7 @@ class Navigation extends Component {
             </Link>
           </Menu.Item>
           <Menu.Item key='home'>
-            <Link to={'/home'}>
+            <Link to={'/'}>
               <Icon type="home" />
               ДОМОЙ
             </Link>
