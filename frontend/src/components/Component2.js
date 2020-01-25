@@ -7,6 +7,8 @@ class Component2 extends Component {
 
         }
         this.findSimilarUsers = this.findSimilarUsers.bind(this)
+
+
     }
     async findSimilarUsers(){
         // const resp = await fetch('/api/findSimilarUsers');

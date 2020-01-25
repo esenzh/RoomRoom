@@ -102,14 +102,10 @@ router
         let arr2 = []
         let arr3 = await Form.find();
         for (let i = 0; i <arr3.length ; i++) {
-          if(arr1.location === arr3[i].location){
-            arr2.push(arr3[i])
+          if(arr1.location === arr3[i].location) {
+              arr2.push(arr3[i])
           }
-        }
-        let allComparison = [];
-
-        arr2.map(function(e) {
-              let сomparison = [];
+          let сomparison = [];
               let userId = {idAuthor: e.idAuthor}
               let location = {location: e.location}
               let data = {data: e.data}
@@ -135,7 +131,8 @@ router
               сomparison.push(arrInterests)
               allComparison.push(сomparison)
             }
-        )
+
+
 // console.log(allComparison)
 
         let lengthAllComparison = []
