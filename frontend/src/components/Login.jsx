@@ -40,9 +40,8 @@ class Login extends Component {
     };
 
     render() {
-        console.log(this.props);
         if (this.state.isRedirect) {
-            return <Redirect to={'/component1'} />
+            return <Redirect to={'/home'} />
         }
         const { getFieldDecorator } = this.props.form;
         return (<div className='loginForm'>

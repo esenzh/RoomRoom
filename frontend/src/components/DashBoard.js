@@ -72,12 +72,13 @@ class DashBoard extends Component {
     return (
       <div style={{background: '#ECECEC', padding: '30px'}}>
         <Row gutter={16}>
-          {idUser && idUser.map((user) => {
+          {idUser && idUser.map((user, i) => {
             return (
               <Card
                 hoverable
                 style={{width: 240}}
                 cover={<img alt="example" src={user['photo'][0]}/>}
+                key={i}
               >
                 <Meta title={user['first_name']} />
               </Card>
