@@ -37,7 +37,7 @@ router
       res.status(400).json({ response: "emailExist" });
     } else {
       await user.save();
-      req.session.user = user;
+      req.session.user =  user;
       res.status(200).json({ response: "success" });
     }
   })
