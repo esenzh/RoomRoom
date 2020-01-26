@@ -1,9 +1,10 @@
 import React, {Component} from 'react';
-import {Form, Input, Button, Select, InputNumber,Modal} from 'antd';
+import {Form, Input, Button, Select, InputNumber, Modal, Badge} from 'antd';
+
 const imgMetro = require('../images/metro.png');
 
 const {Option} = Select;
-const { TextArea } = Input;
+const {TextArea} = Input;
 const interest = ['программирование', 'юриспруденция', 'экономика', "музыка", "спорт", "путешествия", "медицина", "образование", "армия", "точные науки", "компьютерные игры", "автомобили", "косметология"]
 const children = [];
 for (let i = 0; i < 13; i++) {
@@ -21,7 +22,23 @@ const formTailLayout = {
   labelCol: {span: 4},
   wrapperCol: {span: 8, offset: 4},
 };
-const provinceData = ['Сокольническая ветка', 'Замоскворецкая',"Арбатско-Покровская","Филевская",'Кольцевая',"Калужско-Рижская","Таганско-Краснопресненская",'Калининско-Солнцевская',"Серпуховско-Тимирязевская",'Люблинско-Дмитровская','Каховская','Бутовская'];
+const colorMetro = {
+  'Сокольническая ветка':'red',
+  'Замоскворецкая':'green',
+  "Арбатско-Покровская": 'blue',
+  "Филевская": 'cyan',
+  'Кольцевая':'#85502f',
+  "Калужско-Рижская": 'orange',
+  "Таганско-Краснопресненская": 'purple',
+  'Калининско-Солнцевская': 'yellow',
+  "Серпуховско-Тимирязевская": 'grey',
+  'Люблинско-Дмитровская': 'lime',
+  'Каховская':'teal',
+  'Бутовская':'#acbddc'
+
+
+}
+const provinceData = ['Сокольническая ветка', 'Замоскворецкая', "Арбатско-Покровская", "Филевская", 'Кольцевая', "Калужско-Рижская", "Таганско-Краснопресненская", 'Калининско-Солнцевская', "Серпуховско-Тимирязевская", 'Люблинско-Дмитровская', 'Каховская', 'Бутовская'];
 const cityData = {
   "Сокольническая ветка": ['Бульвар Рокоссовского', 'Черкизовская', 'Преображенская площадь', 'Сокольники', 'Красносельская', 'Комсомольская', 'Красные ворота', 'Чистые пруды', 'Лубянка', 'Охотныйряд', 'Библиотека Ленина', 'Кропоткинская', 'Парк Культуры', 'Фрунзенская', 'Спортивная', 'Воробьевы горы', 'Университет', 'Проспект Вернадского', 'Юго-Западная', 'Тропарёво', 'Румянцево', 'Саларьево'],
   "Замоскворецкая": ["Автозаводская", 'Алма-Атинская', 'Аэропорт', 'Водный стадион', 'Войковская', 'Динамо', 'Домодедовская', 'Кантемировская', 'Каширская', 'Коломенская', 'Красногвардейская', 'Новокузнецкая', 'Орехово', 'Павелецкая', 'Речной вокзал', 'Сокол', 'Тверская', 'Театральная', 'Царицыно'],
@@ -77,11 +94,11 @@ class DynamicRule extends Component {
     });
   };
 
-  check =  () => {
+  check = () => {
     this.props.form.validateFields(err => {
       if (!err) {
-         this.props.form.validateFieldsAndScroll(async (err,value)=>{
-           console.log(value)
+        this.props.form.validateFieldsAndScroll(async (err, value) => {
+          console.log(value)
           const response = await fetch('/api/newForm', {
             method: 'POST',
             body: JSON.stringify({
@@ -95,34 +112,26 @@ class DynamicRule extends Component {
             }
           });
           let result = await response.text();
-           console.log(result)
+          console.log(result)
         });
       }
     });
   };
 
-  // handleChange = e => {
-  //   this.setState(
-  //     {
-  //       checkNick: e.target.checked,
-  //     },
-  //     () => {
-  //       this.props.form.validateFields(['nickname'], {force: true});
-  //     },
-  //   );
-  // };
   handleChange = value => {
     console.log(`selected ${value}`);
+    console.log(this.state.cities)
   }
 
   render() {
     const {getFieldDecorator} = this.props.form;
-    const { cities } = this.state;
+    const {cities} = this.state;
     return (
       <div className='registerForm'>
         <Form {...formItemLayout} onSubmit={this.handleSubmit}>
           <h1>Новая анкета</h1>
           <Form.Item {...formItemLayout} label="Метро" hasFeedback>
+
             {getFieldDecorator('metro', {
               rules: [
                 {
@@ -132,29 +141,33 @@ class DynamicRule extends Component {
               ],
             })(
               <div>
-                <Select
-                  defaultValue={provinceData[0]}
-                  // style={{ width: 120 }}
-                  onChange={this.handleProvinceChange}
-                >
-                  {provinceData.map(province => (
-                    <Option key={province}>{province}</Option>
-                  ))}
+                <Select defaultValue={provinceData[0]} onChange={this.handleProvinceChange}>
+                  {
+                    provinceData.map(province => (
+                      <Option key={province}>
+                        <Badge color={colorMetro[province]} />
+                        {province}
+                      </Option>
+                    ))
+                  }
                 </Select>
+
                 <Select
-                  // style={{ width: 120 }}
                   value={this.state.secondCity}
                   onChange={this.onSecondCityChange}
                 >
                   {cities.map(city => (
-                    <Option value={city} key={city}>{city}</Option>
+                    <Option value={city} key={city}>
+                      {/*<Badge color={colorMetro[this.state.cities]} />*/}
+                      {city}
+                    </Option>
                   ))}
                 </Select>
               </div>
             )}
             <a onClick={this.showModal}>Показать схему метро</a>
           </Form.Item>
-          <Form.Item {...formItemLayout} label="Интересы" >
+          <Form.Item {...formItemLayout} label="Интересы">
             {getFieldDecorator('interest', {
               rules: [
                 {
@@ -165,7 +178,7 @@ class DynamicRule extends Component {
             })(
               <Select
                 mode="multiple"
-                style={{ width: '100%' }}
+                style={{width: '100%'}}
                 placeholder="Please select"
                 onChange={this.handleChange}
               >
@@ -185,8 +198,9 @@ class DynamicRule extends Component {
                   required: true,
                   message: 'Расскажите о себе'
                 },
-              ],})(
-            <TextArea rows={4} />)}
+              ],
+            })(
+              <TextArea rows={4}/>)}
           </Form.Item>
 
           <Form.Item {...formTailLayout}>
@@ -200,7 +214,7 @@ class DynamicRule extends Component {
           visible={this.state.visible}
           onOk={this.handleOk}
         >
-          <img style={{width:480,height:600}} src={imgMetro}/>
+          <img style={{width: 480, height: 600}} src={imgMetro}/>
 
         </Modal>
       </div>
