@@ -3,6 +3,8 @@ var router = express.Router();
 const User = require("../models/user");
 const sessionChecker = require("../middleware/auth");
 
+
+
 /* GET user info. */
 router.get("/api/profile", sessionChecker, async (req, res, next) => {
   try {
@@ -13,7 +15,11 @@ router.get("/api/profile", sessionChecker, async (req, res, next) => {
       last_name,
       email,
       phone,
-      photo
+      vk,
+      photo,
+      username,
+      age,
+      nativeLocation
     };
     res.status(200).json({ response: user });
   } catch (e) {

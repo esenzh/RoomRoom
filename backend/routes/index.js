@@ -27,7 +27,7 @@ router.post("/api/newForm", async (req, res, next) => {
 
 router.route("/api/sendLikeMail").get(async (req, res, next) => {
     try {
-        await console.log("пришел запрос");
+        console.log("пришел запрос");
         let user1 = req.session.user;
         let user2 = req.body.user2;
         const user1Form = await Form.findOne({idAuthor: user1._id});
@@ -163,7 +163,18 @@ router.route("/api/findSimilarUsers").post(async (req, res, next) => {
             arrSortUserId.push(sortUserPrise[i][0].idAuthor);
         }
         console.log(arrSortUserId);
-        res.json(sortUserPrise);
+        let id1 = [{
+    "_id": "5e2aabed7624d483fe18b674",
+    "photo": ["https://w-dog.ru/wallpapers/4/14/426082441147564/leonardo-di-kaprio-leonardo-dikaprio-muzhchina-akter-foto-oboi-multi-monitory.jpg"],
+    "first_name": "Davidson",
+    "last_name": "Cooke",
+    "email": "davidson.cooke@digial.biz",
+    "phone": "+7 (909) 494-2108",
+    "username": "davidson",
+    "password": "$2b$10$XCZ.yRu6Zo8f/zfrL0dmqOCzrATwKx7YD1KM8N9Q5Xysl7uQAYVOi",
+    "__v": 0
+  }]
+        res.json(id1);
     } catch (error) {
         next(error);
     }
