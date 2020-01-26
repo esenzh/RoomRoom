@@ -9,6 +9,7 @@ const saltRounds = 10;
 // Authetication
 router
   .post("/api/signup", async (req, res, next) => {
+      console.log(req.body)
     const {
       first_name,
       last_name,

@@ -9,7 +9,9 @@ const userSchema = Schema({
   vk: { type: String},
   photo: Array,
   username: { type: String, unique: true, required: true },
-  password: { type: String, required: true }
+  password: { type: String, required: true },
+  age: Number,
+  nativeLocation: String
 });
 
 module.exports = mongoose.model("User", userSchema);

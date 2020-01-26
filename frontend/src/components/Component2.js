@@ -7,6 +7,8 @@ class Component2 extends Component {
 
         }
         this.findSimilarUsers = this.findSimilarUsers.bind(this)
+
+
     }
     async findSimilarUsers(){
         // const resp = await fetch('/api/findSimilarUsers');
@@ -22,6 +24,9 @@ class Component2 extends Component {
             likes: [],
             prise: 25
         }
+        // const resp = await fetch('/api/profile');
+        // const data = await resp.json();
+        // const user =
         const reqComparison = await fetch(
             '/api/findSimilarUsers',
             {

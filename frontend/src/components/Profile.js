@@ -1,5 +1,6 @@
 import React, {Component} from 'react';
 import {Carousel} from 'antd';
+import {Calendar} from 'antd';
 
 class Profile extends Component {
     constructor() {
@@ -12,9 +13,10 @@ class Profile extends Component {
             phone: '',
             vk: '',
             photo: '',
-            nativLocation: '',
+            nativeLocation: '',
         }
     }
+
     async componentDidMount() {
         const resp = await fetch('/api/profile');
         const data = await resp.json();
@@ -26,7 +28,15 @@ class Profile extends Component {
             vk: data.vk,
             photo: data.photo,
         })
+
+        // Добавить fetch на совпадения, отрисовать
+        // Добавить fetch на фанатов, отрисовать
+
+        // function onPanelChange(value, mode) {
+        //     console.log(value, mode);
+        // }
     }
+
     render() {
         return (
             <div>
@@ -57,9 +67,8 @@ class Profile extends Component {
                                style={{fontStyle: "Courier New monospace, font-weight: bold"}}>
                             <tr>
                                 <td align={"left"}>
-                                    <p style={{fontSize: '25px'}}>{this.state.first_name} {this.state.last_name} Игорь
-                                        Александров</p>
-                                    <p>г. Москва ,</p>
+                                    <p style={{fontSize: '25px'}}>{this.state.first_name} {this.state.last_name}</p>
+                                    <p>{this.state.nativeLocation}</p>
                                     <img width={"20px"}
                                          src={"https://img.icons8.com/color/48/000000/lighthouse.png"}/> {this.state.nativLocation}, <img
                                     width={"20px"}
@@ -79,7 +88,7 @@ class Profile extends Component {
                                 </td>
                             </tr>
                             <tr>
-                                <td>
+                                <td  style={{verticalAlign: "top"}}>
                                     <img width={"20px"}
                                          src={"https://img.icons8.com/cute-clipart/64/000000/phonelink-ring.png"}/> {this.state.phone}<br/>
                                     <img width={"20px"}
@@ -87,12 +96,17 @@ class Profile extends Component {
                                     <img width={"20px"}
                                          src="https://img.icons8.com/color/48/000000/vk-circled.png"/>{this.state.vk}
                                 </td>
+                                <td align={"right"}>
 
+                                    <div
+                                        style={{width: 300, border: '1px solid #d9d9d9', borderRadius: 4}}>
+                                        <Calendar fullscreen={false}/>
+                                    </div>
+                                </td>
                             </tr>
                         </table>
                     </div>
-                    <footer style={{background: "lightblue", color: "#fff", margin: '0 auto', width: "80%"}}
-                            align={"center"}>
+                    <footer style={{background: "lightblue", color: "#fff", margin: '0 auto', width: "80%"}} align={"center"}>
                         <p>RoomRoom</p>
                     </footer>
                 </div>
