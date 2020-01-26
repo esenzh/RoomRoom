@@ -7,6 +7,8 @@ const formSchema = new mongoose.Schema({
   data: Date,
   about: String,
   likes: [],
+  сomparison: [],
+  funs: [],
   prise: Number
 });
 

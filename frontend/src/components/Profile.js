@@ -13,7 +13,7 @@ class Profile extends Component {
             phone: '',
             vk: '',
             photo: '',
-            nativLocation: '',
+            nativeLocation: '',
         }
     }
 
@@ -28,6 +28,10 @@ class Profile extends Component {
             vk: data.vk,
             photo: data.photo,
         })
+
+        // Добавить fetch на совпадения, отрисовать
+        // Добавить fetch на фанатов, отрисовать
+
         // function onPanelChange(value, mode) {
         //     console.log(value, mode);
         // }
@@ -64,7 +68,7 @@ class Profile extends Component {
                             <tr>
                                 <td align={"left"}>
                                     <p style={{fontSize: '25px'}}>{this.state.first_name} {this.state.last_name}</p>
-                                    <p>{this.state.nativLocation}</p>
+                                    <p>{this.state.nativeLocation}</p>
                                     <img width={"20px"}
                                          src={"https://img.icons8.com/color/48/000000/lighthouse.png"}/> {this.state.nativLocation}, <img
                                     width={"20px"}
