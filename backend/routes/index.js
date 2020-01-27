@@ -92,7 +92,8 @@ router.route("/api/findSimilarUsers").post(async (req, res, next) => {
         await console.log("пришел запрос");
         let user = req.session.user;
         const userForm = await Form.findOne({idAuthor: user._id});
-        let arr1 = userForm.interest;
+        let arr1 = userForm;
+        console.log(arr1)
         let arr2 = [];
         let arr3 = await Form.find();
         for (let i = 0; i < arr3.length; i++) {
@@ -155,28 +156,83 @@ router.route("/api/findSimilarUsers").post(async (req, res, next) => {
             }
         }
 
-        console.log(sortUserPrise);
+        // console.log(sortUserPrise);
 
         let arrSortUserId = [];
 
         for (let i = 0; i < sortUserPrise.length; i++) {
-            arrSortUserId.push(sortUserPrise[i][0].idAuthor);
+            arrSortUserId.push(sortUserPrise[i][0].idAuthor)
         }
-        console.log(arrSortUserId);
-        let id1 = [{
-    "_id": "5e2aabed7624d483fe18b674",
-    "photo": ["https://w-dog.ru/wallpapers/4/14/426082441147564/leonardo-di-kaprio-leonardo-dikaprio-muzhchina-akter-foto-oboi-multi-monitory.jpg"],
-    "first_name": "Davidson",
-    "last_name": "Cooke",
-    "email": "davidson.cooke@digial.biz",
-    "phone": "+7 (909) 494-2108",
-    "username": "davidson",
-    "password": "$2b$10$XCZ.yRu6Zo8f/zfrL0dmqOCzrATwKx7YD1KM8N9Q5Xysl7uQAYVOi",
-    "__v": 0
-  }]
-        res.json(id1);
+        // console.log(arrSortUserId);
+
+        const baseSortFormsId = await Form.find({idAuthor: arrSortUserId});
+        const baseSortUsersId = await User.find({_id: arrSortUserId});
+
+       let gradationUsers = []
+       let gradationForms = []
+
+        for (let i = 0; i < arrSortUserId.length; i++) {
+            for (let k = 0; k < baseSortUsersId.length; k++) {
+                if(arrSortUserId[i] === baseSortUsersId[k].id){
+                    gradationUsers.push(baseSortUsersId[k])
+
+                }
+            }
+        }
+
+        for (let i = 0; i < arrSortUserId.length; i++) {
+            for (let k = 0; k < baseSortFormsId.length; k++) {
+                if(arrSortUserId[i] === baseSortFormsId[k].idAuthor){
+                    gradationForms.push(baseSortFormsId[k])
+                }
+            }
+        }
+
+        let obj = {
+
+            location: gradationForms[0].location,
+            interest: gradationForms[0].interest,
+            about: gradationForms[0].about,
+            prise:  gradationForms[0].prise,
+            first_name: gradationUsers[0].first_name,
+            // age: gradationUsers[0].age,
+            // nativeLocation: obgradationUsers[0].nativeLocation,
+            photo: [gradationUsers[0].photo],
+            // сomparisonInterests: allSortUsers[0][6]
+        };
+        // console.log(obj);
+        let frontViewArr = [];
+
+        for (let i = 0; i < gradationUsers.length; i++) {
+            let obj = {
+                location: '',
+                interest: '',
+                about: '',
+                prise: '',
+                first_name: '',
+                // age: '',
+                // nativeLocation: '',
+                photo: '',
+                // сomparisonInterests: ''
+            };
+            obj.location = gradationForms[i].location
+            obj.interest = gradationForms[i].interest
+            obj.about = gradationForms[i].about
+            obj.prise = gradationForms[i].prise
+            obj.firs_name = gradationUsers[i].first_name
+            // obj.age = gradationUsers[i].age
+            // obj.nativeLocation = obgradationUsers[i].nativeLocation
+            obj.photo = gradationUsers[i].photo
+            obj.сomparisonInterests = sortUserPrise[i][6]
+
+            frontViewArr.push(obj)
+        }
+        console.log(frontViewArr)
+
+        res.json(frontViewArr);
     } catch (error) {
         next(error);
+        console.log('ошибка')
     }
 });
 
