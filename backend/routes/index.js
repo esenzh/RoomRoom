@@ -45,11 +45,40 @@ router.route("/api/sendLikeMail").get(async (req, res, next) => {
                 user2Form.save();
                 res.send("Совпадение найдено!");
                 // Сделать отправку писем двум юзерам о совпадении
+                async function main() {                                                                    //4. Уведомление пользователей о совпадении
+                    let testAccount = await nodemailer.createTestAccount();
+                    const transporter = nodemailer.createTransport({
+                        host: "smtp.yandex.ru",
+                        port: 465,
+                        secure: true,
+                        auth: {
+                            user: "pekarnyavkusnaya",
+                            pass: "pekarnyavkusnaya111"
+                        }
+                    });
+
+                    let info = await transporter.sendMail({
+                        from: '"Roomroom 👻" <pekarnyavkusnaya@yandex.ru>', // sender address
+                        to: `igordg@mail.ru, ${user1.email}, ${user2.email}`, // list of receivers
+                        subject: "Roomroom ✔", // Subject line
+                        text: "Текст1", // plain text body
+                        html:
+                            '<img src="https://gorod.tomsk.ru/uploads/33808/1240896561/my_room.jpg" alt="RoomRoom"><br>' +
+                            '<b>Здравствуйте! На сервисе RoomRoom у Вас появились новые лайки!</b>'
+                                `<p>Лайк поставлен пользователем ${user1.first_name} ${user1.last_name}</p>`
+                                `<p>Более подробная информация в Вашем профиле RoomRoom</p>`
+                    });
+                    console.log("Message sent: %s", info.messageId);
+                    console.log("Preview URL: %s", nodemailer.getTestMessageUrl(info));
+                    res.send("Письмо отправлено!");
+                }
+                main().catch(console.error);
+
             } else {
-                user1Form.likes.push(user2Form.idAuthor);                                                  //4. Записываем в свой массив лайков пользователя которому поставили лайк
+                user1Form.likes.push(user2Form.idAuthor);                                                  //5. Записываем в свой массив лайков пользователя которому поставили лайк
                 user1Form.save();
 
-                async function main() {                                                                    //5. Уведомление пользователя о том что мы ему поставили лайк
+                async function main() {                                                                    //6. Уведомление пользователя о том что мы ему поставили лайк
                     let testAccount = await nodemailer.createTestAccount();
                     const transporter = nodemailer.createTransport({
                         host: "smtp.yandex.ru",
@@ -188,23 +217,11 @@ router.route("/api/findSimilarUsers").post(async (req, res, next) => {
             }
         }
 
-        let obj = {
-
-            location: gradationForms[0].location,
-            interest: gradationForms[0].interest,
-            about: gradationForms[0].about,
-            prise:  gradationForms[0].prise,
-            first_name: gradationUsers[0].first_name,
-            // age: gradationUsers[0].age,
-            // nativeLocation: obgradationUsers[0].nativeLocation,
-            photo: [gradationUsers[0].photo],
-            // сomparisonInterests: allSortUsers[0][6]
-        };
-        // console.log(obj);
         let frontViewArr = [];
 
         for (let i = 0; i < gradationUsers.length; i++) {
             let obj = {
+                id: '',
                 location: '',
                 interest: '',
                 about: '',
@@ -215,6 +232,7 @@ router.route("/api/findSimilarUsers").post(async (req, res, next) => {
                 photo: '',
                 // сomparisonInterests: ''
             };
+            obj.id = arrSortUserId[i],
             obj.location = gradationForms[i].location
             obj.interest = gradationForms[i].interest
             obj.about = gradationForms[i].about
