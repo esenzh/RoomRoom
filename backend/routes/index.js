@@ -26,19 +26,27 @@ router.post("/api/newForm", async (req, res, next) => {
     res.send("ok");
 });
 
-router.route("/api/sendLikeMail").get(async (req, res, next) => {
+router.route("/api/sendLikeMail").post(async (req, res, next) => {
     try {
         console.log("пришел запрос");
         const user1 = req.session.user;
         const user2ID = req.body;
-        const user1Form = await Form.findOne({idAuthor: user1._id});
-        const user2Form = await Form.findOne({idAuthor: user2ID });
-        const user2 = await  User.findOne({id: user2ID });
+        console.log(req.body);
 
-        if (user2Form.likes.includes(user1.idAuthor)) {                                                   //1. Проверка на повторный лайк
-            res.send("Вы уже стаивли лайк данному пользователю!");
+        const user1Form = await Form.findOne({idAuthor: user1._id});
+        const user2Form = await Form.findOne({idAuthor: user2ID.id });
+       // console.log(user1Form)
+        // console.log(user2Form)
+
+        const user2 = await  User.findOne({id: user2ID.id });
+
+        if (user2Form.funs.includes(user1Form.idAuthor)) {                                                   //1. Проверка на повторный лайк
+            console.log('reapeat like')
+            res.json({sendRepeat:"Вы уже стаивли лайк данному пользователю!"});
         } else {
+            console.log('Проверка на повторный лайк пройдена!')
             if (user2Form.likes.includes(user1Form.idAuthor)) {                                           // 2. Проверка пользователя, которого лайкнули на взаимный лайк
+               console.log('совпадение есть')
                 user1Form.likes.push(user2Form.idAuthor);
                 console.log(user1Form, user2Form);
                 user1Form.сomparison.push(user2Form.idAuthor);                                            // 3. запись совпадения в анкеты двух юзеров
@@ -48,67 +56,68 @@ router.route("/api/sendLikeMail").get(async (req, res, next) => {
                 user2Form.save();
                 res.send("Совпадение найдено!");
                 // Сделать отправку писем двум юзерам о совпадении
-                async function main() {                                                                    //4. Уведомление пользователей о совпадении
-                    let testAccount = await nodemailer.createTestAccount();
-                    const transporter = nodemailer.createTransport({
-                        host: "smtp.yandex.ru",
-                        port: 465,
-                        secure: true,
-                        auth: {
-                            user: "pekarnyavkusnaya",
-                            pass: "pekarnyavkusnaya111"
-                        }
-                    });
-
-                    let info = await transporter.sendMail({
-                        from: '"Roomroom 👻" <pekarnyavkusnaya@yandex.ru>', // sender address
-                        to: `igordg@mail.ru, ${user1.email}, ${user2.email}`, // list of receivers
-                        subject: "Roomroom ✔", // Subject line
-                        text: "Текст1", // plain text body
-                        html:
-                            '<img src="https://gorod.tomsk.ru/uploads/33808/1240896561/my_room.jpg" alt="RoomRoom"><br>' +
-                            '<b>Здравствуйте! На сервисе RoomRoom появился пользователь, который хотел бы вместе с Вами арендовать квартиру!</b>'
-                                `<p>Лайк поставлен пользователем ${user2.first_name}</p>`
-                                `<p>Более подробная информация в Вашем профиле RoomRoom в разделе "Совпадания"</p>`
-                    });
-                    console.log("Message sent: %s", info.messageId);
-                    console.log("Preview URL: %s", nodemailer.getTestMessageUrl(info));
-                    res.send("Письмо отправлено!");
-                }
-                main().catch(console.error);
+                // async function main() {                                                                    //4. Уведомление пользователей о совпадении
+                //     let testAccount = await nodemailer.createTestAccount();
+                //     const transporter = nodemailer.createTransport({
+                //         host: "smtp.yandex.ru",
+                //         port: 465,
+                //         secure: true,
+                //         auth: {
+                //             user: "pekarnyavkusnaya",
+                //             pass: "pekarnyavkusnaya111"
+                //         }
+                //     });
+                //
+                //     let info = await transporter.sendMail({
+                //         from: '"Roomroom 👻" <pekarnyavkusnaya@yandex.ru>', // sender address
+                //         to: `igordg@mail.ru, ${user1.email}, ${user2.email}`, // list of receivers
+                //         subject: "Roomroom ✔", // Subject line
+                //         text: "Текст1", // plain text body
+                //         html:
+                //             '<img src="https://gorod.tomsk.ru/uploads/33808/1240896561/my_room.jpg" alt="RoomRoom"><br>' +
+                //             '<b>Здравствуйте! На сервисе RoomRoom появился пользователь, который хотел бы вместе с Вами арендовать квартиру!</b>'
+                //                 `<p>Лайк поставлен пользователем ${user2.first_name}</p>`
+                //                 `<p>Более подробная информация в Вашем профиле RoomRoom в разделе "Совпадания"</p>`
+                //     });
+                //     console.log("Message sent: %s", info.messageId);
+                //     console.log("Preview URL: %s", nodemailer.getTestMessageUrl(info));
+                //     res.send("Письмо отправлено!");
+                // }
+                // main().catch(console.error);
 
             } else {
+                console.log('взаимного лайка нет, записываем себя к пользователю в лайки')
                 user1Form.likes.push(user2Form.idAuthor);                                                  //5. Записываем в свой массив лайков пользователя которому поставили лайк
                 user1Form.save();
 
-                async function main() {                                                                    //6. Уведомление пользователя о том что мы ему поставили лайк
-                    let testAccount = await nodemailer.createTestAccount();
-                    const transporter = nodemailer.createTransport({
-                        host: "smtp.yandex.ru",
-                        port: 465,
-                        secure: true,
-                        auth: {
-                            user: "pekarnyavkusnaya",
-                            pass: "pekarnyavkusnaya111"
-                        }
-                    });
-
-                    let info = await transporter.sendMail({
-                        from: '"Roomroom 👻" <pekarnyavkusnaya@yandex.ru>', // sender address
-                        to: `igordg@mail.ru, ${user2.email}`, // list of receivers
-                        subject: "Roomroom ✔", // Subject line
-                        text: "Текст1", // plain text body
-                        html:
-                            '<img src="https://gorod.tomsk.ru/uploads/33808/1240896561/my_room.jpg" alt="RoomRoom"><br>' +
-                            '<b>Здравствуйте! На сервисе RoomRoom у Вас появились новые лайки!</b>'
-                                `<p>Лайк поставлен пользователем ${user1.first_name} ${user1.last_name}</p>`
-                                `<p>Более подробная информация в Вашем профиле RoomRoom</p>`
-                    });
-                    console.log("Message sent: %s", info.messageId);
-                    console.log("Preview URL: %s", nodemailer.getTestMessageUrl(info));
-                    res.send("Письмо отправлено!");
-                }
-                main().catch(console.error);
+                // async function main() {                                                                    //6. Уведомление пользователя о том что мы ему поставили лайк
+                //     let testAccount = await nodemailer.createTestAccount();
+                //     const transporter = nodemailer.createTransport({
+                //         host: "smtp.yandex.ru",
+                //         port: 465,
+                //         secure: true,
+                //         auth: {
+                //             user: "pekarnyavkusnaya",
+                //             pass: "pekarnyavkusnaya111"
+                //         }
+                //     });
+                //
+                //     let info = await transporter.sendMail({
+                //         from: '"Roomroom 👻" <pekarnyavkusnaya@yandex.ru>', // sender address
+                //         to: `igordg@mail.ru, ${user2.email}`, // list of receivers
+                //         subject: "Roomroom ✔", // Subject line
+                //         text: "Текст1", // plain text body
+                //         html:
+                //             '<img src="https://gorod.tomsk.ru/uploads/33808/1240896561/my_room.jpg" alt="RoomRoom"><br>' +
+                //             '<b>Здравствуйте! На сервисе RoomRoom у Вас появились новые лайки!</b>'
+                //                 `<p>Лайк поставлен пользователем ${user1.first_name} ${user1.last_name}</p>`
+                //                 `<p>Более подробная информация в Вашем профиле RoomRoom</p>`
+                //     });
+                //     console.log("Message sent: %s", info.messageId);
+                //     console.log("Preview URL: %s", nodemailer.getTestMessageUrl(info));
+                //     res.send("Письмо отправлено!");
+                // }
+                // main().catch(console.error);
                 user2Form.funs.push(user1Form.idAuthor)                                                     // 6.запись нас в массив "поклонников" данного пользователя
                 user1Form.save();
                 user2Form.save();
@@ -248,7 +257,7 @@ router.route("/api/findSimilarUsers").post(async (req, res, next) => {
 
             frontViewArr.push(obj)
         }
-        console.log(frontViewArr)
+        // console.log(frontViewArr)
 
         res.json(frontViewArr);
     } catch (error) {
