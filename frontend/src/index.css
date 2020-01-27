@@ -33,3 +33,7 @@ a {
 .registerHeader {
   text-align: center;
 }
+
+.profileContainer {
+  padding: 40px 140px;
+}

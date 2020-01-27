@@ -1,116 +1,161 @@
-import React, {Component} from 'react';
-import {Carousel} from 'antd';
-import {Calendar} from 'antd';
+import React, { Component } from "react";
+import { Avatar, Descriptions, Row, Col, Tabs, Icon, Badge } from "antd";
+import LikedByList from './LikedByList';
+import MutualLikeList from './MutualLikeList';
+
+const { TabPane } = Tabs;
 
 class Profile extends Component {
     constructor() {
         super();
-        this.state = {
-            img: '',
-            first_name: '',
-            last_name: '',
-            email: '',
-            phone: '',
-            vk: '',
-            photo: '',
-            nativeLocation: '',
-        }
+        this.state = {};
     }
 
-    async componentDidMount() {
-        const resp = await fetch('/api/profile');
-        const data = await resp.json();
-        this.setState({
-            img: data.photo, first_name: data.first_name,
-            last_name: data.last_name,
-            email: data.email,
-            phone: data.phone,
-            vk: data.vk,
-            photo: data.photo,
-        })
+    componentDidMount() {
+        this.fetchUserProfile();
+    }
 
-        // Добавить fetch на совпадения, отрисовать
-        // Добавить fetch на фанатов, отрисовать
+    fetchUserProfile = async () => {
+        const response = await fetch("/api/profile", {
+            headers: { "Content-Type": "application/json" }
+        });
+        const result = await response.json();
+        if (result.response !== "fail") {
+            this.setState({
+                photoUrl: result.response.photo,
+                profileInfo: {
+                    first_name: result.response.first_name,
+                    last_name: result.response.last_name,
+                    email: result.response.email,
+                    phone: result.response.phone,
+                    username: result.response.username,
+                }
+            });
+        } else {
+            console.log("Fail to get profile");
+        }
+    };
 
-        // function onPanelChange(value, mode) {
-        //     console.log(value, mode);
-        // }
+    onChange(a, b, c) {
+        console.log(a, b, c);
     }
 
     render() {
         return (
-            <div>
-                {/*<img src={this.state.img} alt="фото профиля"/>*/}
-                <Carousel autoplay>
-                    <div align={"center"}>
-                        <img width={"190px"}
-                             src={"https://images11.cosmopolitan.ru/upload/custom/47e/47e17c2a367e3259282d32e8bdb313f0.jpg"}/>
-                    </div>
-                    <div align={"center"}>
-                        <img width={"190px"} src={"https://cdn-st1.rtr-vesti.ru/p/xw_1756468.jpg"}/>
-                    </div>
-                    <div align={"center"}>
-                        <h3><img width={"190px"} src={"https://ubr.ua/img/article/38885/77_main.jpeg"}/></h3>
-                    </div>
-                    <div align={"center"}>
-                        <h3><img width={"190px"}
-                                 src={"https://s13.stc.all.kpcdn.net/share/i/12/11116435/inx960x640.jpg"}/></h3>
-                    </div>
-                    <div align={"center"}>
-                        <h3><img width={"190px"} src={"https://ubr.ua/img/article/38698/2_main.jpeg"}/></h3>
-                    </div>
-                </Carousel>
+            <div className="profileContainer">
+                <Row>
+                    <Col span={6}>
+                        {this.state.photoUrl && (
+                            <Avatar
+                                size={200}
+                                icon="user"
+                                src={this.state.photoUrl[0].thumbUrl}
+                            />
+                        )}
+                    </Col>
 
-                <div>
-                    <div>
-                        <table align={"center"} width={"70%"}
-                               style={{fontStyle: "Courier New monospace, font-weight: bold"}}>
-                            <tr>
-                                <td align={"left"}>
-                                    <p style={{fontSize: '25px'}}>{this.state.first_name} {this.state.last_name}</p>
-                                    <p>{this.state.nativeLocation}</p>
-                                    <img width={"20px"}
-                                         src={"https://img.icons8.com/color/48/000000/lighthouse.png"}/> {this.state.nativLocation}, <img
-                                    width={"20px"}
-                                    src={"https://img.icons8.com/nolan/64/men-age-group-3.png"}/> Возраст: <p>{this.state.nativLocation}</p>
-                                </td>
-                            </tr>
-                            <hr color='red'></hr>
-                        </table>
-                    </div>
+                    <Col span={18}>
+                        {this.state.profileInfo && (
+                            <div>
+                                <h1>{`${this.state.profileInfo.first_name} ${this.state.profileInfo.last_name}`}</h1>
+                                <Descriptions title=" ">
+                                    <Descriptions.Item label="Логин">{this.state.profileInfo.username}</Descriptions.Item>
+                                    <Descriptions.Item label="Номер телефона">{this.state.profileInfo.phone}</Descriptions.Item>
+                                    <Descriptions.Item label="E-mail">{this.state.profileInfo.email}</Descriptions.Item>
+                                    <Descriptions.Item label="Возраст">24</Descriptions.Item>
+                                    <Descriptions.Item label="VK">
+                                        Some id
+                                    </Descriptions.Item>
+                                    <Descriptions.Item label="Место рождения">
+                                        Россия
+                                    </Descriptions.Item>
+                                </Descriptions>
+                            </div>
+                        )}
+                    </Col>
+                </Row>
+                <br />
 
-                    <div>
-                        <table align={"center"} width={"80%"}
-                               style={{fontStyle: "Courier New monospace, font-weight: bold"}}>
-                            <tr>
-                                <td>
-                                    <h4>Kонтакты</h4>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td  style={{verticalAlign: "top"}}>
-                                    <img width={"20px"}
-                                         src={"https://img.icons8.com/cute-clipart/64/000000/phonelink-ring.png"}/> {this.state.phone}<br/>
-                                    <img width={"20px"}
-                                         src="https://img.icons8.com/dusk/64/000000/mail-ru-agent.png"/> {this.state.email}<br/>
-                                    <img width={"20px"}
-                                         src="https://img.icons8.com/color/48/000000/vk-circled.png"/>{this.state.vk}
-                                </td>
-                                <td align={"right"}>
+                <Tabs defaultActiveKey="2">
+                    <TabPane
+                        tab={
+                            <span>
+                                <Icon type="user" />
+                                О себе
+                            </span>
+                        }
+                        key="1"
+                    >
+                        <Row>
+                            <Col span={6}>
+                                <h2>Мои фотографии:</h2>
+                            </Col>
+                            <Col span={18}>
+                                {this.state.photoUrl && (
+                                    this.state.photoUrl.map((url, i) => {
+                                        return <Avatar
+                                            size={200}
+                                            icon="user"
+                                            shape="square"
+                                            src={url.thumbUrl}
+                                            style={{ margin: '10px' }}
+                                            key={i}
+                                        />
+                                    })
 
-                                    <div
-                                        style={{width: 300, border: '1px solid #d9d9d9', borderRadius: 4}}>
-                                        <Calendar fullscreen={false}/>
-                                    </div>
-                                </td>
-                            </tr>
-                        </table>
-                    </div>
-                    <footer style={{background: "lightblue", color: "#fff", margin: '0 auto', width: "80%"}} align={"center"}>
-                        <p>RoomRoom</p>
-                    </footer>
-                </div>
-            </div>
+                                )}
+                            </Col>
+                        </Row>
+                    </TabPane>
+                    <TabPane
+                        tab={
+                            <span>
+                                <Icon type="heart" theme="twoTone" twoToneColor="#eb2f96" />
+                                Лайк
+                                <Badge dot={true}>
+                                    <a href="#" className="head-example" />
+                                </Badge>
+                            </span>
+                        }
+                        key="2"
+                    >
+                        <Row>
+                            <Col span={6}>
+                                <h2>Взаимные лайки:</h2>
+                            </Col>
+                            <Col span={18}>
+                                <MutualLikeList />
+                            </Col>
+                        </Row>
+                        <hr />
+                        <Row>
+                            <Col span={6}>
+                                <h2>Ваша анкета понравилась:</h2>
+                            </Col>
+                            <Col span={18}>
+                                <LikedByList />
+                            </Col>
+                        </Row>
+                    </TabPane>
+                </Tabs>
+
+
+                {/* <Carousel afterChange={this.onChange}>
+          <div>
+            <h3>1</h3>
+          </div>
+          <div>
+            <h3>2</h3>
+          </div>
+          <div>
+            <h3>3</h3>
+          </div>
+          <div>
+            <h3>4</h3>
+          </div>
+        </Carousel> */}
+                ,
+      </div>
         );
     }
 }
