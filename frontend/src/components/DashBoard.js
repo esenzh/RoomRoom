@@ -9,30 +9,53 @@ class DashBoard extends Component {
   constructor() {
     super();
     this.state = {
-      idUser: null,
-      visible: false
+      users: null,
+      id:null,
+      visible: false,
+      location: null,
+      about: null,
+      prise: null,
+      foto: null,
+      first_name: null,
+      interest: null,
+      сomparisonInterests: null
     }
   }
+  isLike = async() => {
+    console.log('inLike')
+    const reqComparison = await fetch(
+      '/api/sendLikeMail',
+      {
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        method: 'POST',
+        body: JSON.stringify({
+          id:this.state.id
+        })
+      });
+    let users = await reqComparison.json();
+    console.log(users)
+  }
 
-  showModal = () => {
+  showModal = (user) => {
+    //console.log(event.target)
+    console.log(user)
     this.setState({
-      visible: true,
+      id: user.id,
+      location: user.location,
+      about: user.about,
+      prise: user.prise,
+      first_name: user.first_name,
+      interest: user.interest,
+      foto: user.photo[0].thumbUrl,
+      сomparisonInterests: user.сomparisonInterests,
+      visible: true
+
     });
   };
 
   async componentDidMount() {
-    let arr1FromSession = {
-      idAuthor: '_idjlkjlkg8997867ghg',
-      location: 'Бульвар Рокоссовского',
-      interest: [],
-      data: 'Date',
-      about: 'String',
-      likes: [],
-      prise: 25
-    }
-    // const resp = await fetch('/api/profile');
-    // const data = await resp.json();
-    // const user =
     const reqComparison = await fetch(
       '/api/findSimilarUsers',
       {
@@ -40,11 +63,11 @@ class DashBoard extends Component {
           'Content-Type': 'application/json',
         },
         method: 'POST',
-        body: JSON.stringify(arr1FromSession)
+
       });
-    let idUser = await reqComparison.json();
-    this.setState({idUser: idUser})
-    console.log(this.state.idUser[0].photo[0])
+    let users = await reqComparison.json();
+    // console.log(users)
+    this.setState({users: users});
   }
 
   handleCancel = e => {
@@ -68,57 +91,59 @@ class DashBoard extends Component {
           >
             <Row gutter={16}>
 
-              {this.state.idUser && this.state.idUser.map((user, i) => {
+              {this.state.users && this.state.users.map((user, i) => {
                 return (
                   <Col span={8}>
                     <Card
-                      onClick={this.showModal}
+                      onClick={() => this.showModal(user)}
                       style={
                         {
                           width: 240,
-                          height: 250,
+                          height: 300,
                           marginLeft: 'auto',
                           marginRight: "auto",
                           padding: 10,
                           margin: 10
                         }
                       }
-                      cover={<img alt="example" src={user['photo'][0]}/>}
-                      key={i}
+                      cover={<img alt="example" src={user.photo[0].thumbUrl}/>}
+                      key={user.id}
                     >
-                      <Meta title={user['first_name']}/>
+                      <h2>{user.first_name}</h2>
+                      {/*<Meta title={user.firs_name} style={{fontSize: '22px'}}/>*/}
                     </Card>
                   </Col>
                 )
               })}
-
             </Row>
           </Content>
         </Layout>
 
-        {this.state.idUser &&
+        {this.state.interest &&
         <Modal
           title="Детальная информация"
           visible={this.state.visible}
           onCancel={this.handleCancel}
+          footer={[
+            <div style={{height: 60}}>
+              <Icon type="close-circle" style={{fontSize: '62px', float: 'left'}} onClick={this.handleCancel}/>
+              <Icon type="heart" theme="twoTone" twoToneColor="#eb2f96" style={{fontSize: '62px', float: 'right'}} onClick={this.isLike}/>
+            </div>
+          ]}
         >
           <div style={{textAlign: 'center'}}>
             <Avatar
-              size={240}
-              src={this.state.idUser[0].photo[0]}
+              size={180}
+              src={this.state.foto}
             />
-            <p>Информация</p>
-            <p>Информация</p>
-            <p>Информация</p>
 
           </div>
-          <Icon type="heart" />
-          <Icon type="close-circle" />
-
-
+          <p>Xочу арендовать квартиру возле метро: {this.state.location}</p>
+          <p>Мои интересы: {this.state.interest.join(', ')}</p>
+          <p>Совпавшие интересы: {this.state.сomparisonInterests.join(', ')}</p>
+          <p>О себе: {this.state.about}</p>
+          <p>Ориентировочная цена в месяц: {this.state.prise}</p>
         </Modal>}
-
-
       </div>
     );
   }
