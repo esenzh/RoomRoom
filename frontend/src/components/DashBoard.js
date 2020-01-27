@@ -10,6 +10,7 @@ class DashBoard extends Component {
     super();
     this.state = {
       users: null,
+      id:null,
       visible: false,
       location: null,
       about: null,
@@ -20,11 +21,28 @@ class DashBoard extends Component {
       сomparisonInterests: null
     }
   }
+  isLike = async() => {
+    console.log('inLike')
+    const reqComparison = await fetch(
+      '/api/sendLikeMail',
+      {
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        method: 'POST',
+        body: JSON.stringify({
+          id:this.state.id
+        })
+      });
+    let users = await reqComparison.json();
+    console.log(users)
+  }
 
   showModal = (user) => {
     //console.log(event.target)
     console.log(user)
     this.setState({
+      id: user.id,
       location: user.location,
       about: user.about,
       prise: user.prise,
@@ -48,7 +66,7 @@ class DashBoard extends Component {
 
       });
     let users = await reqComparison.json();
-    console.log(users)
+    // console.log(users)
     this.setState({users: users});
   }
 
@@ -89,9 +107,9 @@ class DashBoard extends Component {
                         }
                       }
                       cover={<img alt="example" src={user.photo[0].thumbUrl}/>}
-                      key={i}
+                      key={user.id}
                     >
-                      <h2>{user.firs_name}</h2>
+                      <h2>{user.first_name}</h2>
                       {/*<Meta title={user.firs_name} style={{fontSize: '22px'}}/>*/}
                     </Card>
                   </Col>
@@ -108,8 +126,8 @@ class DashBoard extends Component {
           onCancel={this.handleCancel}
           footer={[
             <div style={{height: 60}}>
-              <Icon type="close-circle" style={{fontSize: '62px', float: 'left'}}/>
-              <Icon type="heart" theme="twoTone" twoToneColor="#eb2f96" style={{fontSize: '62px', float: 'right'}}/>
+              <Icon type="close-circle" style={{fontSize: '62px', float: 'left'}} onClick={this.handleCancel}/>
+              <Icon type="heart" theme="twoTone" twoToneColor="#eb2f96" style={{fontSize: '62px', float: 'right'}} onClick={this.isLike}/>
             </div>
           ]}
         >
@@ -121,15 +139,11 @@ class DashBoard extends Component {
 
           </div>
           <p>Xочу арендовать квартиру возле метро: {this.state.location}</p>
-          <p>Интересы: {this.state.interest.join(', ')}</p>
+          <p>Мои интересы: {this.state.interest.join(', ')}</p>
           <p>Совпавшие интересы: {this.state.сomparisonInterests.join(', ')}</p>
           <p>О себе: {this.state.about}</p>
           <p>Ориентировочная цена в месяц: {this.state.prise}</p>
-
-
         </Modal>}
-
-
       </div>
     );
   }
