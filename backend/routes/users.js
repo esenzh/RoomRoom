@@ -1,6 +1,5 @@
 var express = require("express");
 var router = express.Router();
-const User = require("../models/user");
 const sessionChecker = require("../middleware/auth");
 
 
@@ -9,17 +8,14 @@ const sessionChecker = require("../middleware/auth");
 router.get("/api/profile", sessionChecker, async (req, res, next) => {
   try {
     const userDB = req.session.user;
-    const { first_name, last_name, email, phone, photo } = userDB;
+    const { first_name, last_name, email, phone, photo, username } = userDB;
     const user = {
       first_name,
       last_name,
       email,
       phone,
-      vk,
       photo,
-      username,
-      age,
-      nativeLocation
+      username
     };
     res.status(200).json({ response: user });
   } catch (e) {

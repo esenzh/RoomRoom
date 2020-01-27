@@ -266,5 +266,28 @@ router.route("/api/findSimilarUsers").post(async (req, res, next) => {
     }
 });
 
+router.get("/api/likes/by", async (req, res) => {
+  try {
+    const { _id } = req.session.user;
+    const form = await Form.findOne({ idAuthor: _id });
+    const users = await User.find({ _id: form.likes });
+    res.status(200).json({ response: users });
+  } catch (e) {
+    res.status(400).json({ response: "fail" });
+  }
+});
+
+router.get("/api/likes/mutual", async (req, res) => {
+  try {
+    const { _id } = req.session.user;
+    const form = await Form.findOne({ idAuthor: _id });
+    const { likes, comparison } = form;
+    const mutual = likes.filter(val => !comparison.includes(val));
+    const users = User.find({ _id: mutual });
+    res.status(200).json({ response: users });
+  } catch (e) {
+    res.status(400).json({ response: "fail" });
+  }
+});
 
 module.exports = router;
