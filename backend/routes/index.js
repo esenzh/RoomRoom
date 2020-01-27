@@ -14,6 +14,7 @@ router.post("/api/newForm", async (req, res, next) => {
         data: new Date(),
         about,
         likes: [],
+        funs: [],
         prise: budget
     });
     try {
@@ -28,10 +29,12 @@ router.post("/api/newForm", async (req, res, next) => {
 router.route("/api/sendLikeMail").get(async (req, res, next) => {
     try {
         console.log("пришел запрос");
-        let user1 = req.session.user;
-        let user2 = req.body.user2;
+        const user1 = req.session.user;
+        const user2ID = req.body;
         const user1Form = await Form.findOne({idAuthor: user1._id});
-        const user2Form = await Form.findOne({idAuthor: user2._id});
+        const user2Form = await Form.findOne({idAuthor: user2ID });
+        const user2 = await  User.findOne({id: user2ID });
+
         if (user2Form.likes.includes(user1.idAuthor)) {                                                   //1. Проверка на повторный лайк
             res.send("Вы уже стаивли лайк данному пользователю!");
         } else {
@@ -64,9 +67,9 @@ router.route("/api/sendLikeMail").get(async (req, res, next) => {
                         text: "Текст1", // plain text body
                         html:
                             '<img src="https://gorod.tomsk.ru/uploads/33808/1240896561/my_room.jpg" alt="RoomRoom"><br>' +
-                            '<b>Здравствуйте! На сервисе RoomRoom у Вас появились новые лайки!</b>'
-                                `<p>Лайк поставлен пользователем ${user1.first_name} ${user1.last_name}</p>`
-                                `<p>Более подробная информация в Вашем профиле RoomRoom</p>`
+                            '<b>Здравствуйте! На сервисе RoomRoom появился пользователь, который хотел бы вместе с Вами арендовать квартиру!</b>'
+                                `<p>Лайк поставлен пользователем ${user2.first_name}</p>`
+                                `<p>Более подробная информация в Вашем профиле RoomRoom в разделе "Совпадания"</p>`
                     });
                     console.log("Message sent: %s", info.messageId);
                     console.log("Preview URL: %s", nodemailer.getTestMessageUrl(info));
