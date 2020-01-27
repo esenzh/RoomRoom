@@ -43,7 +43,7 @@ class DashBoard extends Component {
         body: JSON.stringify(arr1FromSession)
       });
     let idUser = await reqComparison.json();
-    this.setState({idUser: idUser})
+    this.setState({idUser: idUser});
     console.log(this.state.idUser[0].photo[0])
   }
 
@@ -101,19 +101,21 @@ class DashBoard extends Component {
           title="Детальная информация"
           visible={this.state.visible}
           onCancel={this.handleCancel}
+          footer={[
+            <div style={{height:60}}>
+              <Icon type="close-circle" style={{fontSize: '62px',float: 'left'}}/>
+              <Icon type="heart" theme="twoTone" twoToneColor="#eb2f96" style={{fontSize: '62px', float: 'right'}}/>
+            </div>
+          ]}
         >
           <div style={{textAlign: 'center'}}>
             <Avatar
               size={240}
               src={this.state.idUser[0].photo[0]}
             />
-            <p>Информация</p>
-            <p>Информация</p>
-            <p>Информация</p>
 
           </div>
-          <Icon type="heart" />
-          <Icon type="close-circle" />
+          <p>Info</p>
 
 
         </Modal>}
