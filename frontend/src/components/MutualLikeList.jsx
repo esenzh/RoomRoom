@@ -16,16 +16,15 @@ class MutualLikeList extends Component {
             headers: { 'Content-Type': 'application/json' }
         })
         const result = await response.json();
-        if (result.response !== 'fail') {
-            this.setState({
-                mutual: result.response
-            })
-        } else {
+        if (result.response === 'fail' || result.response === 'nomatch') {
             this.setState({
                 mutual: null
             })
+        } else {
+            this.setState({
+                mutual: result.response
+            })
         }
-
     }
     render() {
         return (

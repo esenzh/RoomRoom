@@ -35,7 +35,9 @@ class Signup extends Component {
                     vk,
                     username,
                     password,
-                    agreement
+                    agreement,
+                    age,
+                    nativeLocation
                 } = values
                 const response = await fetch('/api/signup', {
                     method: 'POST',
@@ -48,7 +50,9 @@ class Signup extends Component {
                         photo: this.props.photos,
                         vk,
                         username,
-                        password
+                        password,
+                        age,
+                        nativeLocation
                     })
                 })
                 const result = await response.json();
@@ -177,13 +181,21 @@ class Signup extends Component {
                             rules: [
                                 {
                                     type: 'email',
-                                    message: 'Введите правильные E-mail!',
+                                    message: 'Введите правильный E-mail!',
                                 },
                                 {
                                     required: true,
                                     message: 'Пожалуйста, введите E-mail!',
                                 },
                             ],
+                        })(<Input />)}
+                    </Form.Item>
+                    <Form.Item label="Возраст">
+                        {getFieldDecorator('age', {
+                        })(<Input />)}
+                    </Form.Item>
+                    <Form.Item label="Место рождение">
+                        {getFieldDecorator('nativeLocation', {
                         })(<Input />)}
                     </Form.Item>
                     <Form.Item label="Номер телефона">
