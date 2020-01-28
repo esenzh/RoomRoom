@@ -10,8 +10,8 @@ const userSchema = Schema({
   photo: { type: Array, required: true },
   username: { type: String, unique: true, required: true },
   password: { type: String, required: true },
-  age: { type: Number, required: true },
-  nativeLocation: { type: String, required: true }
+  age: { type: Number },
+  nativeLocation: { type: String}
 });
 
 module.exports = mongoose.model("User", userSchema);
