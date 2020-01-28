@@ -24,7 +24,7 @@ class DashBoard extends Component {
   }
 
   isLike = async () => {
-    console.log('inLike')
+
     this.setState({visible: false})
     const reqComparison = await fetch(
       '/api/sendLikeMail',
@@ -39,8 +39,6 @@ class DashBoard extends Component {
       });
     let users = await reqComparison.json();
     message.success(users.text);
-
-    // console.log(users)
   }
 
   showModal = (user) => {
