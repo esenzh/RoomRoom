@@ -9,7 +9,6 @@ const saltRounds = 10;
 // Authetication
 router
   .post("/api/signup", async (req, res, next) => {
-      console.log(req.body)
     const {
       first_name,
       last_name,
@@ -18,7 +17,9 @@ router
       photo,
       vk,
       username,
-      password
+      password,
+      age,
+      nativeLocation
     } = req.body;
     const user = new Users({
       first_name,
@@ -27,6 +28,8 @@ router
       phone,
       photo,
       vk,
+      age,
+      nativeLocation,
       username,
       password: await bcrypt.hash(password, saltRounds)
     });
