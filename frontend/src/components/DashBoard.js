@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {Card, Row, Layout, Breadcrumb, Col, Modal, Avatar, Icon} from 'antd';
+import {Card, Row, Layout, Breadcrumb, Col, Modal, Avatar, Icon, message, Spin, Alert} from 'antd';
 
 const {Header, Content, Sider} = Layout;
 const {Meta} = Card;
@@ -9,8 +9,9 @@ class DashBoard extends Component {
   constructor() {
     super();
     this.state = {
+      loading: false,
       users: null,
-      id:null,
+      id: null,
       visible: false,
       location: null,
       about: null,
@@ -21,7 +22,8 @@ class DashBoard extends Component {
       сomparisonInterests: null
     }
   }
-  isLike = async() => {
+
+  isLike = async () => {
     console.log('inLike')
     const reqComparison = await fetch(
       '/api/sendLikeMail',
@@ -31,10 +33,11 @@ class DashBoard extends Component {
         },
         method: 'POST',
         body: JSON.stringify({
-          id:this.state.id
+          id: this.state.id
         })
       });
     let users = await reqComparison.json();
+    message.success(users.text);
     console.log(users)
   }
 
@@ -56,6 +59,7 @@ class DashBoard extends Component {
   };
 
   async componentDidMount() {
+    this.setState({loading: true});
     const reqComparison = await fetch(
       '/api/findSimilarUsers',
       {
@@ -67,7 +71,7 @@ class DashBoard extends Component {
       });
     let users = await reqComparison.json();
     // console.log(users)
-    this.setState({users: users});
+    this.setState({users: users, loading: false});
   }
 
   handleCancel = e => {
@@ -80,29 +84,46 @@ class DashBoard extends Component {
   render() {
     return (
       <div>
-        <div>
-          <table align={"center"} width={"70%"}
-                 style={{fontStyle: "Courier New monospace, font-weight: bold"}}>
-            <tr>
-              <td align={"left"}>
-                <p style={{fontSize: '25px'}} align={"center"}>Рады приветствовать Вас на сайте <b>RoomRoom</b>! </p>
-                <img width={"20px"}
-                     src={"https://img.icons8.com/color/48/000000/lighthouse.png"}/> Используя наш сервис Вы сможете найти подходящего Вам человека для совместного съема квартиры в аренду в городе Москве!<br/>
-                <p> <img
-                    width={"20px"}
-                    src={"https://img.icons8.com/nolan/64/men-age-group-3.png"}/>Благодаря RoomRoom Вы подыщите человека, желающего проживать на одинаковой с Вами станции метро, по схожей стоимости и что самое главное - подходящего Вам по интересам или сфере деятельности! Система выстраивает и  показывает Вам пользователей по совпавшим интересам от наиболее подходящих к менее подходящим, но также имеющим с Вами хотя бы одно совпадение интересов. После того как Вы нажмете на лайк, понравившийся пользователь получит об этом уведомление. Посел того как он тоже добавит Вас в понравившихся пользователей вы сможете увидеть контакты друг друга в своем профиле.
-                  Однако помните, что созданная Вами анкета для поиска подходящего человека удаляется через каждые три дня для поддержания актуальности базы данных пользователей. Чтобы этого не произошло обновляйте свою анкету в профиле, либо создайте новую анкету!<br/>
-
-                  <img
-                      width={"20px"}
-                      src={"https://img.icons8.com/color/48/000000/heart-with-arrow.png"}/> Приятного использования сервиса RoomRoom и проживания в замечательном городе Москве, столице нашей Родины!    </p>
-              </td>
-            </tr>
-            <hr color='red'></hr>
-          </table>
-
+        {this.state.loading &&
+        <div style={{textAlign: 'center'}}>
+          <Spin size="large" tip="Loading...">
+          </Spin>
         </div>
-<p style={{fontSize: '25px'}} align={"center"}>Подходящие для Вас пользователи!</p>
+
+        }
+        {/*<div>*/}
+        {/*  <table align={"center"} width={"70%"}*/}
+        {/*         style={{fontStyle: "Courier New monospace, font-weight: bold"}}>*/}
+        {/*    <tr>*/}
+        {/*      <td align={"left"}>*/}
+        {/*        <p style={{fontSize: '25px'}} align={"center"}>Рады приветствовать Вас на сайте <b>RoomRoom</b>! </p>*/}
+        {/*        <img width={"20px"}*/}
+        {/*             src={"https://img.icons8.com/color/48/000000/lighthouse.png"}/> Используя наш сервис Вы сможете*/}
+        {/*        найти подходящего Вам человека для совместного съема квартиры в аренду в городе Москве!<br/>*/}
+        {/*        <p><img*/}
+        {/*          width={"20px"}*/}
+        {/*          src={"https://img.icons8.com/nolan/64/men-age-group-3.png"}/>Благодаря RoomRoom Вы подыщите человека,*/}
+        {/*          желающего проживать на одинаковой с Вами станции метро, по схожей стоимости и что самое главное -*/}
+        {/*          подходящего Вам по интересам или сфере деятельности! Система выстраивает и показывает Вам*/}
+        {/*          пользователей по совпавшим интересам от наиболее подходящих к менее подходящим, но также имеющим с*/}
+        {/*          Вами хотя бы одно совпадение интересов. После того как Вы нажмете на лайк, понравившийся пользователь*/}
+        {/*          получит об этом уведомление. Посел того как он тоже добавит Вас в понравившихся пользователей вы*/}
+        {/*          сможете увидеть контакты друг друга в своем профиле.*/}
+        {/*          Однако помните, что созданная Вами анкета для поиска подходящего человека удаляется через каждые три*/}
+        {/*          дня для поддержания актуальности базы данных пользователей. Чтобы этого не произошло обновляйте свою*/}
+        {/*          анкету в профиле, либо создайте новую анкету!<br/>*/}
+
+        {/*          <img*/}
+        {/*            width={"20px"}*/}
+        {/*            src={"https://img.icons8.com/color/48/000000/heart-with-arrow.png"}/> Приятного использования*/}
+        {/*          сервиса RoomRoom и проживания в замечательном городе Москве, столице нашей Родины! </p>*/}
+        {/*      </td>*/}
+        {/*    </tr>*/}
+        {/*    <hr color='red'></hr>*/}
+        {/*  </table>*/}
+
+        {/*</div>*/}
+        <p style={{fontSize: '25px'}} align={"center"}>Подходящие для Вас пользователи!</p>
         <Layout style={{padding: '0 84px 84px'}}>
           <Content
             style={{
@@ -150,7 +171,8 @@ class DashBoard extends Component {
           footer={[
             <div style={{height: 60}}>
               <Icon type="close-circle" style={{fontSize: '62px', float: 'left'}} onClick={this.handleCancel}/>
-              <Icon type="heart" theme="twoTone" twoToneColor="#eb2f96" style={{fontSize: '62px', float: 'right'}} onClick={this.isLike}/>
+              <Icon type="heart" theme="twoTone" twoToneColor="#eb2f96" style={{fontSize: '62px', float: 'right'}}
+                    onClick={this.isLike}/>
             </div>
           ]}
         >

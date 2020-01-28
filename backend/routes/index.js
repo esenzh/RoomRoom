@@ -195,20 +195,33 @@ router.route("/api/findSimilarUsers").post(async (req, res, next) => {
 
     sortUserPrise = [];
 
-    for (let i = 0; i < finishREsult.length; i++) {
-      if (finishREsult[i][5].prise <= arr1.prise) {
-        sortUserPrise.push(finishREsult[i]);
-      }
-    }
+
+        for (let i = 0; i < finishREsult.length; i++) {
+            if (finishREsult[i][5].prise <= (arr1.prise + 5)) {
+                sortUserPrise.push(finishREsult[i]);
+            }
+        }
 
     // console.log(sortUserPrise);
 
-    let arrSortUserId = [];
+        let arrSortUserIdWithMe = [];
 
-    for (let i = 0; i < sortUserPrise.length; i++) {
-      arrSortUserId.push(sortUserPrise[i][0].idAuthor);
-    }
-    // console.log(arrSortUserId);
+        for (let i = 0; i < sortUserPrise.length; i++) {
+            arrSortUserIdWithMe.push(sortUserPrise[i][0].idAuthor)
+        }
+
+        let arrSortUserId = [];
+
+        for (let i = 0; i < arrSortUserIdWithMe.length; i++) {
+            if(arrSortUserIdWithMe[i] !== userForm.idAuthor)
+            arrSortUserId.push(arrSortUserIdWithMe[i])
+        }
+
+        // console.log(arrSortUserId);
+
+        const baseSortFormsId = await Form.find({idAuthor: arrSortUserId});
+        const baseSortUsersId = await User.find({_id: arrSortUserId});
+
 
     const baseSortFormsId = await Form.find({ idAuthor: arrSortUserId });
     const baseSortUsersId = await User.find({ _id: arrSortUserId });
