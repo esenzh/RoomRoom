@@ -19,6 +19,7 @@ class LikedByProfile extends Component {
                 icon="user"
                 shape="square"
                 style={{ margin: '10px' }}
+                src={this.props.user.photo[0].thumbUrl}
             />
             {/* <Modal
           title="Basic Modal"
