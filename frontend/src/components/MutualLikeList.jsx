@@ -1,5 +1,7 @@
 import React, { Component } from 'react';
 import MutualLikeProfile from './MutualLikeProfile';
+import { connect } from 'react-redux';
+import { AddMutualUser } from '../redux/type';
 
 class MutualLikeList extends Component {
     constructor(props) {
@@ -16,21 +18,19 @@ class MutualLikeList extends Component {
             headers: { 'Content-Type': 'application/json' }
         })
         const result = await response.json();
-        if (result.response === 'fail' || result.response === 'nomatch') {
-            this.setState({
-                mutual: null
-            })
+        if (result.response === 'fail') {
+            console.log('fail');
+        } else if (result.response === 'nomatch') {
+            this.props.addMutualUsers([])
         } else {
-            this.setState({
-                mutual: result.response
-            })
+            this.props.addMutualUsers(result.response)
         }
     }
     render() {
         return (
             <div style={{ display: 'flex' }}>
-                {this.state.mutual ? (
-                    this.state.mutual.map((user, i) => {
+                {this.props.mutualUsers && this.props.mutualUsers.length !== 0 ? (
+                    this.props.mutualUsers.map((user, i) => {
                         return <MutualLikeProfile user={user} key={i} />
                     })
                 ) : (
@@ -42,4 +42,18 @@ class MutualLikeList extends Component {
     }
 }
 
-export default MutualLikeList;
+function mapStateToProps(store) {
+    return {
+        mutualUsers: store.mutualUsers
+    };
+}
+
+function mapDispatchToProps(dispatch) {
+    return {
+        addMutualUsers: (users) => {
+            dispatch(AddMutualUser(users));
+        }
+    };
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(MutualLikeList);

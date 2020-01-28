@@ -1,12 +1,21 @@
 import React, { Component } from 'react';
-import { Modal, Avatar } from 'antd';
+import { Avatar } from 'antd';
+import LikedByUserProfileInfo from './LikedByUserProfileInfo';
 
 class LikedByProfile extends Component {
     constructor(props) {
         super(props);
-        this.state = {}
+        this.state = {
+            visible: false
+        }
     }
-    handleCancel = e => {
+    showModal = () => {
+        this.setState({
+            visible: true,
+        });
+    };
+
+    handleOk = () => {
         this.setState({
             visible: false,
         });
@@ -20,17 +29,9 @@ class LikedByProfile extends Component {
                 shape="square"
                 style={{ margin: '10px' }}
                 src={this.props.user.photo[0].thumbUrl}
+                onClick={this.showModal}
             />
-            {/* <Modal
-          title="Basic Modal"
-          visible={this.state.visible}
-          onOk={this.handleOk}
-          onCancel={this.handleCancel}
-        >
-          <p>Some contents...</p>
-          <p>Some contents...</p>
-          <p>Some contents...</p>
-        </Modal> */}
+            <LikedByUserProfileInfo user={this.props.user} showModal={this.showModal} handleOk={this.handleOk} visible={this.state.visible}/>
         </div>);
     }
 }

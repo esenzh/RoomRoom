@@ -81,7 +81,7 @@ class Profile extends Component {
                         tab={
                             <span>
                                 <Icon type="user" />
-                                О себе
+                                Мои фотографии
                             </span>
                         }
                         key="1"
