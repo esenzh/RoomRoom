@@ -109,7 +109,7 @@ class Signup extends Component {
     render() {
         console.log(this.props)
         if (this.state.isRedirect) {
-            return <Redirect to={'/component1'} />
+            return <Redirect to={'/anketa'} />
         }
         const { getFieldDecorator } = this.props.form;
 
