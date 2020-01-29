@@ -2,11 +2,14 @@ import React, { Component } from 'react';
 import MutualLikeProfile from './MutualLikeProfile';
 import { connect } from 'react-redux';
 import { AddMutualUser } from '../redux/type';
+import { Empty } from 'antd';
 
 class MutualLikeList extends Component {
     constructor(props) {
         super(props);
-        this.state = {}
+        this.state = {
+            noForm: false
+        }
     }
 
     componentDidMount() {
@@ -18,10 +21,16 @@ class MutualLikeList extends Component {
             headers: { 'Content-Type': 'application/json' }
         })
         const result = await response.json();
+        console.log(result)
         if (result.response === 'fail') {
             console.log('fail');
         } else if (result.response === 'nomatch') {
             this.props.addMutualUsers([])
+        } else if (result.response === 'noform') {
+            this.props.addMutualUsers([])
+            this.setState({
+                noForm: true
+            })
         } else {
             this.props.addMutualUsers(result.response)
         }
@@ -33,10 +42,30 @@ class MutualLikeList extends Component {
                     this.props.mutualUsers.map((user, i) => {
                         return <MutualLikeProfile user={user} key={i} />
                     })
-                ) : (
-                        <div>
-                            <p style={{ marginTop: '5px' }}>Взаимных лайков еще нету!</p>
-                        </div>)}
+                ) : this.state.noForm ? (<Empty
+                    image="https://gw.alipayobjects.com/mdn/miniapp_social/afts/img/A*pevERLJC9v0AAAAAAAAAAABjAQAAAQ/original"
+                    imageStyle={{
+                        height: 60,
+                    }}
+                    description={
+                        <span>
+                            Создайте анкету
+                      </span>
+                    }
+                >
+                </Empty>) : (
+                            <Empty
+                                image="https://gw.alipayobjects.com/mdn/miniapp_social/afts/img/A*pevERLJC9v0AAAAAAAAAAABjAQAAAQ/original"
+                                imageStyle={{
+                                    height: 60,
+                                }}
+                                description={
+                                    <span>
+                                        Взаимных лаков нету
+                      </span>
+                                }
+                            >
+                            </Empty>)}
             </div>
         );
     }
