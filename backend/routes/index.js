@@ -297,8 +297,20 @@ router.route("/api/findSimilarUsers").post(async (req, res, next) => {
 
             frontViewArr.push(obj);
         }
+
+
+        let arrWhithoutOwnUserId = [];
+        for (let i = 0; i < frontViewArr.length; i++) {
+            if(frontViewArr[i].id !== user._id){
+                arrWhithoutOwnUserId.push(frontViewArr[i])
+                console.log( frontViewArr[i].id,  user._id)
+            }
+        }
+
         // console.log(frontViewArr[0])
-        res.json(frontViewArr);
+
+        res.json(arrWhithoutOwnUserId);
+
     }else{
         console.log('Анкета отсутствует, создайте анкету!')
         res.json({error: 'Анкета отсутствует, создайте анкету!'});
