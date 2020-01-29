@@ -1,6 +1,6 @@
 const sessionChecker = (req, res, next) => {
     if (!req.session.user) {
-        res.send({flag: 'unauthenticated'})
+        res.json({response: 'unauthenticated'})
     } else {
         next();
     }
