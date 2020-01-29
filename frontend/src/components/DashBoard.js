@@ -1,5 +1,6 @@
 import React, {Component} from 'react';
-import {Card, Row, Layout, Breadcrumb, Col, Modal, Avatar, Icon, message, Spin, Alert} from 'antd';
+import {Card, Row, Layout, Breadcrumb, Col, Modal, Avatar, Icon, message, Spin, Alert, Empty, Button} from 'antd';
+import {BrowserRouter as Router, Redirect} from "react-router-dom";
 
 const {Header, Content, Sider} = Layout;
 const {Meta} = Card;
@@ -9,7 +10,9 @@ class DashBoard extends Component {
   constructor() {
     super();
     this.state = {
+      redirectToAnket:false,
       loading: false,
+      haveAnket: false,
       users: null,
       id: null,
       visible: false,
@@ -70,8 +73,13 @@ class DashBoard extends Component {
 
       });
     let users = await reqComparison.json();
-    // console.log(users)
-    this.setState({users: users, loading: false});
+
+    console.log(users)
+    if (users.error === 'Анкета отсутствует, создайте анкету!') {
+      this.setState({haveAnket: true})
+    } else {
+      this.setState({users: users, loading: false});
+    }
   }
 
   handleCancel = e => {
@@ -80,8 +88,32 @@ class DashBoard extends Component {
       visible: false,
     });
   };
+  redir = () => {
+    this.setState({redirectToAnket:true})
+  }
 
   render() {
+    if (this.state.redirectToAnket){
+      return <Redirect to={'/anketa'}/>
+    }
+    if (this.state.haveAnket) {
+      return (
+        <Empty
+          image="https://gw.alipayobjects.com/mdn/miniapp_social/afts/img/A*pevERLJC9v0AAAAAAAAAAABjAQAAAQ/original"
+          imageStyle={{
+            height: 280,
+          }}
+          description={
+            <span>
+        Создайте анкету
+      </span>
+          }
+        >
+          <Button onClick={this.redir} type="primary">Cоздать анкету</Button>
+        </Empty>
+      )
+    }
+
     return (
       <div>
         {this.state.loading &&
@@ -89,42 +121,10 @@ class DashBoard extends Component {
           <Spin size="large" tip="Loading...">
           </Spin>
         </div>
-
         }
-        {/*<div>*/}
-        {/*  <table align={"center"} width={"70%"}*/}
-        {/*         style={{fontStyle: "Courier New monospace, font-weight: bold"}}>*/}
-        {/*    <tr>*/}
-        {/*      <td align={"left"}>*/}
-        {/*        <p style={{fontSize: '25px'}} align={"center"}>Рады приветствовать Вас на сайте <b>RoomRoom</b>! </p>*/}
-        {/*        <img width={"20px"}*/}
-        {/*             src={"https://img.icons8.com/color/48/000000/lighthouse.png"}/> Используя наш сервис Вы сможете*/}
-        {/*        найти подходящего Вам человека для совместного съема квартиры в аренду в городе Москве!<br/>*/}
-        {/*        <p><img*/}
-        {/*          width={"20px"}*/}
-        {/*          src={"https://img.icons8.com/nolan/64/men-age-group-3.png"}/>Благодаря RoomRoom Вы подыщите человека,*/}
-        {/*          желающего проживать на одинаковой с Вами станции метро, по схожей стоимости и что самое главное -*/}
-        {/*          подходящего Вам по интересам или сфере деятельности! Система выстраивает и показывает Вам*/}
-        {/*          пользователей по совпавшим интересам от наиболее подходящих к менее подходящим, но также имеющим с*/}
-        {/*          Вами хотя бы одно совпадение интересов. После того как Вы нажмете на лайк, понравившийся пользователь*/}
-        {/*          получит об этом уведомление. Посел того как он тоже добавит Вас в понравившихся пользователей вы*/}
-        {/*          сможете увидеть контакты друг друга в своем профиле.*/}
-        {/*          Однако помните, что созданная Вами анкета для поиска подходящего человека удаляется через каждые три*/}
-        {/*          дня для поддержания актуальности базы данных пользователей. Чтобы этого не произошло обновляйте свою*/}
-        {/*          анкету в профиле, либо создайте новую анкету!<br/>*/}
 
-        {/*          <img*/}
-        {/*            width={"20px"}*/}
-        {/*            src={"https://img.icons8.com/color/48/000000/heart-with-arrow.png"}/> Приятного использования*/}
-        {/*          сервиса RoomRoom и проживания в замечательном городе Москве, столице нашей Родины! </p>*/}
-        {/*      </td>*/}
-        {/*    </tr>*/}
-        {/*    <hr color='red'></hr>*/}
-        {/*  </table>*/}
-
-        {/*</div>*/}
-        <p style={{fontSize: '25px'}} align={"center"}>Подходящие для Вас пользователи!</p>
-        <Layout style={{padding: '0 84px 84px'}}>
+        <p style={{fontSize: '25px'}} align={"center"}>Подходящие для Вас пользователи!{this.state.users}</p>
+        {this.state.users && <Layout style={{padding: '0 84px 84px'}}>
           <Content
             style={{
               background: '#fff',
@@ -135,7 +135,7 @@ class DashBoard extends Component {
           >
             <Row gutter={16}>
 
-              {this.state.users && this.state.users.map((user, i) => {
+              {this.state.users.map((user, i) => {
                 return (
                   <Col span={8}>
                     <Card
@@ -161,7 +161,7 @@ class DashBoard extends Component {
               })}
             </Row>
           </Content>
-        </Layout>
+        </Layout>}
 
         {this.state.interest &&
         <Modal
