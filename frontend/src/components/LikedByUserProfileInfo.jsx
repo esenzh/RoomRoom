@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Modal, Avatar, Button, List, Icon } from 'antd';
+import { Modal, Avatar, List, Icon } from 'antd';
 import { connect } from 'react-redux';
 import { RemoveLikedByUsers } from '../redux/type';
 
@@ -59,6 +59,12 @@ class LikedByUserProfileInfo extends Component {
                         <List.Item>
                             {this.props.user.form.interest.join(', ')}
                         </List.Item>
+                        {this.props.user.age && (<List.Item>
+                            {this.props.user.age}
+                        </List.Item>)}
+                        {this.props.user.nativeLocation && (<List.Item>
+                            {this.props.user.nativeLocation}
+                        </List.Item>)}
                     </List>
                 </div>
             </Modal>

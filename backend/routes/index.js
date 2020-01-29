@@ -3,6 +3,7 @@ var router = express.Router();
 const nodemailer = require("nodemailer");
 const Form = require("../models/form");
 const User = require("../models/user");
+const sessionChecker = require('../middleware/auth');
 
 router.post("/api/newForm", async (req, res, next) => {
     const user1 = req.session.user;
@@ -145,7 +146,7 @@ router.route("/api/sendLikeMail").post(async (req, res, next) => {
   }
 });
 
-router.route("/api/findSimilarUsers").post(async (req, res, next) => {
+router.post("/api/findSimilarUsers", sessionChecker, async (req, res, next) => {
   try {
     await console.log("пришел запрос");
     let user = req.session.user;
@@ -329,6 +330,7 @@ router.route("/api/findSimilarUsers").post(async (req, res, next) => {
             frontViewArr.push(obj);
         }
 
+
         let arrWhithoutOwnUserId = [];
         for (let i = 0; i < frontViewArr.length; i++) {
             if(frontViewArr[i].id !== user._id){
@@ -339,6 +341,7 @@ router.route("/api/findSimilarUsers").post(async (req, res, next) => {
         // console.log(frontViewArr[0])
 
         res.json(arrWhithoutOwnUserId);
+
     }else{
         console.log('Анкета отсутствует, создайте анкету!')
         res.json({error: 'Анкета отсутствует, создайте анкету!'});
@@ -368,7 +371,9 @@ router.get("/api/likes/by", async (req, res) => {
           id: users[i]._id,
           first_name: users[i].first_name,
           last_name: users[i].last_name,
-          photo: users[i].photo
+          photo: users[i].photo,
+          age: users[i].age,
+          nativeLocation: users[i].nativeLocation,
         });
       }
       res.status(200).json({ response: formsUsers });
