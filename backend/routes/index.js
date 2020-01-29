@@ -176,6 +176,7 @@ router.route("/api/findSimilarUsers").post(async (req, res, next) => {
             // let nativeLocation = {nativeLocation: e.nativeLocation};
 
 
+
             сomparison.push(userId);
             сomparison.push(location);
             сomparison.push(data);
@@ -184,6 +185,20 @@ router.route("/api/findSimilarUsers").post(async (req, res, next) => {
             сomparison.push(prise);
             // сomparison.push(age);
             // сomparison.push(nativeLocation);
+
+            if(e.prise === undefined){
+                // let age = {age: e.age};
+                // сomparison.push(age);
+                console.log("да, отсутствует")
+            }else{
+                console.log("Все-таки у некоторых есть!")
+
+            }
+            //
+            // if(e.nativeLocation){
+            //     let nativeLocation = {nativeLocation: e.nativeLocation};
+            //     сomparison.push(nativeLocation);
+            // }
 
 
 
@@ -254,6 +269,7 @@ router.route("/api/findSimilarUsers").post(async (req, res, next) => {
         let gradationUsers = [];
         let gradationForms = [];
 
+
         for (let i = 0; i < arrSortUserId.length; i++) {
             for (let k = 0; k < baseSortUsersId.length; k++) {
                 if (arrSortUserId[i] === baseSortUsersId[k].id) {
@@ -269,7 +285,7 @@ router.route("/api/findSimilarUsers").post(async (req, res, next) => {
                 }
             }
         }
-
+        // console.log(gradationUsers[0])
         let frontViewArr = [];
 
         for (let i = 0; i < gradationUsers.length; i++) {
@@ -280,8 +296,8 @@ router.route("/api/findSimilarUsers").post(async (req, res, next) => {
                 about: "",
                 prise: "",
                 first_name: "",
-                // age: '',
-                // nativeLocation: '',
+                age: '',
+                nativeLocation: '',
                 photo: "",
                 сomparisonInterests: ''
             };
@@ -290,6 +306,21 @@ router.route("/api/findSimilarUsers").post(async (req, res, next) => {
             obj.about = gradationForms[i].about;
             obj.prise = gradationForms[i].prise;
             obj.first_name = gradationUsers[i].first_name;
+
+            if(gradationUsers[i].age){
+                console.log('Заходит возраст!')
+                obj.age = gradationUsers[i].age
+            }else{
+                console.log('Не заходит возраст!')
+                obj.age = null;
+            }
+            if(gradationUsers[i].nativeLocation){
+                console.log('Заходит Родной город!')
+                obj.nativeLocation = gradationUsers[i].nativeLocation
+            }else{
+                console.log('Не заходит Родной город!')
+                obj.nativeLocation = '';
+            }
             // obj.age = gradationUsers[i].age
             // obj.nativeLocation = obgradationUsers[i].nativeLocation
             obj.photo = gradationUsers[i].photo;
@@ -302,7 +333,6 @@ router.route("/api/findSimilarUsers").post(async (req, res, next) => {
         for (let i = 0; i < frontViewArr.length; i++) {
             if(frontViewArr[i].id !== user._id){
                 arrWhithoutOwnUserId.push(frontViewArr[i])
-                console.log( frontViewArr[i].id,  user._id)
             }
         }
 
