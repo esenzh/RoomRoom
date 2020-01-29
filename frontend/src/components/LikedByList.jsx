@@ -24,6 +24,7 @@ class LikedByList extends Component {
         if (result.response === 'fail') {
             console.log('Server fail')
         } else if (result.response === 'noform') {
+            this.props.addLikedByUsers([]);
             this.setState({
                 noForm: true
             })
@@ -42,26 +43,26 @@ class LikedByList extends Component {
                 ) : this.state.noForm ? (<Empty
                     image="https://gw.alipayobjects.com/mdn/miniapp_social/afts/img/A*pevERLJC9v0AAAAAAAAAAABjAQAAAQ/original"
                     imageStyle={{
-                      height: 60,
+                        height: 60,
                     }}
                     description={
-                      <span>
-                        Создайте анкету
+                        <span>
+                            Создайте анкету
                       </span>
                     }
-                  >
-                  </Empty>) : (<Empty
+                >
+                </Empty>) : (<Empty
                     image="https://gw.alipayobjects.com/mdn/miniapp_social/afts/img/A*pevERLJC9v0AAAAAAAAAAABjAQAAAQ/original"
                     imageStyle={{
-                      height: 60,
+                        height: 60,
                     }}
                     description={
-                      <span>
-                        Вашу анкету еще никто не лайкнул
+                        <span>
+                            Вашу анкету еще никто не лайкнул
                       </span>
                     }
-                  >
-                  </Empty>)}
+                >
+                </Empty>)}
             </div>);
     }
 }

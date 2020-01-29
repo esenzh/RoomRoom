@@ -27,6 +27,7 @@ class MutualLikeList extends Component {
         } else if (result.response === 'nomatch') {
             this.props.addMutualUsers([])
         } else if (result.response === 'noform') {
+            this.props.addMutualUsers([])
             this.setState({
                 noForm: true
             })

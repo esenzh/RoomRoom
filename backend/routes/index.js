@@ -3,7 +3,6 @@ var router = express.Router();
 const nodemailer = require("nodemailer");
 const Form = require("../models/form");
 const User = require("../models/user");
-const sessionChecker = require("../middleware/auth");
 
 router.post("/api/newForm", async (req, res, next) => {
     const user1 = req.session.user;
@@ -146,7 +145,7 @@ router.route("/api/sendLikeMail").post(async (req, res, next) => {
   }
 });
 
-router.post("/api/findSimilarUsers", sessionChecker, async (req, res, next) => {
+router.route("/api/findSimilarUsers").post(async (req, res, next) => {
   try {
     await console.log("пришел запрос");
     let user = req.session.user;
@@ -219,11 +218,12 @@ router.post("/api/findSimilarUsers", sessionChecker, async (req, res, next) => {
 
         sortUserPrise = [];
 
-    for (let i = 0; i < finishREsult.length; i++) {
-      if (finishREsult[i][5].prise <= arr1.prise + 5) {
-        sortUserPrise.push(finishREsult[i]);
-      }
-    }
+
+        for (let i = 0; i < finishREsult.length; i++) {
+            if (finishREsult[i][5].prise <= (arr1.prise + 5)) {
+                sortUserPrise.push(finishREsult[i]);
+            }
+        }
 
         // console.log(sortUserPrise);
         let arrSortUserId = [];
@@ -245,15 +245,11 @@ router.post("/api/findSimilarUsers", sessionChecker, async (req, res, next) => {
         //     arrSortUserId.push(arrSortUserIdWithMe[i])
         // }
 
-    for (let i = 0; i < arrSortUserIdWithMe.length; i++) {
-      if (arrSortUserIdWithMe[i] !== userForm.idAuthor)
-        arrSortUserId.push(arrSortUserIdWithMe[i]);
-    }
+        // console.log(arrSortUserId);
 
-    // console.log(arrSortUserId);
+        const baseSortFormsId = await Form.find({idAuthor: arrSortUserId});
+        const baseSortUsersId = await User.find({_id: arrSortUserId});
 
-    const baseSortFormsId = await Form.find({ idAuthor: arrSortUserId });
-    const baseSortUsersId = await User.find({ _id: arrSortUserId });
 
         let gradationUsers = [];
         let gradationForms = [];
