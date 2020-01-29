@@ -2,6 +2,8 @@
 import React, {Component} from 'react';
 import {Card, Row, Layout, Col, Modal, Avatar, Icon, message, Spin, Empty, Button, Carousel} from 'antd';
 import {Redirect} from "react-router-dom";
+import {connect} from "react-redux";
+import {AddMutualUser, AddUsersDashBoard} from "../redux/type";
 
 const {Content} = Layout;
 
@@ -13,7 +15,6 @@ class DashBoard extends Component {
       redirectToAnket: false,
       loading: false,
       haveAnket: false,
-      users: null,
       id: null,
       visible: false,
       location: null,
@@ -62,7 +63,9 @@ class DashBoard extends Component {
   };
 
   async componentDidMount() {
-    this.setState({ loading: true });
+    if (this.props.users.length === 0){
+      this.setState({ loading: true });
+    }
     const reqComparison = await fetch("/api/findSimilarUsers", {
       headers: {
         "Content-Type": "application/json"
@@ -70,8 +73,8 @@ class DashBoard extends Component {
       method: "POST"
     });
     let users = await reqComparison.json();
-    console.log(users)
 
+    this.setState({loading: false });
     if (users.response === "unauthenticated") {
       this.setState({
         isRedirect: true
@@ -80,7 +83,8 @@ class DashBoard extends Component {
       if (users.error === "Анкета отсутствует, создайте анкету!") {
         this.setState({ haveAnket: true });
       } else {
-        this.setState({ users: users, loading: false });
+        this.props.AddUsersDashBoard(users)
+
       }
     }
   }
@@ -129,7 +133,7 @@ class DashBoard extends Component {
         <p style={{ fontSize: "25px" }} align={"center"}>
           Подходящие для Вас пользователи!
         </p>
-        {this.state.users && (
+        {this.props.users && (
           <Layout style={{ padding: "0 84px 84px" }}>
             <Content
               style={{
@@ -140,7 +144,7 @@ class DashBoard extends Component {
               }}
             >
               <Row gutter={16}>
-                {this.state.users.map((user, i) => {
+                {this.props.users.map((user, i) => {
                   return (
                     <Col key={i} span={8}>
                       <Card
@@ -203,14 +207,10 @@ class DashBoard extends Component {
               <Carousel autoplay>
                 {this.state.foto.map((f,i)=>
                   <div key={i}>
-                    <Avatar size={180} src={f} />
+                    <Avatar  size={180} src={f} />
                   </div>
                 )}
-
-
               </Carousel>
-
-
             </div>
             {/*<Descriptions title="User Info" layout="vertical">*/}
             {/*  <Descriptions.Item label="Xочу арендовать квартиру возле метро">{this.state.location}</Descriptions.Item>*/}
@@ -235,5 +235,17 @@ class DashBoard extends Component {
     );
   }
 }
+function mapStateToProps(store) {
+  return {
+    users: store.usersDashBoard
+  };
+}
 
-export default DashBoard;
+function mapDispatchToProps(dispatch) {
+  return {
+    AddUsersDashBoard: (users) => {
+      dispatch(AddUsersDashBoard(users));
+    }
+  };
+}
+export default connect(mapStateToProps, mapDispatchToProps)(DashBoard);

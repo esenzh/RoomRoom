@@ -1,4 +1,4 @@
-import { ADD_PHOTO, ADD_ISLOGIN, ADD_LIKED_BY_USERS, ADD_MUTUAL_USERS, REMOVE_LIKED_BY_USERS } from "./actions";
+import { ADD_PHOTO, ADD_ISLOGIN, ADD_LIKED_BY_USERS, ADD_MUTUAL_USERS, REMOVE_LIKED_BY_USERS,ADD_USERS_DASHBOARD } from "./actions";
 
 export const AddPhotoAC = photo => {
   return {
@@ -32,5 +32,11 @@ export const AddMutualUser = (users) => {
   return {
     type: ADD_MUTUAL_USERS,
     mutualUsers: users
+  };
+};
+export const AddUsersDashBoard = (users) => {
+  return {
+    type: ADD_USERS_DASHBOARD,
+    users: users
   };
 };
