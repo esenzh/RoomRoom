@@ -1,4 +1,5 @@
 const express = require("express");
+require('dotenv').config()
 const indexRouter = require("./routes/index");
 const nodemailer = require("nodemailer");
 const authenticationRouter = require("./routes/authentication");
