@@ -21,7 +21,6 @@ class MutualLikeList extends Component {
             headers: { 'Content-Type': 'application/json' }
         })
         const result = await response.json();
-        console.log(result)
         if (result.response === 'fail') {
             console.log('fail');
         } else if (result.response === 'nomatch') {
