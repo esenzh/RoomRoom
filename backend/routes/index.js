@@ -48,9 +48,9 @@ router.route("/api/sendLikeMail").post(async (req, res, next) => {
         const user1Form = await Form.findOne({idAuthor: user1._id});
         const user2Form = await Form.findOne({idAuthor: user2ID.id });
 
-        if (user2Form.funs.includes(user1Form.idAuthor)) {
+        if (user2Form.funs.includes(user1Form.idAuthor) || user2Form.сomparison.includes(user1Form.idAuthor) ) {
 
-            res.json({text:"Вы уже стаивли лайк данному пользователю!"});
+            res.json({text:"Вы уже стаивли лайк данному пользователю, передите в профиль!"});
         } else {
             if (user2Form.likes.includes(user1Form.idAuthor)) {
                 async function main() {
@@ -85,10 +85,17 @@ router.route("/api/sendLikeMail").post(async (req, res, next) => {
                 user1Form.likes.push(user2Form.idAuthor);
                 user1Form.сomparison.push(user2Form.idAuthor);
                 user2Form.сomparison.push(user1Form.idAuthor);
-                user2Form.funs.push(user1Form.idAuthor)
+                // user2Form.funs.push(user1Form.idAuthor)
+                for (let i = 0; i < user1Form.funs.length ; i++) {
+                    if(user1Form.funs[i] === user2Form.idAuthor){
+                        user1Form.funs.splice(i, 1)
+                        break;
+                    }
+                }
+
                 user1Form.save();
                 user2Form.save();
-                res.json({text: "Совпадение найдено!"});
+                res.json({text: "Совпадение! Данный пользователь также хотел бы с Вами снимать картиру!"});
             } else {
                 async function main() {
                     let testAccount = await nodemailer.createTestAccount();
@@ -164,15 +171,18 @@ router.post("/api/findSimilarUsers", sessionChecker, async (req, res, next) => {
             let arrInterests = [];
             for (let i = 0; i < arr1.interest.length; i++) {
                 for (let k = 0; k < e.interest.length; k++) {
-                    if (arr1.interest[i] === e.interest[k]) {
+                    if (arr1.interest[i] == e.interest[k]) {
                         arrInterests.push(arr1.interest[i]);
                     }
                 }
             }
+
             сomparison.push(arrInterests);
             allComparison.push(сomparison);
         });
-
+        // for (let i = 0; i < allComparison.length; i++) {
+        //     console.log(arr1.interest, allComparison[i][6])
+        // }
         let lengthAllComparison = [];
         for (let i = 20; i >= 0; i--) {
             for (let j = 0; j < allComparison.length; j++) {
@@ -189,17 +199,26 @@ router.post("/api/findSimilarUsers", sessionChecker, async (req, res, next) => {
                 finishREsult.push(lengthAllComparison[i]);
             }
         }
-
+// for (let i = 0; i < finishREsult.length; i++) {
+//             console.log(arr1.interest, finishREsult[i][6])
+//         }
         sortUserPrise = [];
         for (let i = 0; i < finishREsult.length; i++) {
             if (finishREsult[i][5].prise <= (arr1.prise + 5)) {
                 sortUserPrise.push(finishREsult[i]);
             }
         }
+        // for (let i = 0; i < finishREsult.length; i++) {
+        //     console.log(arr1.interest, finishREsult[i][6])
+        // }
         let arrSortUserId = [];
         for (let i = 0; i < sortUserPrise.length; i++) {
             arrSortUserId.push(sortUserPrise[i][0].idAuthor)
         }
+
+        // for (let i = 0; i < sortUserPrise.length; i++) {
+        //     console.log(arr1.interest, sortUserPrise[i][6])
+        // }
         const baseSortFormsId = await Form.find({idAuthor: arrSortUserId});
         const baseSortUsersId = await User.find({_id: arrSortUserId});
 
@@ -210,6 +229,7 @@ router.post("/api/findSimilarUsers", sessionChecker, async (req, res, next) => {
             for (let k = 0; k < baseSortUsersId.length; k++) {
                 if (arrSortUserId[i] === baseSortUsersId[k].id) {
                     gradationUsers.push(baseSortUsersId[k]);
+
                 }
             }
         }
@@ -218,9 +238,20 @@ router.post("/api/findSimilarUsers", sessionChecker, async (req, res, next) => {
             for (let k = 0; k < baseSortFormsId.length; k++) {
                 if (arrSortUserId[i] === baseSortFormsId[k].idAuthor) {
                     gradationForms.push(baseSortFormsId[k]);
+
                 }
             }
         }
+
+        console.log(arrSortUserId.length, baseSortFormsId.length, baseSortUsersId.length)
+
+        // for (let i = 0; i < baseSortFormsId.length; i++) {
+        //         console.log(arrSortUserId[i], baseSortFormsId[i].id)
+        //     }
+
+        // for (let i = 0; i < baseSortUsersId.length; i++) {
+        //     console.log(arr1.interest, gradationForms[i].interest, sortUserPrise[i][6])
+        // }
 
         let frontViewArr = [];
         for (let i = 0; i < gradationUsers.length; i++) {
