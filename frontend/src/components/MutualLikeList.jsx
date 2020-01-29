@@ -21,9 +21,7 @@ class MutualLikeList extends Component {
             headers: { 'Content-Type': 'application/json' }
         })
         const result = await response.json();
-        if (result.response === 'fail') {
-            console.log('fail');
-        } else if (result.response === 'nomatch') {
+        if (result.response === 'fail' || result.response === 'nomatch') {
             this.props.addMutualUsers([])
         } else if (result.response === 'noform') {
             this.props.addMutualUsers([])

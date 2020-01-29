@@ -22,7 +22,6 @@ class LikedByList extends Component {
         })
         const result = await response.json();
         if (result.response === 'fail') {
-            console.log('Server fail')
         } else if (result.response === 'noform') {
             this.props.addLikedByUsers([]);
             this.setState({

@@ -45,8 +45,6 @@ class DashBoard extends Component {
   };
 
   showModal = user => {
-    //console.log(event.target)
-    console.log(user);
     this.setState({
       id: user.id,
       location: user.location,
@@ -85,7 +83,6 @@ class DashBoard extends Component {
   }
 
   handleCancel = e => {
-    console.log(e);
     this.setState({
       visible: false
     });
