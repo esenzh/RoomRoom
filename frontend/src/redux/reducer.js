@@ -6,7 +6,8 @@ import {
   REMOVE_LIKED_BY_USERS,
   EDIT_PROFILE,
   EDIT_PROFILE_EDIT,
-  ADD_USER
+  ADD_USER,
+  ADD_USERS_DASHBOARD
 } from "./actions";
 
 const initialState = {
@@ -15,7 +16,8 @@ const initialState = {
   likedByUsers: [],
   mutualUsers: [],
   editProfile: false,
-  user: {}
+  user: {},
+  usersDashBoard:[]
 };
 
 export default function(oldState = initialState, action) {
@@ -27,7 +29,8 @@ export default function(oldState = initialState, action) {
         likedByUsers: [...oldState.likedByUsers],
         mutualUsers: [...oldState.mutualUsers],
         editProfile: oldState.editProfile,
-        user: oldState.user
+        user: oldState.user,
+        usersDashBoard: [...oldState.usersDashBoard]
       };
     case ADD_ISLOGIN:
       return {
@@ -36,7 +39,8 @@ export default function(oldState = initialState, action) {
         likedByUsers: [...oldState.likedByUsers],
         mutualUsers: [...oldState.mutualUsers],
         editProfile: oldState.editProfile,
-        user: oldState.user
+        user: oldState.user,
+        usersDashBoard: [...oldState.usersDashBoard]
       };
     case ADD_LIKED_BY_USERS:
       return {
@@ -45,7 +49,8 @@ export default function(oldState = initialState, action) {
         likedByUsers: action.likedByUsers,
         mutualUsers: [...oldState.mutualUsers],
         editProfile: oldState.editProfile,
-        user: oldState.user
+        user: oldState.user,
+        usersDashBoard: [...oldState.usersDashBoard]
       };
     case ADD_MUTUAL_USERS:
       return {
@@ -54,7 +59,8 @@ export default function(oldState = initialState, action) {
         likedByUsers: [...oldState.likedByUsers],
         mutualUsers: action.mutualUsers,
         editProfile: oldState.editProfile,
-        user: oldState.user
+        user: oldState.user,
+        usersDashBoard: [...oldState.usersDashBoard]
       };
     case REMOVE_LIKED_BY_USERS:
       const newlikedByUsers = oldState.likedByUsers.filter(
@@ -66,7 +72,8 @@ export default function(oldState = initialState, action) {
         likedByUsers: newlikedByUsers,
         mutualUsers: [...oldState.mutualUsers],
         editProfile: oldState.editProfile,
-        user: oldState.user
+        user: oldState.user,
+        usersDashBoard: [...oldState.usersDashBoard]
       };
     case EDIT_PROFILE:
       return {
@@ -75,7 +82,8 @@ export default function(oldState = initialState, action) {
         likedByUsers: [...oldState.likedByUsers],
         mutualUsers: [...oldState.mutualUsers],
         editProfile: action.editProfile,
-        user: oldState.user
+        user: oldState.user,
+        usersDashBoard: [...oldState.usersDashBoard]
       };
     case EDIT_PROFILE_EDIT:
       return {
@@ -84,7 +92,8 @@ export default function(oldState = initialState, action) {
         likedByUsers: [...oldState.likedByUsers],
         mutualUsers: [...oldState.mutualUsers],
         editProfile: oldState.editProfile,
-        user: action.user
+        user: action.user,
+        usersDashBoard: [...oldState.usersDashBoard]
       };
 
     case ADD_USER:
@@ -94,8 +103,19 @@ export default function(oldState = initialState, action) {
         likedByUsers: [...oldState.likedByUsers],
         mutualUsers: [...oldState.mutualUsers],
         editProfile: oldState.editProfile,
-        user: action.user
+        user: action.user,
+        usersDashBoard: [...oldState.usersDashBoard]
       };
+    case ADD_USERS_DASHBOARD:
+      return {
+        photos: oldState.photos,
+        isLogin: oldState.isLogin,
+        likedByUsers: [...oldState.likedByUsers],
+        mutualUsers: [...oldState.mutualUsers],
+        editProfile: oldState.editProfile,
+        user: oldState.user,
+        usersDashBoard:action.users
+      }
 
     default:
       return oldState;

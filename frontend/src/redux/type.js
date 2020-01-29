@@ -6,7 +6,8 @@ import {
   REMOVE_LIKED_BY_USERS,
   EDIT_PROFILE,
   EDIT_PROFILE_EDIT,
-  ADD_USER
+  ADD_USER,
+  ADD_USERS_DASHBOARD
 } from "./actions";
 
 export const AddPhotoAC = photo => {
@@ -62,5 +63,11 @@ export const AddUserAC = user => {
   return {
     type: ADD_USER,
     user: user
+  };
+};
+export const AddUsersDashBoard = users => {
+  return {
+    type: ADD_USERS_DASHBOARD,
+    users: users
   };
 };
