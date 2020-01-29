@@ -133,63 +133,73 @@ router.route("/api/findSimilarUsers").post(async (req, res, next) => {
     await console.log("пришел запрос");
     let user = req.session.user;
     const userForm = await Form.findOne({ idAuthor: user._id });
-    let arr1 = userForm;
-    console.log(arr1);
-    let arr2 = [];
-    let arr3 = await Form.find();
-    for (let i = 0; i < arr3.length; i++) {
-      if (arr1.location === arr3[i].location) {
-        arr2.push(arr3[i]);
-      }
-    }
-    let allComparison = [];
+    if(userForm) {
+        console.log('Работает! Анкета есть!')
 
-    arr2.map(function(e) {
-      let сomparison = [];
-      let userId = { idAuthor: e.idAuthor };
-      let location = { location: e.location };
-      let data = { data: e.data };
-      let about = { about: e.about };
-      let likes = { likes: e.likes };
-      let prise = { prise: e.prise };
-
-      сomparison.push(userId);
-      сomparison.push(location);
-      сomparison.push(data);
-      сomparison.push(about);
-      сomparison.push(likes);
-      сomparison.push(prise);
-
-      let arrInterests = [];
-      for (let i = 0; i < arr1.interest.length; i++) {
-        for (let k = 0; k < e.interest.length; k++) {
-          if (arr1.interest[i] === e.interest[k]) {
-            arrInterests.push(arr1.interest[i]);
-          }
+        let arr1 = userForm;
+        console.log(arr1);
+        let arr2 = [];
+        let arr3 = await Form.find();
+        for (let i = 0; i < arr3.length; i++) {
+            if (arr1.location === arr3[i].location) {
+                arr2.push(arr3[i]);
+            }
         }
-      }
-      сomparison.push(arrInterests);
-      allComparison.push(сomparison);
-    });
+        let allComparison = [];
 
-    let lengthAllComparison = [];
-    for (let i = 20; i >= 0; i--) {
-      for (let j = 0; j < allComparison.length; j++) {
-        if (allComparison[j][6].length === i) {
-          lengthAllComparison.push(allComparison[j]);
+        arr2.map(function (e) {
+            let сomparison = [];
+            let userId = {idAuthor: e.idAuthor};
+            let location = {location: e.location};
+            let data = {data: e.data};
+            let about = {about: e.about};
+            let likes = {likes: e.likes};
+            let prise = {prise: e.prise};
+            // let age = {age: e.age};
+            // let nativeLocation = {nativeLocation: e.nativeLocation};
+
+
+            сomparison.push(userId);
+            сomparison.push(location);
+            сomparison.push(data);
+            сomparison.push(about);
+            сomparison.push(likes);
+            сomparison.push(prise);
+            // сomparison.push(age);
+            // сomparison.push(nativeLocation);
+
+
+
+            let arrInterests = [];
+            for (let i = 0; i < arr1.interest.length; i++) {
+                for (let k = 0; k < e.interest.length; k++) {
+                    if (arr1.interest[i] === e.interest[k]) {
+                        arrInterests.push(arr1.interest[i]);
+                    }
+                }
+            }
+            сomparison.push(arrInterests);
+            allComparison.push(сomparison);
+        });
+
+        let lengthAllComparison = [];
+        for (let i = 20; i >= 0; i--) {
+            for (let j = 0; j < allComparison.length; j++) {
+                if (allComparison[j][6].length === i) {
+                    lengthAllComparison.push(allComparison[j]);
+                }
+            }
         }
-      }
-    }
 
-    let finishREsult = [];
+        let finishREsult = [];
 
-    for (let i = 0; i < lengthAllComparison.length; i++) {
-      if (lengthAllComparison[i][6].length !== 0) {
-        finishREsult.push(lengthAllComparison[i]);
-      }
-    }
+        for (let i = 0; i < lengthAllComparison.length; i++) {
+            if (lengthAllComparison[i][6].length !== 0) {
+                finishREsult.push(lengthAllComparison[i]);
+            }
+        }
 
-    sortUserPrise = [];
+        sortUserPrise = [];
 
 
         for (let i = 0; i < finishREsult.length; i++) {
@@ -198,12 +208,12 @@ router.route("/api/findSimilarUsers").post(async (req, res, next) => {
             }
         }
 
-    // console.log(sortUserPrise);
-      let arrSortUserId = [];
+        // console.log(sortUserPrise);
+        let arrSortUserId = [];
 
-      for (let i = 0; i < sortUserPrise.length; i++) {
-          arrSortUserId.push(sortUserPrise[i][0].idAuthor)
-      }
+        for (let i = 0; i < sortUserPrise.length; i++) {
+            arrSortUserId.push(sortUserPrise[i][0].idAuthor)
+        }
 
         // let arrSortUserIdWithMe = [];
         //
@@ -224,53 +234,58 @@ router.route("/api/findSimilarUsers").post(async (req, res, next) => {
         const baseSortUsersId = await User.find({_id: arrSortUserId});
 
 
-    let gradationUsers = [];
-    let gradationForms = [];
+        let gradationUsers = [];
+        let gradationForms = [];
 
-    for (let i = 0; i < arrSortUserId.length; i++) {
-      for (let k = 0; k < baseSortUsersId.length; k++) {
-        if (arrSortUserId[i] === baseSortUsersId[k].id) {
-          gradationUsers.push(baseSortUsersId[k]);
+        for (let i = 0; i < arrSortUserId.length; i++) {
+            for (let k = 0; k < baseSortUsersId.length; k++) {
+                if (arrSortUserId[i] === baseSortUsersId[k].id) {
+                    gradationUsers.push(baseSortUsersId[k]);
+                }
+            }
         }
-      }
-    }
 
-    for (let i = 0; i < arrSortUserId.length; i++) {
-      for (let k = 0; k < baseSortFormsId.length; k++) {
-        if (arrSortUserId[i] === baseSortFormsId[k].idAuthor) {
-          gradationForms.push(baseSortFormsId[k]);
+        for (let i = 0; i < arrSortUserId.length; i++) {
+            for (let k = 0; k < baseSortFormsId.length; k++) {
+                if (arrSortUserId[i] === baseSortFormsId[k].idAuthor) {
+                    gradationForms.push(baseSortFormsId[k]);
+                }
+            }
         }
-      }
+
+        let frontViewArr = [];
+
+        for (let i = 0; i < gradationUsers.length; i++) {
+            let obj = {
+                id: "",
+                location: "",
+                interest: "",
+                about: "",
+                prise: "",
+                first_name: "",
+                // age: '',
+                // nativeLocation: '',
+                photo: "",
+                сomparisonInterests: ''
+            };
+            (obj.id = arrSortUserId[i]), (obj.location = gradationForms[i].location);
+            obj.interest = gradationForms[i].interest;
+            obj.about = gradationForms[i].about;
+            obj.prise = gradationForms[i].prise;
+            obj.first_name = gradationUsers[i].first_name;
+            // obj.age = gradationUsers[i].age
+            // obj.nativeLocation = obgradationUsers[i].nativeLocation
+            obj.photo = gradationUsers[i].photo;
+            obj.сomparisonInterests = sortUserPrise[i][6];
+
+            frontViewArr.push(obj);
+        }
+        console.log(frontViewArr[0])
+        res.json(frontViewArr);
+    }else{
+        console.log('Анкета отсутствует, создайте анкету!')
+        res.json({error: 'Анкета отсутствует, создайте анкету!'});
     }
-
-    let frontViewArr = [];
-
-    for (let i = 0; i < gradationUsers.length; i++) {
-      let obj = {
-        id: "",
-        location: "",
-        interest: "",
-        about: "",
-        prise: "",
-        first_name: "",
-        // age: '',
-        // nativeLocation: '',
-        photo: ""
-        // сomparisonInterests: ''
-      };
-      (obj.id = arrSortUserId[i]), (obj.location = gradationForms[i].location);
-      obj.interest = gradationForms[i].interest;
-      obj.about = gradationForms[i].about;
-      obj.prise = gradationForms[i].prise;
-      obj.first_name = gradationUsers[i].first_name;
-      // obj.age = gradationUsers[i].age
-      // obj.nativeLocation = obgradationUsers[i].nativeLocation
-      obj.photo = gradationUsers[i].photo;
-      obj.сomparisonInterests = sortUserPrise[i][6];
-
-      frontViewArr.push(obj);
-    }
-    res.json(frontViewArr);
   } catch (error) {
     next(error);
     console.log("ошибка");
