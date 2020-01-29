@@ -21,8 +21,6 @@ class Logout extends Component {
       this.setState({
           isRedirect: true
       });
-    } else {
-        console.log('Failed')
     }
   };
   

@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Modal, Avatar, Button, List, Icon } from 'antd';
+import { Modal, Avatar, Button, List } from 'antd';
 
 class MutualLikeInfo extends Component {
     constructor(props) {
@@ -46,6 +46,19 @@ class MutualLikeInfo extends Component {
                         <List.Item>
                             {this.props.user.form.location}
                         </List.Item>
+                        {this.props.user.age && (<List.Item>
+                            {this.props.user.age}
+                        </List.Item>)}
+                        {this.props.user.nativeLocation && (
+                        <List.Item>
+                            {this.props.user.nativeLocation}
+                        </List.Item>
+                        )}
+                        {this.props.user.vk && (
+                        <List.Item>
+                            {this.props.user.vk}
+                        </List.Item>
+                        )}
                         <List.Item>
                             {this.props.user.form.interest.join(', ')}
                         </List.Item>

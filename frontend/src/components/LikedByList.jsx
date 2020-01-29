@@ -2,11 +2,14 @@ import React, { Component } from 'react';
 import LikedByProfile from './LikedByProfile';
 import { connect } from 'react-redux';
 import { AddLikedByUsers } from '../redux/type';
+import { Empty } from 'antd';
 
 class LikedByList extends Component {
     constructor(props) {
         super(props);
-        this.state = {}
+        this.state = {
+            noForm: false
+        }
     }
 
     componentDidMount() {
@@ -18,10 +21,14 @@ class LikedByList extends Component {
             headers: { 'Content-Type': 'application/json' }
         })
         const result = await response.json();
-        if (result.response.length !== 'fail') {
-            this.props.addLikedByUsers(result.response)
+        if (result.response === 'fail') {
+        } else if (result.response === 'noform') {
+            this.props.addLikedByUsers([]);
+            this.setState({
+                noForm: true
+            })
         } else {
-            console.log('Server fail')
+            this.props.addLikedByUsers(result.response)
         }
     }
     render() {
@@ -31,10 +38,29 @@ class LikedByList extends Component {
                     this.props.likedByUsers.map((user, i) => {
                         return <LikedByProfile user={user} key={i} />
                     })
-                ) : (
-                        <div>
-                            <p style={{ marginTop: '5px' }}>Вашу анкету еще ни кто не лайкнул!</p>
-                        </div>)}
+                ) : this.state.noForm ? (<Empty
+                    image="https://gw.alipayobjects.com/mdn/miniapp_social/afts/img/A*pevERLJC9v0AAAAAAAAAAABjAQAAAQ/original"
+                    imageStyle={{
+                        height: 60,
+                    }}
+                    description={
+                        <span>
+                            Создайте анкету
+                      </span>
+                    }
+                >
+                </Empty>) : (<Empty
+                    image="https://gw.alipayobjects.com/mdn/miniapp_social/afts/img/A*pevERLJC9v0AAAAAAAAAAABjAQAAAQ/original"
+                    imageStyle={{
+                        height: 60,
+                    }}
+                    description={
+                        <span>
+                            Вашу анкету еще никто не лайкнул
+                      </span>
+                    }
+                >
+                </Empty>)}
             </div>);
     }
 }

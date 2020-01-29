@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Modal, Avatar, Button, List, Icon } from 'antd';
+import { Modal, Avatar, List, Icon } from 'antd';
 import { connect } from 'react-redux';
 import { RemoveLikedByUsers } from '../redux/type';
 
@@ -10,14 +10,13 @@ class LikedByUserProfileInfo extends Component {
     }
 
     handleLike = async () => {
-        const response = await fetch('/api/sendLikeMail', {
+        await fetch('/api/sendLikeMail', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({
                 id: this.props.user.id
             })
         })
-        const result = await response.json();
         this.props.removeLikedByUser(this.props.user)
     }
 
@@ -59,6 +58,12 @@ class LikedByUserProfileInfo extends Component {
                         <List.Item>
                             {this.props.user.form.interest.join(', ')}
                         </List.Item>
+                        {this.props.user.age && (<List.Item>
+                            {this.props.user.age}
+                        </List.Item>)}
+                        {this.props.user.nativeLocation && (<List.Item>
+                            {this.props.user.nativeLocation}
+                        </List.Item>)}
                     </List>
                 </div>
             </Modal>

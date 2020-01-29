@@ -26,8 +26,6 @@ class Navigation extends Component {
         photoUrl: result.response.photo[0].thumbUrl,
         first_name: result.response.first_name,
       })
-    } else {
-      console.log('Fail to get profile')
     }
   }
 

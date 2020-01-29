@@ -1,14 +1,17 @@
 import React, { Component } from "react";
-import { Avatar, Descriptions, Row, Col, Tabs, Icon, Badge } from "antd";
+import { Avatar, Descriptions, Row, Col, Tabs, Icon } from "antd";
 import LikedByList from './LikedByList';
 import MutualLikeList from './MutualLikeList';
+import { Redirect } from "react-router-dom";
 
 const { TabPane } = Tabs;
 
 class Profile extends Component {
     constructor() {
         super();
-        this.state = {};
+        this.state = {
+            isRedirect: false
+        };
     }
 
     componentDidMount() {
@@ -20,7 +23,12 @@ class Profile extends Component {
             headers: { "Content-Type": "application/json" }
         });
         const result = await response.json();
-        if (result.response !== "fail") {
+        if (result.response === "fail") {
+        } else if (result.response === 'unauthenticated') {
+            this.setState({
+                isRedirect: true
+            })
+        } else {
             this.setState({
                 photoUrl: result.response.photo,
                 profileInfo: {
@@ -29,18 +37,18 @@ class Profile extends Component {
                     email: result.response.email,
                     phone: result.response.phone,
                     username: result.response.username,
+                    vk: result.response.vk,
+                    age: result.response.age,
+                    nativeLocation: result.response.nativeLocation
                 }
             });
-        } else {
-            console.log("Fail to get profile");
         }
     };
 
-    onChange(a, b, c) {
-        console.log(a, b, c);
-    }
-
     render() {
+        if (this.state.isRedirect) {
+            return <Redirect to={'/login'} />
+        }
         return (
             <div className="profileContainer">
                 <Row>
@@ -62,25 +70,24 @@ class Profile extends Component {
                                     <Descriptions.Item label="Логин">{this.state.profileInfo.username}</Descriptions.Item>
                                     <Descriptions.Item label="Номер телефона">{this.state.profileInfo.phone}</Descriptions.Item>
                                     <Descriptions.Item label="E-mail">{this.state.profileInfo.email}</Descriptions.Item>
-                                    <Descriptions.Item label="Возраст">24</Descriptions.Item>
-                                    <Descriptions.Item label="VK">
-                                        Some id
-                                    </Descriptions.Item>
-                                    <Descriptions.Item label="Место рождения">
-                                        Россия
-                                    </Descriptions.Item>
+                                    {this.state.profileInfo.age && (<Descriptions.Item label="Возраст">{this.state.profileInfo.age}</Descriptions.Item>)}
+                                    {this.state.profileInfo.vk && (<Descriptions.Item label="VK">
+                                        {this.state.profileInfo.vk}
+                                    </Descriptions.Item>)}
+                                    {this.state.profileInfo.nativeLocation && (<Descriptions.Item label="Родной город">
+                                        {this.state.profileInfo.nativeLocation}
+                                    </Descriptions.Item>)}
                                 </Descriptions>
                             </div>
                         )}
                     </Col>
                 </Row>
                 <br />
-
                 <Tabs defaultActiveKey="2">
                     <TabPane
                         tab={
                             <span>
-                                <Icon type="user" />
+                                <Icon type="picture" />
                                 Мои фотографии
                             </span>
                         }
@@ -112,16 +119,13 @@ class Profile extends Component {
                             <span>
                                 <Icon type="heart" theme="twoTone" twoToneColor="#eb2f96" />
                                 Лайк
-                                <Badge dot={true}>
-                                    <a href="#" className="head-example" />
-                                </Badge>
                             </span>
                         }
                         key="2"
                     >
                         <Row>
                             <Col span={6}>
-                                <h2>Взаимные лайки:</h2>
+                                <h2>Совпадения:</h2>
                             </Col>
                             <Col span={18}>
                                 <MutualLikeList />
@@ -138,24 +142,7 @@ class Profile extends Component {
                         </Row>
                     </TabPane>
                 </Tabs>
-
-
-                {/* <Carousel afterChange={this.onChange}>
-          <div>
-            <h3>1</h3>
-          </div>
-          <div>
-            <h3>2</h3>
-          </div>
-          <div>
-            <h3>3</h3>
-          </div>
-          <div>
-            <h3>4</h3>
-          </div>
-        </Carousel> */}
-                ,
-      </div>
+            </div>
         );
     }
 }

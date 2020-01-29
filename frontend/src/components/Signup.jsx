@@ -5,7 +5,6 @@ import {
     Form,
     Input,
     Select,
-    Checkbox,
     Button,
     Alert
 } from 'antd';
@@ -35,7 +34,6 @@ class Signup extends Component {
                     vk,
                     username,
                     password,
-                    agreement,
                     age,
                     nativeLocation
                 } = values
@@ -107,7 +105,6 @@ class Signup extends Component {
     };
 
     render() {
-        console.log(this.props)
         if (this.state.isRedirect) {
             return <Redirect to={'/anketa'} />
         }
@@ -194,7 +191,7 @@ class Signup extends Component {
                         {getFieldDecorator('age', {
                         })(<Input />)}
                     </Form.Item>
-                    <Form.Item label="Место рождение">
+                    <Form.Item label="Родной город">
                         {getFieldDecorator('nativeLocation', {
                         })(<Input />)}
                     </Form.Item>
@@ -202,7 +199,7 @@ class Signup extends Component {
                         {getFieldDecorator('phone', {
                         })(<Input addonBefore={prefixSelector} style={{ width: '100%' }} />)}
                     </Form.Item>
-                    <Form.Item label='Загрузите фото, пожалуйста'>
+                    <Form.Item label='Загрузите фото'>
                         <UploadPhoto />
                     </Form.Item>
                     <Form.Item label="VK">
@@ -244,15 +241,6 @@ class Signup extends Component {
                                 },
                             ],
                         })(<Input.Password onBlur={this.handleConfirmBlur} />)}
-                    </Form.Item>
-                    <Form.Item {...tailFormItemLayout}>
-                        {getFieldDecorator('agreement', {
-                            valuePropName: 'checked',
-                        })(
-                            <Checkbox>
-                                Прочитал <a href="">условия и соглашение</a>
-                            </Checkbox>,
-                        )}
                     </Form.Item>
                     <Form.Item {...tailFormItemLayout}>
                         <Button type="primary" htmlType="submit">

@@ -1,5 +1,6 @@
 import React, {Component} from 'react';
 import {Form, Input, Button, Select, InputNumber, Modal, Badge} from 'antd';
+import {Redirect} from "react-router-dom";
 
 const imgMetro = require('../images/metro.png');
 
@@ -60,23 +61,16 @@ class DynamicRule extends Component {
     checkNick: false,
     cities: cityData[provinceData[0]],
     secondCity: cityData[provinceData[0]][0],
-    visible: false
+    visible: false,
+    redirectToHome: false
   };
-  handleSubmit = e => {
-    e.preventDefault();
-    this.props.form.validateFields((err, values) => {
-      if (!err) {
-        console.log('Received values of form: ', values);
-      }
-    });
-  };
+
   showModal = () => {
     this.setState({
       visible: true,
     });
   };
   handleOk = e => {
-    console.log(e);
     this.setState({
       visible: false,
     });
@@ -98,8 +92,7 @@ class DynamicRule extends Component {
     this.props.form.validateFields(err => {
       if (!err) {
         this.props.form.validateFieldsAndScroll(async (err, value) => {
-          console.log(value)
-          const response = await fetch('/api/newForm', {
+          await fetch('/api/newForm', {
             method: 'POST',
             body: JSON.stringify({
               interest: value.interest,
@@ -111,24 +104,21 @@ class DynamicRule extends Component {
               'Content-Type': 'application/json'
             }
           });
-          let result = await response.text();
-          console.log(result)
+          this.setState({redirectToHome:true})
         });
       }
     });
   };
 
-  handleChange = value => {
-    console.log(`selected ${value}`);
-    console.log(this.state.cities)
-  }
-
   render() {
     const {getFieldDecorator} = this.props.form;
     const {cities} = this.state;
+    if (this.state.redirectToHome){
+      return <Redirect to={'/'}/>
+    }
     return (
       <div className='registerForm'>
-        <Form {...formItemLayout} onSubmit={this.handleSubmit}>
+        <Form {...formItemLayout} >
           <h1>Новая анкета</h1>
           <Form.Item {...formItemLayout} label="Метро" hasFeedback>
 
@@ -180,7 +170,7 @@ class DynamicRule extends Component {
                 mode="multiple"
                 style={{width: '100%'}}
                 placeholder="Please select"
-                onChange={this.handleChange}
+
               >
                 {children}
               </Select>,
@@ -214,7 +204,7 @@ class DynamicRule extends Component {
           visible={this.state.visible}
           onOk={this.handleOk}
         >
-          <img style={{width: 480, height: 600}} src={imgMetro}/>
+          <img style={{width: 480, height: 600}} src={imgMetro} alt='metro'/>
 
         </Modal>
       </div>
