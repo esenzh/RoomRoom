@@ -5,13 +5,13 @@ import { connect } from "react-redux";
 import { withCookies } from "react-cookie";
 
 import Navbar from "./components/Navbar";
-
 import Profile from "./components/Profile";
 import Login from "./components/Login";
 import Signup from "./components/Signup";
 import WrappedDynamicRule from "./components/WrappedDynamicRule";
 import Logout from "./components/Logout";
 import DashBoard from "./components/DashBoard";
+import EditProfile from "./components/EditProfile";
 
 class App extends React.Component {
   render() {
@@ -23,7 +23,8 @@ class App extends React.Component {
           <Switch>
             <Route exact path={"/"} component={DashBoard} />
             <Route exact path={"/anketa"} component={WrappedDynamicRule} />
-            <Route path={"/profile"} component={Profile} />
+            <Route exact path={"/profile"} component={Profile} />
+            <Route path={"/profile/edit"} component={EditProfile} />
             <Route exact path={"/login"} component={Login} />
             <Route exact path={"/signup"} component={Signup} />
             <Route exact path={"/logout"} component={Logout} />

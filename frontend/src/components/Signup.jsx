@@ -16,7 +16,6 @@ const { Option } = Select;
 class Signup extends Component {
     state = {
         confirmDirty: false,
-        autoCompleteResult: [],
         isRedirect: false,
         warningMessage: '',
     };
@@ -92,16 +91,6 @@ class Signup extends Component {
             form.validateFields(['confirm'], { force: true });
         }
         callback();
-    };
-
-    handleWebsiteChange = value => {
-        let autoCompleteResult;
-        if (!value) {
-            autoCompleteResult = [];
-        } else {
-            autoCompleteResult = ['.com', '.org', '.net'].map(domain => `${value}${domain}`);
-        }
-        this.setState({ autoCompleteResult });
     };
 
     render() {
