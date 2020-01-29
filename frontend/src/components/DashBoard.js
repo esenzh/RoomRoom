@@ -1,8 +1,8 @@
 import React, {Component} from 'react';
-import {Card, Row, Layout, Breadcrumb, Col, Modal, Avatar, Icon, message, Spin, Alert, Empty, Button} from 'antd';
-import {BrowserRouter as Router, Redirect} from "react-router-dom";
+import {Card, Row, Layout, Col, Modal, Avatar, Icon, message, Spin, Alert, Empty, Button, Descriptions} from 'antd';
+import {Redirect} from "react-router-dom";
 
-const {Header, Content, Sider} = Layout;
+const {Content} = Layout;
 const {Meta} = Card;
 
 
@@ -23,6 +23,7 @@ class DashBoard extends Component {
       first_name: null,
       interest: null,
       сomparisonInterests: null,
+      nativeLocation:null,
       isRedirect: false
     };
   }
@@ -54,6 +55,7 @@ class DashBoard extends Component {
       interest: user.interest,
       foto: user.photo[0].thumbUrl,
       сomparisonInterests: user.сomparisonInterests,
+      nativeLocation:user.nativeLocation,
       visible: true
     });
   };
@@ -68,7 +70,7 @@ class DashBoard extends Component {
     });
     let users = await reqComparison.json();
 
-    console.log(users)
+    console.log("users",users)
     if (users.error === 'Анкета отсутствует, создайте анкету!') {
       this.setState({haveAnket: true})
     } else {
@@ -131,7 +133,7 @@ class DashBoard extends Component {
 
               {this.state.users.map((user, i) => {
                 return (
-                  <Col span={8}>
+                  <Col span={8} key={i}>
                     <Card
                       onClick={() => this.showModal(user)}
                       style={
@@ -146,10 +148,17 @@ class DashBoard extends Component {
                         cover={
                           <img alt="example" src={user.photo[0].thumbUrl} />
                         }
-                        key={user.id}
+
                       >
-                        <h2>{user.first_name}</h2>
-                        {/*<Meta title={user.firs_name} style={{fontSize: '22px'}}/>*/}
+                        <div>
+                          <div style={{float: "left",fontSize: "22px"}}>
+                            {user.first_name}
+                          </div>
+                          <div style={{float:"right",fontSize: "22px"}}>
+                            {user.age}
+                          </div>
+                        </div>
+
                       </Card>
                     </Col>
                   );
@@ -183,13 +192,23 @@ class DashBoard extends Component {
             <div style={{ textAlign: "center" }}>
               <Avatar size={180} src={this.state.foto} />
             </div>
-            <p>Xочу арендовать квартиру возле метро: {this.state.location}</p>
-            <p>Мои интересы: {this.state.interest.join(", ")}</p>
+            {/*<Descriptions title="User Info" layout="vertical">*/}
+            {/*  <Descriptions.Item label="Xочу арендовать квартиру возле метро">{this.state.location}</Descriptions.Item>*/}
+            {/*  <Descriptions.Item label="Мои интересы">{this.state.interest.join(", ")}</Descriptions.Item>*/}
+            {/*  <Descriptions.Item label="Совпавшие интересы">{this.state.сomparisonInterests.join(", ")}</Descriptions.Item>*/}
+            {/*  /!*<Descriptions.Item label="О себе:" span={2}>*!/*/}
+            {/*  /!*  No. 18, Wantang Road, Xihu District, Hangzhou, Zhejiang, China*!/*/}
+            {/*  /!*</Descriptions.Item>*!/*/}
+            {/*  <Descriptions.Item label="Ориентировочная цена в месяц">{this.state.prise}</Descriptions.Item>*/}
+            {/*</Descriptions>*/}
+            <p><b>Xочу арендовать квартиру возле метро:</b> {this.state.location}</p>
+            <p><b>Мои интересы:</b> {this.state.interest.join(", ")}</p>
             <p>
-              Совпавшие интересы: {this.state.сomparisonInterests.join(", ")}
+              <b>Совпавшие интересы: {this.state.сomparisonInterests.length}</b> ({this.state.сomparisonInterests.join(", ")})
             </p>
-            <p>О себе: {this.state.about}</p>
-            <p>Ориентировочная цена в месяц: {this.state.prise}</p>
+            {this.state.nativeLocation && <p><b>Родной город:</b> {this.state.nativeLocation}</p> }
+            <p><b>О себе:</b> {this.state.about}</p>
+            <p><b>Ориентировочная цена в месяц:</b> {this.state.prise}</p>
           </Modal>
         )}
       </div>
