@@ -64,21 +64,13 @@ class DynamicRule extends Component {
     visible: false,
     redirectToHome: false
   };
-  handleSubmit = e => {
-    e.preventDefault();
-    this.props.form.validateFields((err, values) => {
-      if (!err) {
-        console.log('Received values of form: ', values);
-      }
-    });
-  };
+
   showModal = () => {
     this.setState({
       visible: true,
     });
   };
   handleOk = e => {
-    console.log(e);
     this.setState({
       visible: false,
     });
@@ -100,7 +92,6 @@ class DynamicRule extends Component {
     this.props.form.validateFields(err => {
       if (!err) {
         this.props.form.validateFieldsAndScroll(async (err, value) => {
-          // console.log(value)
           const response = await fetch('/api/newForm', {
             method: 'POST',
             body: JSON.stringify({
@@ -114,17 +105,11 @@ class DynamicRule extends Component {
             }
           });
           let result = await response.text();
-          console.log(result)
           this.setState({redirectToHome:true})
         });
       }
     });
   };
-
-  handleChange = value => {
-    console.log(`selected ${value}`);
-    console.log(this.state.cities)
-  }
 
   render() {
     const {getFieldDecorator} = this.props.form;
@@ -134,7 +119,7 @@ class DynamicRule extends Component {
     }
     return (
       <div className='registerForm'>
-        <Form {...formItemLayout} onSubmit={this.handleSubmit}>
+        <Form {...formItemLayout} >
           <h1>Новая анкета</h1>
           <Form.Item {...formItemLayout} label="Метро" hasFeedback>
 
@@ -186,7 +171,7 @@ class DynamicRule extends Component {
                 mode="multiple"
                 style={{width: '100%'}}
                 placeholder="Please select"
-                onChange={this.handleChange}
+
               >
                 {children}
               </Select>,

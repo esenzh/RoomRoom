@@ -6,7 +6,6 @@ const Users = require("../models/user");
 
 const saltRounds = 10;
 
-// Authetication
 router
   .post("/api/signup", async (req, res, next) => {
     const {

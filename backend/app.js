@@ -13,7 +13,6 @@ const app = express();
 
 userMiddleWare(app);
 
-// const job = new CronJob('59 59 23 * * *', async () => {
 const job = new CronJob('59 59 23 * * *', async () => {
   const usersForm = await Form.find({});
   usersForm.map(async (user) => {
@@ -42,8 +41,7 @@ const job = new CronJob('59 59 23 * * *', async () => {
       main().catch(console.error);
     }
   })
-  console.log(new Date(),' 3');
-  console.log('Update data Forms 4');
+  console.log('Update data Forms');
 }, null, true, 'Europe/Moscow');
 job.start();
 

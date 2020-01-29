@@ -24,7 +24,6 @@ class Profile extends Component {
         });
         const result = await response.json();
         if (result.response === "fail") {
-            console.log("Fail to get profile");
         } else if (result.response === 'unauthenticated') {
             this.setState({
                 isRedirect: true
