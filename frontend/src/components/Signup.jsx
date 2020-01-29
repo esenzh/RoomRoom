@@ -191,7 +191,7 @@ class Signup extends Component {
                         {getFieldDecorator('age', {
                         })(<Input />)}
                     </Form.Item>
-                    <Form.Item label="Место рождения">
+                    <Form.Item label="Родной город">
                         {getFieldDecorator('nativeLocation', {
                         })(<Input />)}
                     </Form.Item>

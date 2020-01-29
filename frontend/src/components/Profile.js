@@ -2,13 +2,16 @@ import React, { Component } from "react";
 import { Avatar, Descriptions, Row, Col, Tabs, Icon, Badge } from "antd";
 import LikedByList from './LikedByList';
 import MutualLikeList from './MutualLikeList';
+import { Redirect } from "react-router-dom";
 
 const { TabPane } = Tabs;
 
 class Profile extends Component {
     constructor() {
         super();
-        this.state = {};
+        this.state = {
+            isRedirect: false
+        };
     }
 
     componentDidMount() {
@@ -20,7 +23,13 @@ class Profile extends Component {
             headers: { "Content-Type": "application/json" }
         });
         const result = await response.json();
-        if (result.response !== "fail") {
+        if (result.response === "fail") {
+            console.log("Fail to get profile");
+        } else if (result.response === 'unauthenticated') {
+            this.setState({
+                isRedirect: true
+            })
+        } else {
             this.setState({
                 photoUrl: result.response.photo,
                 profileInfo: {
@@ -34,12 +43,13 @@ class Profile extends Component {
                     nativeLocation: result.response.nativeLocation
                 }
             });
-        } else {
-            console.log("Fail to get profile");
         }
     };
 
     render() {
+        if (this.state.isRedirect) {
+            return <Redirect to={'/login'} />
+        }
         return (
             <div className="profileContainer">
                 <Row>
@@ -65,7 +75,7 @@ class Profile extends Component {
                                     {this.state.profileInfo.vk && (<Descriptions.Item label="VK">
                                         {this.state.profileInfo.vk}
                                     </Descriptions.Item>)}
-                                    {this.state.profileInfo.nativeLocation && (<Descriptions.Item label="Место рождения">
+                                    {this.state.profileInfo.nativeLocation && (<Descriptions.Item label="Родной город">
                                         {this.state.profileInfo.nativeLocation}
                                     </Descriptions.Item>)}
                                 </Descriptions>
@@ -74,11 +84,11 @@ class Profile extends Component {
                     </Col>
                 </Row>
                 <br />
-                <Tabs defaultActiveKey="2">
+                <Tabs defaultActiveKey="1">
                     <TabPane
                         tab={
                             <span>
-                                <Icon type="user" />
+                                <Icon type="picture" />
                                 Мои фотографии
                             </span>
                         }

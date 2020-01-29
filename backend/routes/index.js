@@ -3,6 +3,7 @@ var router = express.Router();
 const nodemailer = require("nodemailer");
 const Form = require("../models/form");
 const User = require("../models/user");
+const sessionChecker = require('../middleware/auth');
 
 router.post("/api/newForm", async (req, res, next) => {
     const user1 = req.session.user;
@@ -145,7 +146,7 @@ router.route("/api/sendLikeMail").post(async (req, res, next) => {
   }
 });
 
-router.route("/api/findSimilarUsers").post(async (req, res, next) => {
+router.post("/api/findSimilarUsers", sessionChecker, async (req, res, next) => {
   try {
     await console.log("пришел запрос");
     let user = req.session.user;
@@ -340,7 +341,9 @@ router.get("/api/likes/by", async (req, res) => {
           id: users[i]._id,
           first_name: users[i].first_name,
           last_name: users[i].last_name,
-          photo: users[i].photo
+          photo: users[i].photo,
+          age: users[i].age,
+          nativeLocation: users[i].nativeLocation,
         });
       }
       res.status(200).json({ response: formsUsers });
