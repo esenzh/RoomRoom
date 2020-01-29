@@ -6,25 +6,42 @@ const User = require("../models/user");
 const sessionChecker = require("../middleware/auth");
 
 router.post("/api/newForm", async (req, res, next) => {
-  const { metro, interest, budget, about } = req.body;
+    const user1 = req.session.user;
+    const user1Form = await Form.findOne({idAuthor: user1._id});
+    if (user1Form) {
+        console.log('Обновляет!')
+        const {metro, interest, budget, about} = req.body;
 
-  const form = new Form({
-    idAuthor: req.session.user._id,
-    location: metro,
-    interest,
-    data: new Date(),
-    about,
-    likes: [],
-    funs: [],
-    prise: budget
-  });
-  try {
-    await form.save();
-    res.send("form is save");
-  } catch (e) {
-    res.send("form is NO save");
-  }
-  res.send("ok");
+        user1Form.location = metro;
+        user1Form.interest = interest;
+        user1Form.data = new Date();
+        user1Form.about = about;
+        user1Form.prise = budget;
+        user1Form.save();
+        res.json({text: "Анкета обновлена!"});
+    } else {
+        console.log('Создает новую внкету!')
+
+    const {metro, interest, budget, about} = req.body;
+
+    const form = new Form({
+        idAuthor: req.session.user._id,
+        location: metro,
+        interest,
+        data: new Date(),
+        about,
+        likes: [],
+        funs: [],
+        prise: budget
+    });
+    try {
+        await form.save();
+        res.send("form is save");
+    } catch (e) {
+        res.send("form is NO save");
+    }
+    res.send("ok");
+}
 });
 
 router.route("/api/sendLikeMail").post(async (req, res, next) => {
@@ -32,8 +49,8 @@ router.route("/api/sendLikeMail").post(async (req, res, next) => {
         console.log("пришел запрос");
         const user1 = req.session.user;
         const user2ID = req.body;
-        console.log(user1._id);
-        console.log(user2ID.id);
+        // console.log(user1._id);
+        // console.log(user2ID.id);
 
         const user1Form = await Form.findOne({idAuthor: user1._id});
         const user2Form = await Form.findOne({idAuthor: user2ID.id });
@@ -119,8 +136,8 @@ router.route("/api/sendLikeMail").post(async (req, res, next) => {
                 user2Form.funs.push(user1Form.idAuthor)                                                     // 6.запись нас в массив "поклонников" данного пользователя
                 user1Form.save();
                 user2Form.save();
-                console.log(user1Form.likes);
-                console.log(user2Form.funs);
+                // console.log(user1Form.likes);
+                // console.log(user2Form.funs);
                 res.json({text: "Пользователю, которому Вы поставили лайк направлено уведомление о том, что Вы хотели бы совместно снимать квартиру!"})
             }
         }
@@ -138,7 +155,7 @@ router.post("/api/findSimilarUsers", sessionChecker, async (req, res, next) => {
         console.log('Работает! Анкета есть!')
 
         let arr1 = userForm;
-        console.log(arr1);
+        // console.log(arr1);
         let arr2 = [];
         let arr3 = await Form.find();
         for (let i = 0; i < arr3.length; i++) {
@@ -284,7 +301,7 @@ router.post("/api/findSimilarUsers", sessionChecker, async (req, res, next) => {
 
             frontViewArr.push(obj);
         }
-        console.log(frontViewArr[0])
+        // console.log(frontViewArr[0])
         res.json(frontViewArr);
     }else{
         console.log('Анкета отсутствует, создайте анкету!')
