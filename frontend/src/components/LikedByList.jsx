@@ -1,5 +1,7 @@
 import React, { Component } from 'react';
 import LikedByProfile from './LikedByProfile';
+import { connect } from 'react-redux';
+import { AddLikedByUsers } from '../redux/type';
 
 class LikedByList extends Component {
     constructor(props) {
@@ -17,25 +19,38 @@ class LikedByList extends Component {
         })
         const result = await response.json();
         if (result.response.length !== 'fail') {
-            this.setState({
-                likedByUsers: result.response
-            })
+            this.props.addLikedByUsers(result.response)
         } else {
             console.log('Server fail')
         }
     }
     render() {
-        return (<div style={{ display: 'flex' }}>
-            {this.state.likedByUsers && this.state.likedByUsers.length !== 0 ? (
-                this.state.likedByUsers.map((user, i) => {
-                    return <LikedByProfile user={user} key={i} />
-                })
-            ) : (
-                    <div>
-                        <p style={{ marginTop: '5px' }}>Вашу анкету еще ни кто не лайкнул!</p>
-                    </div>)}
-        </div>);
+        return (
+            <div style={{ display: 'flex' }}>
+                {this.props.likedByUsers && this.props.likedByUsers.length !== 0 ? (
+                    this.props.likedByUsers.map((user, i) => {
+                        return <LikedByProfile user={user} key={i} />
+                    })
+                ) : (
+                        <div>
+                            <p style={{ marginTop: '5px' }}>Вашу анкету еще ни кто не лайкнул!</p>
+                        </div>)}
+            </div>);
     }
 }
 
-export default LikedByList;
+function mapDispatchToProps(dispatch) {
+    return {
+        addLikedByUsers: (users) => {
+            dispatch(AddLikedByUsers(users));
+        }
+    };
+}
+
+function mapStateToProps(store) {
+    return {
+        likedByUsers: store.likedByUsers
+    };
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(LikedByList);
