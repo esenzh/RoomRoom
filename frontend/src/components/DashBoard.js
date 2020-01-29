@@ -1,6 +1,6 @@
 
 import React, {Component} from 'react';
-import {Card, Row, Layout, Col, Modal, Avatar, Icon, message, Spin, Empty, Button} from 'antd';
+import {Card, Row, Layout, Col, Modal, Avatar, Icon, message, Spin, Empty, Button, Carousel} from 'antd';
 import {Redirect} from "react-router-dom";
 
 const {Content} = Layout;
@@ -44,6 +44,9 @@ class DashBoard extends Component {
   };
 
   showModal = user => {
+    let fotos = user.photo.map((foto)=>
+      foto.thumbUrl
+    )
     this.setState({
       id: user.id,
       location: user.location,
@@ -51,7 +54,7 @@ class DashBoard extends Component {
       prise: user.prise,
       first_name: user.first_name,
       interest: user.interest,
-      foto: user.photo[0].thumbUrl,
+      foto: fotos,
       сomparisonInterests: user.сomparisonInterests,
       nativeLocation:user.nativeLocation,
       visible: true
@@ -67,6 +70,7 @@ class DashBoard extends Component {
       method: "POST"
     });
     let users = await reqComparison.json();
+    console.log(users)
 
     if (users.response === "unauthenticated") {
       this.setState({
@@ -196,7 +200,17 @@ class DashBoard extends Component {
             ]}
           >
             <div style={{ textAlign: "center" }}>
-              <Avatar size={180} src={this.state.foto} />
+              <Carousel autoplay>
+                {this.state.foto.map((f,i)=>
+                  <div key={i}>
+                    <Avatar size={180} src={f} />
+                  </div>
+                )}
+
+
+              </Carousel>
+
+
             </div>
             {/*<Descriptions title="User Info" layout="vertical">*/}
             {/*  <Descriptions.Item label="Xочу арендовать квартиру возле метро">{this.state.location}</Descriptions.Item>*/}
