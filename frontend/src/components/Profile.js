@@ -29,16 +29,15 @@ class Profile extends Component {
                     email: result.response.email,
                     phone: result.response.phone,
                     username: result.response.username,
+                    vk: result.response.vk,
+                    age: result.response.age,
+                    nativeLocation: result.response.nativeLocation
                 }
             });
         } else {
             console.log("Fail to get profile");
         }
     };
-
-    onChange(a, b, c) {
-        console.log(a, b, c);
-    }
 
     render() {
         return (
@@ -62,20 +61,19 @@ class Profile extends Component {
                                     <Descriptions.Item label="Логин">{this.state.profileInfo.username}</Descriptions.Item>
                                     <Descriptions.Item label="Номер телефона">{this.state.profileInfo.phone}</Descriptions.Item>
                                     <Descriptions.Item label="E-mail">{this.state.profileInfo.email}</Descriptions.Item>
-                                    <Descriptions.Item label="Возраст">24</Descriptions.Item>
-                                    <Descriptions.Item label="VK">
-                                        Some id
-                                    </Descriptions.Item>
-                                    <Descriptions.Item label="Место рождения">
-                                        Россия
-                                    </Descriptions.Item>
+                                    {this.state.profileInfo.age && (<Descriptions.Item label="Возраст">{this.state.profileInfo.age}</Descriptions.Item>)}
+                                    {this.state.profileInfo.vk && (<Descriptions.Item label="VK">
+                                        {this.state.profileInfo.vk}
+                                    </Descriptions.Item>)}
+                                    {this.state.profileInfo.nativeLocation && (<Descriptions.Item label="Место рождения">
+                                        {this.state.profileInfo.nativeLocation}
+                                    </Descriptions.Item>)}
                                 </Descriptions>
                             </div>
                         )}
                     </Col>
                 </Row>
                 <br />
-
                 <Tabs defaultActiveKey="2">
                     <TabPane
                         tab={
@@ -138,24 +136,7 @@ class Profile extends Component {
                         </Row>
                     </TabPane>
                 </Tabs>
-
-
-                {/* <Carousel afterChange={this.onChange}>
-          <div>
-            <h3>1</h3>
-          </div>
-          <div>
-            <h3>2</h3>
-          </div>
-          <div>
-            <h3>3</h3>
-          </div>
-          <div>
-            <h3>4</h3>
-          </div>
-        </Carousel> */}
-                ,
-      </div>
+            </div>
         );
     }
 }

@@ -30,7 +30,6 @@ class LikedByList extends Component {
             })
         } else {
             this.props.addLikedByUsers(result.response)
-
         }
     }
     render() {
