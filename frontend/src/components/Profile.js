@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { Avatar, Descriptions, Row, Col, Tabs, Icon, Badge } from "antd";
+import { Avatar, Descriptions, Row, Col, Tabs, Icon } from "antd";
 import LikedByList from './LikedByList';
 import MutualLikeList from './MutualLikeList';
 import { Redirect } from "react-router-dom";
@@ -83,7 +83,7 @@ class Profile extends Component {
                     </Col>
                 </Row>
                 <br />
-                <Tabs defaultActiveKey="1">
+                <Tabs defaultActiveKey="2">
                     <TabPane
                         tab={
                             <span>
@@ -119,16 +119,13 @@ class Profile extends Component {
                             <span>
                                 <Icon type="heart" theme="twoTone" twoToneColor="#eb2f96" />
                                 Лайк
-                                <Badge dot={true}>
-                                    <a href="#" className="head-example" />
-                                </Badge>
                             </span>
                         }
                         key="2"
                     >
                         <Row>
                             <Col span={6}>
-                                <h2>Взаимные лайки:</h2>
+                                <h2>Совпадения:</h2>
                             </Col>
                             <Col span={18}>
                                 <MutualLikeList />

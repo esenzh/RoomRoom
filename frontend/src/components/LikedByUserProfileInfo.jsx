@@ -10,14 +10,13 @@ class LikedByUserProfileInfo extends Component {
     }
 
     handleLike = async () => {
-        const response = await fetch('/api/sendLikeMail', {
+        await fetch('/api/sendLikeMail', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({
                 id: this.props.user.id
             })
         })
-        const result = await response.json();
         this.props.removeLikedByUser(this.props.user)
     }
 

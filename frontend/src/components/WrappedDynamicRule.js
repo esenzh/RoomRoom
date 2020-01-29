@@ -92,7 +92,7 @@ class DynamicRule extends Component {
     this.props.form.validateFields(err => {
       if (!err) {
         this.props.form.validateFieldsAndScroll(async (err, value) => {
-          const response = await fetch('/api/newForm', {
+          await fetch('/api/newForm', {
             method: 'POST',
             body: JSON.stringify({
               interest: value.interest,
@@ -104,7 +104,6 @@ class DynamicRule extends Component {
               'Content-Type': 'application/json'
             }
           });
-          let result = await response.text();
           this.setState({redirectToHome:true})
         });
       }
@@ -205,7 +204,7 @@ class DynamicRule extends Component {
           visible={this.state.visible}
           onOk={this.handleOk}
         >
-          <img style={{width: 480, height: 600}} src={imgMetro}/>
+          <img style={{width: 480, height: 600}} src={imgMetro} alt='metro'/>
 
         </Modal>
       </div>

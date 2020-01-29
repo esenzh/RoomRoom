@@ -1,10 +1,9 @@
 
 import React, {Component} from 'react';
-import {Card, Row, Layout, Col, Modal, Avatar, Icon, message, Spin, Alert, Empty, Button, Descriptions} from 'antd';
+import {Card, Row, Layout, Col, Modal, Avatar, Icon, message, Spin, Empty, Button} from 'antd';
 import {Redirect} from "react-router-dom";
 
 const {Content} = Layout;
-const {Meta} = Card;
 
 
 class DashBoard extends Component {
@@ -139,7 +138,7 @@ class DashBoard extends Component {
               <Row gutter={16}>
                 {this.state.users.map((user, i) => {
                   return (
-                    <Col span={8}>
+                    <Col key={i} span={8}>
                       <Card
                         onClick={() => this.showModal(user)}
                         style={{

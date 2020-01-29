@@ -58,7 +58,7 @@ class MutualLikeList extends Component {
                                 }}
                                 description={
                                     <span>
-                                        Взаимных лаков нету
+                                        Совпадений нет
                       </span>
                                 }
                             >
