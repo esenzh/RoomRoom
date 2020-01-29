@@ -1,4 +1,4 @@
-import React, { Profiler } from "react";
+import React from "react";
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 import "./App.css";
 import { connect } from "react-redux";
@@ -14,9 +14,6 @@ import Logout from "./components/Logout";
 import DashBoard from "./components/DashBoard";
 
 class App extends React.Component {
-  constructor(props) {
-    super(props);
-  }
   render() {
     const isLogin = this.props.cookies.get("isLogin");
     return (
