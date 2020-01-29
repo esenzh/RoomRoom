@@ -337,9 +337,7 @@ router.post("/api/findSimilarUsers", sessionChecker, async (req, res, next) => {
                 arrWhithoutOwnUserId.push(frontViewArr[i])
             }
         }
-
         // console.log(frontViewArr[0])
-
         res.json(arrWhithoutOwnUserId);
 
     }else{
