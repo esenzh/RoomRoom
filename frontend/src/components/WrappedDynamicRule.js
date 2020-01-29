@@ -1,5 +1,6 @@
 import React, {Component} from 'react';
 import {Form, Input, Button, Select, InputNumber, Modal, Badge} from 'antd';
+import {Redirect} from "react-router-dom";
 
 const imgMetro = require('../images/metro.png');
 
@@ -60,7 +61,8 @@ class DynamicRule extends Component {
     checkNick: false,
     cities: cityData[provinceData[0]],
     secondCity: cityData[provinceData[0]][0],
-    visible: false
+    visible: false,
+    redirectToHome: false
   };
   handleSubmit = e => {
     e.preventDefault();
@@ -98,7 +100,7 @@ class DynamicRule extends Component {
     this.props.form.validateFields(err => {
       if (!err) {
         this.props.form.validateFieldsAndScroll(async (err, value) => {
-          console.log(value)
+          // console.log(value)
           const response = await fetch('/api/newForm', {
             method: 'POST',
             body: JSON.stringify({
@@ -113,6 +115,7 @@ class DynamicRule extends Component {
           });
           let result = await response.text();
           console.log(result)
+          this.setState({redirectToHome:true})
         });
       }
     });
@@ -126,6 +129,9 @@ class DynamicRule extends Component {
   render() {
     const {getFieldDecorator} = this.props.form;
     const {cities} = this.state;
+    if (this.state.redirectToHome){
+      return <Redirect to={'/'}/>
+    }
     return (
       <div className='registerForm'>
         <Form {...formItemLayout} onSubmit={this.handleSubmit}>
