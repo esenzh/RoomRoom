@@ -5,7 +5,6 @@ import {
     Form,
     Input,
     Select,
-    Checkbox,
     Button,
     Alert
 } from 'antd';
@@ -35,7 +34,6 @@ class Signup extends Component {
                     vk,
                     username,
                     password,
-                    agreement,
                     age,
                     nativeLocation
                 } = values
@@ -79,7 +77,7 @@ class Signup extends Component {
         this.setState({ confirmDirty: this.state.confirmDirty || !!value });
     };
 
-    compareToFirstPassword = (rule, value, callback) => {
+    compareToFirstPassword = (value, callback) => {
         const { form } = this.props;
         if (value && value !== form.getFieldValue('password')) {
             callback('Два пароля которые вы ввели не совпадают друг с другом!');
@@ -88,7 +86,7 @@ class Signup extends Component {
         }
     };
 
-    validateToNextPassword = (rule, value, callback) => {
+    validateToNextPassword = (value, callback) => {
         const { form } = this.props;
         if (value && this.state.confirmDirty) {
             form.validateFields(['confirm'], { force: true });
@@ -107,7 +105,6 @@ class Signup extends Component {
     };
 
     render() {
-        console.log(this.props)
         if (this.state.isRedirect) {
             return <Redirect to={'/anketa'} />
         }
@@ -194,7 +191,7 @@ class Signup extends Component {
                         {getFieldDecorator('age', {
                         })(<Input />)}
                     </Form.Item>
-                    <Form.Item label="Место рождение">
+                    <Form.Item label="Место рождения">
                         {getFieldDecorator('nativeLocation', {
                         })(<Input />)}
                     </Form.Item>
@@ -244,15 +241,6 @@ class Signup extends Component {
                                 },
                             ],
                         })(<Input.Password onBlur={this.handleConfirmBlur} />)}
-                    </Form.Item>
-                    <Form.Item {...tailFormItemLayout}>
-                        {getFieldDecorator('agreement', {
-                            valuePropName: 'checked',
-                        })(
-                            <Checkbox>
-                                Прочитал <a href="">условия и соглашение</a>
-                            </Checkbox>,
-                        )}
                     </Form.Item>
                     <Form.Item {...tailFormItemLayout}>
                         <Button type="primary" htmlType="submit">
