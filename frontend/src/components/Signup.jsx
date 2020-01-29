@@ -77,7 +77,7 @@ class Signup extends Component {
         this.setState({ confirmDirty: this.state.confirmDirty || !!value });
     };
 
-    compareToFirstPassword = (value, callback) => {
+    compareToFirstPassword = (rule, value, callback) => {
         const { form } = this.props;
         if (value && value !== form.getFieldValue('password')) {
             callback('Два пароля которые вы ввели не совпадают друг с другом!');
@@ -86,7 +86,7 @@ class Signup extends Component {
         }
     };
 
-    validateToNextPassword = (value, callback) => {
+    validateToNextPassword = (rule, value, callback) => {
         const { form } = this.props;
         if (value && this.state.confirmDirty) {
             form.validateFields(['confirm'], { force: true });
@@ -199,7 +199,7 @@ class Signup extends Component {
                         {getFieldDecorator('phone', {
                         })(<Input addonBefore={prefixSelector} style={{ width: '100%' }} />)}
                     </Form.Item>
-                    <Form.Item label='Загрузите фото, пожалуйста'>
+                    <Form.Item label='Загрузите фото'>
                         <UploadPhoto />
                     </Form.Item>
                     <Form.Item label="VK">

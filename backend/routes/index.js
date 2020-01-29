@@ -279,34 +279,10 @@ router.get("/api/likes/by", async (req, res) => {
   try {
     const { _id } = req.session.user;
     const form = await Form.findOne({ idAuthor: _id });
-    const users = await User.find({ _id: form.funs });
-    const userIDs = users.map(user => {
-      return user._id;
-    });
-    const forms = await Form.find({ idAuthor: userIDs });
-    const formsUsers = [];
-    for (let i = 0; i < forms.length; i++) {
-      formsUsers.push({
-        form: forms[i],
-        id: users[i]._id,
-        first_name: users[i].first_name,
-        last_name: users[i].last_name,
-        photo: users[i].photo
-      });
-    }
-    res.status(200).json({ response: formsUsers });
-  } catch (e) {
-    res.status(400).json({ response: "fail" });
-  }
-});
-
-router.get("/api/likes/mutual", async (req, res) => {
-  try {
-    const { _id } = req.session.user;
-    const form = await Form.findOne({ idAuthor: _id });
-    const match = form["сomparison"];
-    if (match.length !== 0) {
-      const users = await User.find({ _id: match });
+    if (!form) {
+      res.status(200).json({ response: "noform" });
+    } else {
+      const users = await User.find({ _id: form.funs });
       const userIDs = users.map(user => {
         return user._id;
       });
@@ -318,17 +294,49 @@ router.get("/api/likes/mutual", async (req, res) => {
           id: users[i]._id,
           first_name: users[i].first_name,
           last_name: users[i].last_name,
-          email: users[i].email,
-          phone: users[i].phone,
-          //vk: users[i].vk,
-          //age: users[i].age,
-          //nativeLocation: users[i].nativeLocation,
           photo: users[i].photo
         });
       }
       res.status(200).json({ response: formsUsers });
+    }
+  } catch (e) {
+    res.status(400).json({ response: "fail" });
+  }
+});
+
+router.get("/api/likes/mutual", async (req, res) => {
+  try {
+    const { _id } = req.session.user;
+    const form = await Form.findOne({ idAuthor: _id });
+    if (!form) {
+      res.status(200).json({ response: "noform" });
     } else {
-      res.status(200).json({ response: "nomatch" });
+      const match = form["сomparison"];
+      if (match.length !== 0) {
+        const users = await User.find({ _id: match });
+        const userIDs = users.map(user => {
+          return user._id;
+        });
+        const forms = await Form.find({ idAuthor: userIDs });
+        const formsUsers = [];
+        for (let i = 0; i < forms.length; i++) {
+          formsUsers.push({
+            form: forms[i],
+            id: users[i]._id,
+            first_name: users[i].first_name,
+            last_name: users[i].last_name,
+            email: users[i].email,
+            phone: users[i].phone,
+            vk: users[i].vk,
+            age: users[i].age,
+            nativeLocation: users[i].nativeLocation,
+            photo: users[i].photo
+          });
+        }
+        res.status(200).json({ response: formsUsers });
+      } else {
+        res.status(200).json({ response: "nomatch" });
+      }
     }
   } catch (e) {
     res.status(400).json({ response: "fail" });
