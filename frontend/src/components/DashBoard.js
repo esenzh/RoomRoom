@@ -117,7 +117,7 @@ class DashBoard extends Component {
         </div>
         }
 
-        <p style={{fontSize: '25px'}} align={"center"}>Подходящие для Вас пользователи!{this.state.users}</p>
+        <p style={{fontSize: '25px'}} align={"center"}>Подходящие для Вас пользователи!</p>
         {this.state.users && <Layout style={{padding: '0 84px 84px'}}>
           <Content
             style={{
