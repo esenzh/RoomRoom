@@ -27,6 +27,7 @@ class PicturesWall extends Component {
             file.preview = await getBase64(file.originFileObj);
         }
 
+
         this.setState({
             previewImage: file.url || file.preview,
             previewVisible: true,
