@@ -1,3 +1,4 @@
+
 import React, {Component} from 'react';
 import {Card, Row, Layout, Col, Modal, Avatar, Icon, message, Spin, Alert, Empty, Button, Descriptions} from 'antd';
 import {Redirect} from "react-router-dom";
@@ -10,7 +11,7 @@ class DashBoard extends Component {
   constructor() {
     super();
     this.state = {
-      redirectToAnket:false,
+      redirectToAnket: false,
       loading: false,
       haveAnket: false,
       users: null,
@@ -70,11 +71,16 @@ class DashBoard extends Component {
     });
     let users = await reqComparison.json();
 
-    console.log("users",users)
-    if (users.error === 'Анкета отсутствует, создайте анкету!') {
-      this.setState({haveAnket: true})
-    } else {
-      this.setState({users: users, loading: false});
+    if (users.response === "unauthenticated") {
+      this.setState({
+        isRedirect: true
+      });
+    }else{
+      if (users.error === "Анкета отсутствует, создайте анкету!") {
+        this.setState({ haveAnket: true });
+      } else {
+        this.setState({ users: users, loading: false });
+      }
     }
   }
 
@@ -85,59 +91,62 @@ class DashBoard extends Component {
     });
   };
   redir = () => {
-    this.setState({redirectToAnket:true})
-  }
+    this.setState({ redirectToAnket: true });
+  };
 
   render() {
-    if (this.state.redirectToAnket){
-      return <Redirect to={'/anketa'}/>
+    if (this.state.isRedirect) {
+      return <Redirect to={"/login"} />;
+    }
+    if (this.state.redirectToAnket) {
+      return <Redirect to={"/anketa"} />;
     }
     if (this.state.haveAnket) {
       return (
         <Empty
           image="https://gw.alipayobjects.com/mdn/miniapp_social/afts/img/A*pevERLJC9v0AAAAAAAAAAABjAQAAAQ/original"
           imageStyle={{
-            height: 280,
+            height: 280
           }}
-          description={
-            <span>
-        Создайте анкету
-      </span>
-          }
+          description={<span>Создайте анкету</span>}
         >
-          <Button onClick={this.redir} type="primary">Cоздать анкету</Button>
+          <Button onClick={this.redir} type="primary">
+            Cоздать анкету
+          </Button>
         </Empty>
-      )
+      );
     }
 
     return (
       <div>
-        {this.state.loading &&
-        <div style={{textAlign: 'center'}}>
-          <Spin size="large" tip="Loading...">
-          </Spin>
-        </div>
-        }
+        {this.state.loading && (
+          <div style={{ textAlign: "center" }}>
+            <Spin size="large" tip="Loading..."></Spin>
+          </div>
+        )}
 
-        <p style={{fontSize: '25px'}} align={"center"}>Подходящие для Вас пользователи!</p>
-        {this.state.users && <Layout style={{padding: '0 84px 84px'}}>
-          <Content
-            style={{
-              background: "#fff",
-              padding: 30,
-              margin: 20,
-              minHeight: 280
-            }}
-          >
-            <Row gutter={16}>
 
-              {this.state.users.map((user, i) => {
-                return (
-                  <Col span={8} key={i}>
-                    <Card
-                      onClick={() => this.showModal(user)}
-                      style={
-                        {
+        <p style={{ fontSize: "25px" }} align={"center"}>
+          Подходящие для Вас пользователи!
+        </p>
+        {this.state.users && (
+          <Layout style={{ padding: "0 84px 84px" }}>
+            <Content
+              style={{
+                background: "#fff",
+                padding: 30,
+                margin: 20,
+                minHeight: 280
+              }}
+            >
+              <Row gutter={16}>
+                {this.state.users.map((user, i) => {
+                  return (
+                    <Col span={8}>
+                      <Card
+                        onClick={() => this.showModal(user)}
+                        style={{
+
                           width: 240,
                           height: 300,
                           marginLeft: "auto",
@@ -163,9 +172,10 @@ class DashBoard extends Component {
                     </Col>
                   );
                 })}
-            </Row>
-          </Content>
-        </Layout>}
+              </Row>
+            </Content>
+          </Layout>
+        )}
 
         {this.state.interest && (
           <Modal
