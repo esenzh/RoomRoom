@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from "react-redux";
 import { EditProfilePageAC, AddPhotoAC } from "../redux/type";
+import { Redirect } from 'react-router-dom';
 import {
     Form,
     Input,
@@ -26,7 +27,8 @@ class EditProfile extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            emailExist: false
+            isRedirect: false,
+            iconLoading: false,
         }
     }
 
@@ -34,6 +36,7 @@ class EditProfile extends Component {
         e.preventDefault();
         this.props.form.validateFieldsAndScroll(async (err, values) => {
             if (!err) {
+                this.setState({ iconLoading: true })
                 const {
                     first_name,
                     last_name,
@@ -57,6 +60,7 @@ class EditProfile extends Component {
                 })
                 const result = await response.json();
                 if (result.response === 'fail') {
+                    this.setState({iconLoading: false})
 
                 } else if (result.response === 'emailExist') {
                     openNotification('topRight', 'warning', 'Warning', 'Этот E-mail уже используется!')
@@ -64,13 +68,19 @@ class EditProfile extends Component {
                     const { first_name, last_name, email, phone, nativeLocation, username, age, photo } = result.response;
                     this.props.addNewProfile({ first_name, last_name, email, phone, nativeLocation, username, age });
                     this.props.addPhotos(photo);
-                    openNotification('topRight', 'smile', 'Successfully', 'Все сделано!')
+                    this.setState({
+                        isRedirect: true,
+                        iconLoading: false
+                    })
                 }
             }
         })
     }
 
     render() {
+        if (this.state.isRedirect) {
+            return <Redirect to={'/profile'} />
+        }
         const { getFieldDecorator } = this.props.form;
         const formItemLayout = {
             labelCol: {
@@ -96,7 +106,7 @@ class EditProfile extends Component {
         };
 
         return (<div className='registerForm'>
-            <Card style={{ borderRadius: '20px', marginTop: '50px',}}>
+            <Card style={{ borderRadius: '20px', marginTop: '50px', width: '700px' }}>
                 <Form {...formItemLayout} onSubmit={this.handleSubmit}>
                     <Form.Item label="Имя">
                         {getFieldDecorator('first_name', {
@@ -159,7 +169,7 @@ class EditProfile extends Component {
                         <UploadPhoto />
                     </Form.Item>
                     <Form.Item {...tailFormItemLayout}>
-                        <Button icon='save' style={{backgroundColor: '#4A76A8', color: '#ffffff'}} htmlType="submit">
+                        <Button loading={this.state.iconLoading} icon='save' style={{ backgroundColor: '#4A76A8', color: '#ffffff' }} htmlType="submit">
                             Сохранить
                         </Button>
                     </Form.Item>

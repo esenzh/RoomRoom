@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { Avatar, Descriptions, Row, Col, Tabs, Icon, Button, Card } from "antd";
+import { Avatar, Tabs, Icon, Button, Card } from "antd";
 import LikedByList from "./LikedByList";
 import MutualLikeList from "./MutualLikeList";
 import { Link, Redirect } from "react-router-dom";
@@ -33,7 +33,7 @@ class Profile extends Component {
                 "linear-gradient(6deg, rgba(132,100,250,1) 0%, rgba(74,118,168,1) 100%)"
             }}
           >
-            <div style={{display: 'flex'}}>
+            <div style={{ display: "flex" }}>
               <div>
                 {this.props.photos.length !== 0 && (
                   <Avatar
@@ -148,6 +148,7 @@ class Profile extends Component {
                           shape="square"
                           src={url.thumbUrl}
                           style={{ margin: "10px 10px 0 0" }}
+                          onClick={this.showModal}
                           key={i}
                         />
                       );
