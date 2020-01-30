@@ -33,30 +33,30 @@ class Navigation extends Component {
   render() {
     return (
       <div>
-        <Menu mode="horizontal">
+        <Menu mode="horizontal" theme='dark'>
           <Menu.Item key='profiles'>
             <Link to={'/profile'}>
               <Avatar size="large" icon="user" src={this.props.photos.length !== 0 && this.props.photos[0].thumbUrl} />
               &nbsp;&nbsp;&nbsp;&nbsp;
-                {this.props.user && this.props.user.first_name}
+                <span className='navbarUserName'>{this.props.user && this.props.user.first_name}</span>
             </Link>
           </Menu.Item>
-          <Menu.Item key='home'>
+          <Menu.Item key='home' className='navbarText'>
             <Link to={'/'}>
               <Icon type="home" />
               ДОМОЙ
             </Link>
           </Menu.Item>
-          <Menu.Item key='anketa'>
+          <Menu.Item key='anketa' className='navbarText'>
             <Link to={'/anketa'}>
               <Icon type="form" />
               АНКЕТА
             </Link>
           </Menu.Item>
-          <Menu.Item key='logout'>
+          <Menu.Item key='logout' className='navbarText' style={{float: 'right'}}>
             <Link to={'/logout'}>
               <Icon type="logout" />
-              ВЫХОД
+              ВЫЙТИ
             </Link>
           </Menu.Item>
         </Menu>

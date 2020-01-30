@@ -1,22 +1,34 @@
 import React, { Component } from 'react';
-import { Form, Icon, Input, Button, Alert } from 'antd';
+import { Form, Icon, Input, Button, notification, Card } from 'antd';
 import { Link, Redirect } from 'react-router-dom';
 import { withCookies } from 'react-cookie';
 import { connect } from "react-redux";
 import { AddIsLogin } from "../redux/type";
+
+const openNotification = (placement, icon, title, message) => {
+    notification.open({
+        message: title,
+        description:
+            message,
+        placement,
+        icon: <Icon type={icon} style={{ color: '#108ee9' }} />,
+        duration: 3
+    });
+};
 
 class Login extends Component {
     constructor(props) {
         super(props);
         this.state = {
             isRedirect: false,
-            alertMessage: false
+            iconLoading: false,
         }
     }
     handleSubmit = async event => {
         event.preventDefault();
         this.props.form.validateFields(async (err, values) => {
             if (!err) {
+                this.setState({ iconLoading: true })
                 const response = await fetch('/api/login', {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
@@ -30,12 +42,12 @@ class Login extends Component {
                     this.props.cookies.set('isLogin', true);
                     this.props.addIsLogin(true);
                     this.setState({
-                        isRedirect: true
+                        isRedirect: true,
+                        iconLoading: false
                     })
                 } else {
-                    this.setState({
-                        alertMessage: true
-                    })
+                    openNotification('topRight', 'warning', 'Warning', 'Неверный логин и пароль, пожалуйста попробуйте еще раз!')
+                    this.setState({ iconLoading: false })
                 }
             }
         })
@@ -46,43 +58,43 @@ class Login extends Component {
             return <Redirect to={'/'} />
         }
         const { getFieldDecorator } = this.props.form;
-        return (<div className='loginForm'>
-            {this.state.alertMessage && (<Alert
-                description="Неверный логин и пароль, пожалуйста попробуйте еще раз!"
-                type="error"
-            />)}
-            <br />
-            <h2>Вход</h2>
-            <Form onSubmit={this.handleSubmit} className="login-form">
-                <Form.Item>
-                    {getFieldDecorator('username', {
-                        rules: [{ required: true, message: 'Пожалуйста, введите логин!' }],
-                    })(
-                        <Input
-                            prefix={<Icon type="user" style={{ color: 'rgba(0,0,0,.25)' }} />}
-                            placeholder="Логин"
-                        />,
-                    )}
-                </Form.Item>
-                <Form.Item>
-                    {getFieldDecorator('password', {
-                        rules: [{ required: true, message: 'Пожалуйста, введите пароль!' }],
-                    })(
-                        <Input
-                            prefix={<Icon type="lock" style={{ color: 'rgba(0,0,0,.25)' }} />}
-                            type="password"
-                            placeholder="Пароль"
-                        />,
-                    )}
-                </Form.Item>
-                <Form.Item>
-                    <Button type="primary" htmlType="submit" className="login-form-button">
-                        Войти
-                    </Button>
-                    Или <Link to={"/signup"}>зарегистрируйтесь!</Link>
-                </Form.Item>
-            </Form>
-        </div>);
+        return (
+            <div className="loginForm">
+                <Card style={{ borderRadius: '20px' }}>
+                    <br />
+                    <h2>Вход</h2>
+                    <Form onSubmit={this.handleSubmit}>
+                        <Form.Item>
+                            {getFieldDecorator('username', {
+                                rules: [{ required: true, message: 'Пожалуйста, введите логин!' }],
+                            })(
+                                <Input
+                                    prefix={<Icon type="user" style={{ color: 'rgba(0,0,0,.25)' }} />}
+                                    placeholder="Логин"
+                                />,
+                            )}
+                        </Form.Item>
+                        <Form.Item>
+                            {getFieldDecorator('password', {
+                                rules: [{ required: true, message: 'Пожалуйста, введите пароль!' }],
+                            })(
+                                <Input
+                                    prefix={<Icon type="lock" style={{ color: 'rgba(0,0,0,.25)' }} />}
+                                    type="password"
+                                    placeholder="Пароль"
+                                />,
+                            )}
+                        </Form.Item>
+                        <Form.Item>
+                            <Button type="primary" htmlType="submit" className="login-form-button" loading={this.state.iconLoading} icon='login'>
+                                Войти
+                            </Button>
+                            Или <Link to={"/signup"}>зарегистрируйтесь!</Link>
+                        </Form.Item>
+                    </Form>
+                </Card>
+            </div>
+        );
     }
 }
 
