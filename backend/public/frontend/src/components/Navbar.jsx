@@ -2,6 +2,8 @@ import React, { Component } from "react";
 import { Link } from "react-router-dom";
 import { Menu, Icon, Avatar } from 'antd';
 import { withCookies } from 'react-cookie';
+import { connect } from "react-redux";
+import { AddUserAC, AddPhotoAC } from "../redux/type";
 
 
 class Navigation extends Component {
@@ -22,10 +24,9 @@ class Navigation extends Component {
     })
     const result = await response.json();
     if (result.response !== 'fail') {
-      this.setState({
-        photoUrl: result.response.photo[0].thumbUrl,
-        first_name: result.response.first_name,
-      })
+      const { first_name, last_name, email, phone, vk, nativeLocation, username, age } = result.response;
+      await this.props.addPhotos(result.response.photo)
+      await this.props.addUser({ first_name, last_name, email, phone, vk, nativeLocation, username, age });
     }
   }
 
@@ -35,9 +36,9 @@ class Navigation extends Component {
         <Menu mode="horizontal">
           <Menu.Item key='profiles'>
             <Link to={'/profile'}>
-              <Avatar size="large" icon="user" src={this.state.photoUrl} />
+              <Avatar size="large" icon="user" src={this.props.photos.length !== 0 && this.props.photos[0].thumbUrl} />
               &nbsp;&nbsp;&nbsp;&nbsp;
-                {this.state.first_name}
+                {this.props.user && this.props.user.first_name}
             </Link>
           </Menu.Item>
           <Menu.Item key='home'>
@@ -64,4 +65,22 @@ class Navigation extends Component {
   }
 }
 
-export default withCookies(Navigation);
+function mapStateToProps(store) {
+  return {
+    photos: store.photos,
+    user: store.user
+  };
+}
+
+function mapDispatchToProps(dispatch) {
+  return {
+    addUser: user => {
+      dispatch(AddUserAC(user));
+    },
+    addPhotos: photos => {
+      dispatch(AddPhotoAC(photos))
+    }
+  };
+}
+
+export default withCookies(connect(mapStateToProps, mapDispatchToProps)(Navigation));

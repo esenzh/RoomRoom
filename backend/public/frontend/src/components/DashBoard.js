@@ -1,7 +1,9 @@
 
 import React, {Component} from 'react';
-import {Card, Row, Layout, Col, Modal, Avatar, Icon, message, Spin, Empty, Button} from 'antd';
+import {Card, Row, Layout, Col, Modal, Avatar, Icon, message, Spin, Empty, Button, Carousel} from 'antd';
 import {Redirect} from "react-router-dom";
+import {connect} from "react-redux";
+import {AddMutualUser, AddUsersDashBoard} from "../redux/type";
 
 const {Content} = Layout;
 
@@ -13,7 +15,6 @@ class DashBoard extends Component {
       redirectToAnket: false,
       loading: false,
       haveAnket: false,
-      users: null,
       id: null,
       visible: false,
       location: null,
@@ -44,6 +45,9 @@ class DashBoard extends Component {
   };
 
   showModal = user => {
+    let fotos = user.photo.map((foto)=>
+      foto.thumbUrl
+    )
     this.setState({
       id: user.id,
       location: user.location,
@@ -51,7 +55,7 @@ class DashBoard extends Component {
       prise: user.prise,
       first_name: user.first_name,
       interest: user.interest,
-      foto: user.photo[0].thumbUrl,
+      foto: fotos,
       сomparisonInterests: user.сomparisonInterests,
       nativeLocation:user.nativeLocation,
       visible: true
@@ -59,7 +63,9 @@ class DashBoard extends Component {
   };
 
   async componentDidMount() {
-    this.setState({ loading: true });
+    if (this.props.users.length === 0){
+      this.setState({ loading: true });
+    }
     const reqComparison = await fetch("/api/findSimilarUsers", {
       headers: {
         "Content-Type": "application/json"
@@ -68,6 +74,7 @@ class DashBoard extends Component {
     });
     let users = await reqComparison.json();
 
+    this.setState({loading: false });
     if (users.response === "unauthenticated") {
       this.setState({
         isRedirect: true
@@ -76,7 +83,8 @@ class DashBoard extends Component {
       if (users.error === "Анкета отсутствует, создайте анкету!") {
         this.setState({ haveAnket: true });
       } else {
-        this.setState({ users: users, loading: false });
+        this.props.AddUsersDashBoard(users)
+
       }
     }
   }
@@ -125,24 +133,23 @@ class DashBoard extends Component {
         <p style={{ fontSize: "25px" }} align={"center"}>
           Подходящие для Вас пользователи!
         </p>
-        {this.state.users && (
+        {this.props.users && (
           <Layout style={{ padding: "0 84px 84px" }}>
             <Content
               style={{
                 background: "#fff",
                 padding: 30,
                 margin: 20,
-                minHeight: 280
+                minHeight: 340,
+                display: 'flex',
+                flexWrap: 'wrap'
               }}
             >
-              <Row gutter={16}>
-                {this.state.users.map((user, i) => {
+                {this.props.users.map((user, i) => {
                   return (
-                    <Col key={i} span={8}>
                       <Card
                         onClick={() => this.showModal(user)}
                         style={{
-
                           width: 240,
                           height: 300,
                           marginLeft: "auto",
@@ -165,10 +172,8 @@ class DashBoard extends Component {
                         </div>
 
                       </Card>
-                    </Col>
                   );
                 })}
-              </Row>
             </Content>
           </Layout>
         )}
@@ -196,7 +201,13 @@ class DashBoard extends Component {
             ]}
           >
             <div style={{ textAlign: "center" }}>
-              <Avatar size={180} src={this.state.foto} />
+              <Carousel autoplay>
+                {this.state.foto.map((f,i)=>
+                  <div key={i}>
+                    <Avatar  size={180} src={f} />
+                  </div>
+                )}
+              </Carousel>
             </div>
             {/*<Descriptions title="User Info" layout="vertical">*/}
             {/*  <Descriptions.Item label="Xочу арендовать квартиру возле метро">{this.state.location}</Descriptions.Item>*/}
@@ -221,5 +232,17 @@ class DashBoard extends Component {
     );
   }
 }
+function mapStateToProps(store) {
+  return {
+    users: store.usersDashBoard
+  };
+}
 
-export default DashBoard;
+function mapDispatchToProps(dispatch) {
+  return {
+    AddUsersDashBoard: (users) => {
+      dispatch(AddUsersDashBoard(users));
+    }
+  };
+}
+export default connect(mapStateToProps, mapDispatchToProps)(DashBoard);

@@ -73,8 +73,8 @@ class LikedByUserProfileInfo extends Component {
 
 function mapDispatchToProps(dispatch) {
     return {
-        removeLikedByUser: (id) => {
-            dispatch(RemoveLikedByUsers(id));
+        removeLikedByUser: (user) => {
+            dispatch(RemoveLikedByUsers(user));
         }
     };
 }

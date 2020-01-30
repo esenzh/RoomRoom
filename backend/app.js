@@ -44,6 +44,7 @@ const job = new CronJob('59 59 23 * * *', async () => {
       }
       main().catch(console.error);
     }
+
   })
   console.log('Update data Forms');
 }, null, true, 'Europe/Moscow');
