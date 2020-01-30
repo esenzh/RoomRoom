@@ -31,14 +31,10 @@ class DashBoard extends Component {
       first_name: null,
       interest: null,
       сomparisonInterests: null,
-<<<<<<< HEAD:backend/public/frontend/src/components/DashBoard.js
+
       nativeLocation:null,
       isRedirect: false,
       usersLength: null
-=======
-      nativeLocation: null,
-      isRedirect: false
->>>>>>> edd76cb30f987ad5043db408f066a1ca46e5378e:frontend/src/components/DashBoard.js
     };
   }
 
@@ -87,6 +83,7 @@ class DashBoard extends Component {
 
 
     if (this.props.users.length === 0) {
+
       this.setState({ loading: true });
     }
     const reqComparison = await fetch("/api/findSimilarUsers", {
@@ -246,15 +243,12 @@ class DashBoard extends Component {
               <div style={{fontSize: '20px'}}>{this.state.prise} т.р.</div>
             </p>
           </Modal>
-<<<<<<< HEAD:backend/public/frontend/src/components/DashBoard.js
+
         )}
+        </div>
         <footer style={{backgroundColor: '#4A76A8', color: '#ffffff', margin: '0 auto', width: "80%"}} align={"center"}>
           <p>Всего пользователей в RoomRoom: {this.state.usersLength}</p>
         </footer>
-=======
-          )}
-        </div>
->>>>>>> edd76cb30f987ad5043db408f066a1ca46e5378e:frontend/src/components/DashBoard.js
       </div>
     );
   }

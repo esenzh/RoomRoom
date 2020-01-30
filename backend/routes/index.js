@@ -95,13 +95,13 @@ console.log()
                 // user2Form.funs.push(user1Form.idAuthor)
                 for (let i = 0; i < user1Form.funs.length ; i++) {
                     if(user1Form.funs[i] === user2Form.idAuthor){
-                        user1Form.funs.splice(i, 1)
+                       await user1Form.funs.splice(i, 1)
                         break;
                     }
                 }
 
-                user1Form.save();
-                user2Form.save();
+                await user1Form.save();
+               await user2Form.save();
                 res.json({text: "Совпадение! Данный пользователь также хотел бы с Вами снимать картиру!"});
             } else {
 
