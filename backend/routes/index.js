@@ -129,7 +129,20 @@ router.route("/api/sendLikeMail").post(async (req, res, next) => {
     next(error);
   }
 });
-
+router.delete('/api/profile', async (req,res, next) => {
+  try {
+    let user = req.session.user;
+    const userForm = await Form.findOne({ idAuthor: user._id });
+    if(userForm){
+      await Form.findOneAndDelete({ idAuthor: user._id });
+    }
+    await User.findOneAndDelete({_id:user._id})
+    res.json({response:'success'})
+    console.log("ff")
+  }catch (e) {
+    res.status(404)
+  }
+})
 router.post("/api/findSimilarUsers", sessionChecker, async (req, res, next) => {
   try {
     let user = req.session.user;
