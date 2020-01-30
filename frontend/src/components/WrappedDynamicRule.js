@@ -75,6 +75,11 @@ class DynamicRule extends Component {
       visible: false,
     });
   };
+  handleCancel = e => {
+    this.setState({
+      visible: false,
+    });
+  };
   handleProvinceChange = value => {
     this.setState({
       cities: cityData[value],
@@ -118,8 +123,8 @@ class DynamicRule extends Component {
     }
     return (
       <div className='registerForm'>
-        <Form {...formItemLayout} >
-          <h1>Новая анкета</h1>
+        <Form {...formItemLayout}style={{minWidth: 640}} >
+          <h1>Моя анкета</h1>
           <Form.Item {...formItemLayout} label="Метро" hasFeedback>
 
             {getFieldDecorator('metro', {
@@ -148,14 +153,13 @@ class DynamicRule extends Component {
                 >
                   {cities.map(city => (
                     <Option value={city} key={city}>
-                      {/*<Badge color={colorMetro[this.state.cities]} />*/}
                       {city}
                     </Option>
                   ))}
                 </Select>
               </div>
             )}
-            <a onClick={this.showModal}>Показать схему метро</a>
+            <a onClick={this.showModal}>Схема метро</a>
           </Form.Item>
           <Form.Item {...formItemLayout} label="Интересы">
             {getFieldDecorator('interest', {
@@ -203,6 +207,7 @@ class DynamicRule extends Component {
           title="Basic Modal"
           visible={this.state.visible}
           onOk={this.handleOk}
+          onCancel={this.handleCancel}
         >
           <img style={{width: 480, height: 600}} src={imgMetro} alt='metro'/>
 
