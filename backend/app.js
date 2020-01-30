@@ -19,6 +19,7 @@ const job = new CronJob('59 59 23 * * *', async () => {
   usersForm.map(async (user) => {
     if (new Date() - user.data > 259200000) {
       const userProfile = await User.findOne({_id: user.idAuthor});
+      console.log(userProfile.email)
       async function main() {
         let testAccount = await nodemailer.createTestAccount();
         let transporter = nodemailer.createTransport({
@@ -35,11 +36,14 @@ const job = new CronJob('59 59 23 * * *', async () => {
           to: userProfile.email, // list of receivers
           subject: "RoomRoom ✔", // Subject line
           text: "Hello world?", // plain text body
-          html: "<p>Доброго времени суток, к сожалению Вашей анкеты вышел срок давности. Пожалуйста, обновите анкету</p>"
+          html: "<p>К сожалению у Вашей анкеты вышел срок давности. Пожалуйста, обновите анкету</p>"
         });
         console.log("Message sent: %s", info.messageId);
       }
       main().catch(console.error);
+      await Form.findOneAndDelete(
+        { _id: user._id }
+      )
     }
 
   })
