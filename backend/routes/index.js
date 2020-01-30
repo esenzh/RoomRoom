@@ -40,6 +40,7 @@ router.post("/api/newForm", async (req, res, next) => {
 }
 });
 
+//newfile
 router.route("/api/sendLikeMail").post(async (req, res, next) => {
     try {
         const user1 = req.session.user;
@@ -53,6 +54,7 @@ router.route("/api/sendLikeMail").post(async (req, res, next) => {
             res.json({text:"Вы уже стаивли лайк данному пользователю, передите в профиль!"});
         } else {
             if (user2Form.likes.includes(user1Form.idAuthor)) {
+                console.log(user2.email)
                 async function main() {
                     let testAccount = await nodemailer.createTestAccount();
                     const transporter = nodemailer.createTransport({
@@ -67,7 +69,7 @@ router.route("/api/sendLikeMail").post(async (req, res, next) => {
 
                     let info = await transporter.sendMail({
                         from: '"Roomroom 👻" <pekarnyavkusnaya@yandex.ru>', // sender address
-                        to: user2.email,  // list of receivers  user2.email,
+                        to: `${user2.email}`,  // list of receivers  user2.email,
                         subject: "Roomroom ✔", // Subject line
                         text: "Текст1", // plain text body
                         html:
@@ -111,7 +113,7 @@ router.route("/api/sendLikeMail").post(async (req, res, next) => {
 
                     let info = await transporter.sendMail({
                         from: '"Roomroom 👻" <pekarnyavkusnaya@yandex.ru>', // sender address
-                        to: user2.email,  // list of receivers  user2.email,
+                        to: `${user2.email}`,  // list of receivers  user2.email,
                         subject: "Roomroom ✔", // Subject line
                         text: "Текст1", // plain text body
                         html:
