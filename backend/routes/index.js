@@ -67,7 +67,7 @@ router.route("/api/sendLikeMail").post(async (req, res, next) => {
 
                     let info = await transporter.sendMail({
                         from: '"Roomroom 👻" <pekarnyavkusnaya@yandex.ru>', // sender address
-                        to: `igordg@mail.ru`,  // list of receivers  user2.email,
+                        to: user2.email,  // list of receivers  user2.email,
                         subject: "Roomroom ✔", // Subject line
                         text: "Текст1", // plain text body
                         html:
@@ -111,7 +111,7 @@ router.route("/api/sendLikeMail").post(async (req, res, next) => {
 
                     let info = await transporter.sendMail({
                         from: '"Roomroom 👻" <pekarnyavkusnaya@yandex.ru>', // sender address
-                        to: `igordg@mail.ru`,  // list of receivers  user2.email,
+                        to: user2.email,  // list of receivers  user2.email,
                         subject: "Roomroom ✔", // Subject line
                         text: "Текст1", // plain text body
                         html:
