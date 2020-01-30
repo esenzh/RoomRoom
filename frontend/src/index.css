@@ -90,3 +90,9 @@ a {
     width: 350px !important;
   }
 }
+
+.anketaCard {
+  border-radius: 20px !important;
+  width: 500px !important; 
+  margin-top: 50px !important;
+}
