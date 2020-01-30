@@ -60,3 +60,33 @@ a {
   text-transform: uppercase;
   color: #ffffff;
 }
+
+.dashBoardContainer{
+  padding: 10px;
+  display: flex;
+  justify-content: center;
+}
+
+.dashBoardCard {
+  width: 1000px !important;
+  border-radius: 20px !important;
+}
+
+.dashBoardContent {
+  display: flex;
+  flex-flow: row wrap;
+  justify-content: center;
+  width: 1000px;
+}
+.userCard{
+  width: 300px !important;
+  border-radius: 10px !important;
+  padding: 8px 8px 0 8px !important;
+  margin: 10px !important;
+}
+
+@media screen and (max-width: 554px) {
+  .userCard {
+    width: 350px !important;
+  }
+}
