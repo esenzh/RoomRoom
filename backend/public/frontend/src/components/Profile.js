@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { Avatar, Descriptions, Row, Col, Tabs, Icon, Button } from "antd";
+import { Avatar, Descriptions, Row, Col, Tabs, Icon, Button, Card } from "antd";
 import LikedByList from "./LikedByList";
 import MutualLikeList from "./MutualLikeList";
 import { Link, Redirect } from "react-router-dom";
@@ -22,121 +22,121 @@ class Profile extends Component {
     }
     return (
       <div className="profileContainer">
-        <Row>
-          <Col span={6}>
-            {this.props.photos.length !== 0 && (
-              <Avatar
-                size={200}
-                icon="user"
-                src={this.props.photos[0].thumbUrl}
-              />
-            )}
-          </Col>
+        <Card style={{ borderRadius: "20px" }}>
+          <Row>
+            <Col span={6}>
+              {this.props.photos.length !== 0 && (
+                <Avatar
+                  size={200}
+                  icon="user"
+                  src={this.props.photos[0].thumbUrl}
+                />
+              )}
+            </Col>
 
-          <Col span={18}>
-            <Link to={'/profile/edit'}>
-              <Button
-                type="primary"
-                icon="edit"
-                style={{ float: "right" }}
-              >
-                Редактировать
-              </Button>
-            </Link>
+            <Col span={18}>
+              <Link to={"/profile/edit"}>
+                <Button style={{backgroundColor: '#4A76A8', color: '#ffffff', float: "right"}} icon="edit">
+                  Редактировать
+                </Button>
+              </Link>
 
-            {this.props.user && (
-              <div>
-                <h1>{`${this.props.user.first_name} ${this.props.user.last_name}`}</h1>
-                <Descriptions title=" ">
-                  <Descriptions.Item label="Логин">
-                    {this.props.user.username}
-                  </Descriptions.Item>
-                  <Descriptions.Item label="Номер телефона">
-                    {this.props.user.phone}
-                  </Descriptions.Item>
-                  <Descriptions.Item label="E-mail">
-                    {this.props.user.email}
-                  </Descriptions.Item>
-                  {this.props.user.age && (
-                    <Descriptions.Item label="Возраст">
-                      {this.props.user.age}
+              {this.props.user && (
+                <div>
+                  <h1>{`${this.props.user.first_name} ${this.props.user.last_name}`}</h1>
+                  <Descriptions title=" ">
+                    <Descriptions.Item label="Логин">
+                      {this.props.user.username}
                     </Descriptions.Item>
-                  )}
-                  {this.props.user.vk && (
-                    <Descriptions.Item label="VK">
-                      {this.props.user.vk}
+                    <Descriptions.Item label="Номер телефона">
+                      {this.props.user.phone}
                     </Descriptions.Item>
-                  )}
-                  {this.props.user.nativeLocation && (
-                    <Descriptions.Item label="Родной город">
-                      {this.props.user.nativeLocation}
+                    <Descriptions.Item label="E-mail">
+                      {this.props.user.email}
                     </Descriptions.Item>
-                  )}
-                </Descriptions>
-              </div>
-            )}
-          </Col>
-        </Row>
+                    {this.props.user.age && (
+                      <Descriptions.Item label="Возраст">
+                        {this.props.user.age}
+                      </Descriptions.Item>
+                    )}
+                    {this.props.user.vk && (
+                      <Descriptions.Item label="VK">
+                        {this.props.user.vk}
+                      </Descriptions.Item>
+                    )}
+                    {this.props.user.nativeLocation && (
+                      <Descriptions.Item label="Родной город">
+                        {this.props.user.nativeLocation}
+                      </Descriptions.Item>
+                    )}
+                  </Descriptions>
+                </div>
+              )}
+            </Col>
+          </Row>
+        </Card>
         <br />
-        <Tabs defaultActiveKey="2">
-          <TabPane
-            tab={
-              <span>
-                <Icon type="picture" />
-                Мои фотографии
-              </span>
-            }
-            key="1"
-          >
-            <Row>
-              <Col span={6}>
-                <h2>Мои фотографии:</h2>
-              </Col>
-              <Col span={18}>
-                {this.props.photos &&
-                  this.props.photos.map((url, i) => {
-                    return (
-                      <Avatar
-                        size={200}
-                        icon="user"
-                        shape="square"
-                        src={url.thumbUrl}
-                        style={{ margin: "10px" }}
-                        key={i}
-                      />
-                    );
-                  })}
-              </Col>
-            </Row>
-          </TabPane>
-          <TabPane
-            tab={
-              <span>
-                <Icon type="heart" theme="twoTone" twoToneColor="#eb2f96" />
-                Лайк
-              </span>
-            }
-            key="2"
-          >
-            <Row>
-              <Col span={6}>
-                <h2>Совпадения:</h2>
-              </Col>
-              <Col span={18}>
-                <MutualLikeList />
-              </Col>
-            </Row>
-            <hr />
-            <Row>
-              <Col span={6}>
-                <h2>Ваша анкета понравилась:</h2>
-              </Col>
-              <Col span={18}>
-                <LikedByList />
-              </Col>
-            </Row>
-          </TabPane>
-        </Tabs>
+        <Card style={{ borderRadius: "20px" }}>
+          <Tabs defaultActiveKey="2">
+            <TabPane
+              tab={
+                <span>
+                  <Icon type="picture" />
+                  Мои фотографии
+                </span>
+              }
+              key="1"
+            >
+              <Row>
+                <Col span={6}>
+                  <h2>Мои фотографии:</h2>
+                </Col>
+                <Col span={18}>
+                  {this.props.photos &&
+                    this.props.photos.map((url, i) => {
+                      return (
+                        <Avatar
+                          size={200}
+                          icon="user"
+                          shape="square"
+                          src={url.thumbUrl}
+                          style={{ margin: "10px" }}
+                          key={i}
+                        />
+                      );
+                    })}
+                </Col>
+              </Row>
+            </TabPane>
+            <TabPane
+              tab={
+                <span>
+                  <Icon type="heart" theme="twoTone" twoToneColor="#eb2f96" />
+                  Лайк
+                </span>
+              }
+              key="2"
+            >
+              <Row>
+                <Col span={6}>
+                  <h2>Совпадения:</h2>
+                </Col>
+                <Col span={18}>
+                  <MutualLikeList />
+                </Col>
+              </Row>
+              <hr />
+              <Row>
+                <Col span={6}>
+                  <h2>Ваша анкета понравилась:</h2>
+                </Col>
+                <Col span={18}>
+                  <LikedByList />
+                </Col>
+              </Row>
+            </TabPane>
+          </Tabs>
+        </Card>
       </div>
     );
   }

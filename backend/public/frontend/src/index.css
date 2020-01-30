@@ -16,20 +16,22 @@ a {
   margin: 0 5px;
 }
 
+#root {
+  height: 100%;
+  background-color: #EDEEF0;
+}
+
 .loginForm{
   display: flex;
   justify-content: center;
-  margin-top: 200px
-  
 }
 .login-form-button {
   width: 100%;
 }
 
 .registerForm { 
-  max-width: 600px;
-  margin: auto;
-  margin-top: 50px
+  display: flex;
+  justify-content: center;
 }
 .registerHeader {
   text-align: center;
