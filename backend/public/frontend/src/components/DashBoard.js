@@ -25,7 +25,8 @@ class DashBoard extends Component {
       interest: null,
       сomparisonInterests: null,
       nativeLocation:null,
-      isRedirect: false
+      isRedirect: false,
+      usersLength: null
     };
   }
 
@@ -63,6 +64,16 @@ class DashBoard extends Component {
   };
 
   async componentDidMount() {
+    const reqUsersLength = await fetch("/api/usersLength", {
+      headers: {
+        "Content-Type": "application/json"
+      },
+      method: "POST"
+    });
+    let usersLength = await reqUsersLength.json();
+
+    this.setState({usersLength: usersLength.usersLength });
+
     if (this.props.users.length === 0){
       this.setState({ loading: true });
     }
@@ -228,6 +239,9 @@ class DashBoard extends Component {
             <p><b>Мой бюджет аренды :</b> {this.state.prise} т.р.</p>
           </Modal>
         )}
+        <footer style={{backgroundColor: '#4A76A8', color: '#ffffff', margin: '0 auto', width: "80%"}} align={"center"}>
+          <p>Всего пользователей в RoomRoom: {this.state.usersLength}</p>
+        </footer>
       </div>
     );
   }
