@@ -6,24 +6,38 @@ import {
     Input,
     Select,
     Button,
-    Alert
+    Card,
+    notification,
+    Icon
 } from 'antd';
 import { Redirect, Link } from 'react-router-dom';
 import UploadPhoto from './UploadPhoto';
 
 const { Option } = Select;
 
+const openNotification = (placement, icon, title, message) => {
+    notification.open({
+        message: title,
+        description:
+            message,
+        placement,
+        icon: <Icon type={icon} style={{ color: '#108ee9' }} />,
+        duration: 3
+    });
+};
+
 class Signup extends Component {
     state = {
         confirmDirty: false,
         isRedirect: false,
-        warningMessage: '',
+        iconLoading: false,
     };
 
     handleSubmit = e => {
         e.preventDefault();
         this.props.form.validateFieldsAndScroll(async (err, values) => {
             if (!err) {
+                this.setState({ iconLoading: true })
                 const {
                     first_name,
                     last_name,
@@ -56,16 +70,15 @@ class Signup extends Component {
                 if (result.response === 'success') {
                     this.props.cookies.set('isLogin', true);
                     this.setState({
-                        isRedirect: true
+                        isRedirect: true,
+                        iconLoading: false
                     })
                 } else if (result.response === 'usernameExist') {
-                    this.setState({
-                        warningMessage: result.response
-                    })
+                    openNotification('topRight', 'warning', 'Warning', 'Такой логин уже используется!')
+                    this.setState({ iconLoading: false })
                 } else if (result.response === 'emailExist') {
-                    this.setState({
-                        warningMessage: result.response
-                    })
+                    openNotification('topRight', 'warning', 'Warning', 'Этот E-mail уже используется!')
+                    this.setState({ iconLoading: false })
                 }
             }
         });
@@ -130,115 +143,123 @@ class Signup extends Component {
         );
         return (
             <div className='registerForm'>
-                {this.state.warningMessage === 'usernameExist' && (<Alert
+                <Card style={{ borderRadius: '20px', marginTop: '50px' }}>
+                    {/* {this.state.warningMessage === 'usernameExist' && (<Alert
                     description="Такой логин уже используется, пожалуйста выберите другой!"
                     type="error"
                 />)}
                 {this.state.warningMessage === 'emailExist' && (<Alert
                     description="Этот E-mail уже используется!"
                     type="error"
-                />)}
-                <br />
-                <h2 className='registerHeader'>Регистрация</h2>
-                <br />
-                <Form {...formItemLayout} onSubmit={this.handleSubmit}>
-                    <Form.Item label="Имя">
-                        {getFieldDecorator('first_name', {
-                            rules: [
-                                {
-                                    required: true,
-                                    message: 'Пожалуйста, введите имя!',
-                                },
-                            ],
-                        })(<Input />)}
-                    </Form.Item>
-                    <Form.Item label="Фамилия">
-                        {getFieldDecorator('last_name', {
-                            rules: [
-                                {
-                                    required: true,
-                                    message: 'Пожалуйста, введите фамилию!',
-                                },
-                            ],
-                        })(<Input />)}
-                    </Form.Item>
-                    <Form.Item label="E-mail">
-                        {getFieldDecorator('email', {
-                            rules: [
-                                {
-                                    type: 'email',
-                                    message: 'Введите правильный E-mail!',
-                                },
-                                {
-                                    required: true,
-                                    message: 'Пожалуйста, введите E-mail!',
-                                },
-                            ],
-                        })(<Input />)}
-                    </Form.Item>
-                    <Form.Item label="Возраст">
-                        {getFieldDecorator('age', {
-                        })(<Input />)}
-                    </Form.Item>
-                    <Form.Item label="Родной город">
-                        {getFieldDecorator('nativeLocation', {
-                        })(<Input />)}
-                    </Form.Item>
-                    <Form.Item label="Номер телефона">
-                        {getFieldDecorator('phone', {
-                        })(<Input addonBefore={prefixSelector} style={{ width: '100%' }} />)}
-                    </Form.Item>
-                    <Form.Item label='Загрузите фото'>
-                        <UploadPhoto />
-                    </Form.Item>
-                    <Form.Item label="VK">
-                        {getFieldDecorator('vk', {
-                        })(<Input />)}
-                    </Form.Item>
-                    <Form.Item label="Логин">
-                        {getFieldDecorator('username', {
-                            rules: [
-                                {
-                                    required: true,
-                                    message: 'Пожалуйста, введите логин!',
-                                },
-                            ],
-                        })(<Input />)}
-                    </Form.Item>
-                    <Form.Item label="Пароль" hasFeedback>
-                        {getFieldDecorator('password', {
-                            rules: [
-                                {
-                                    required: true,
-                                    message: 'Пожалуйста, введите пароль!',
-                                },
-                                {
-                                    validator: this.validateToNextPassword,
-                                },
-                            ],
-                        })(<Input.Password />)}
-                    </Form.Item>
-                    <Form.Item label="Подвердите пароль" hasFeedback>
-                        {getFieldDecorator('confirm', {
-                            rules: [
-                                {
-                                    required: true,
-                                    message: 'Пожалуйста, подвердите пароль!',
-                                },
-                                {
-                                    validator: this.compareToFirstPassword,
-                                },
-                            ],
-                        })(<Input.Password onBlur={this.handleConfirmBlur} />)}
-                    </Form.Item>
-                    <Form.Item {...tailFormItemLayout}>
-                        <Button type="primary" htmlType="submit">
-                            Зарегестрироваться
+                />)} */}
+                    <br />
+                    <h2 className='registerHeader'>Регистрация</h2>
+                    <br />
+                    <Form {...formItemLayout} onSubmit={this.handleSubmit}>
+                        <div style={{ display: 'flex' }}>
+                            <div>
+                                <Form.Item label="Имя">
+                                    {getFieldDecorator('first_name', {
+                                        rules: [
+                                            {
+                                                required: true,
+                                                message: 'Пожалуйста, введите имя!',
+                                            },
+                                        ],
+                                    })(<Input />)}
+                                </Form.Item>
+                                <Form.Item label="Фамилия">
+                                    {getFieldDecorator('last_name', {
+                                        rules: [
+                                            {
+                                                required: true,
+                                                message: 'Пожалуйста, введите фамилию!',
+                                            },
+                                        ],
+                                    })(<Input />)}
+                                </Form.Item>
+                                <Form.Item label="E-mail">
+                                    {getFieldDecorator('email', {
+                                        rules: [
+                                            {
+                                                type: 'email',
+                                                message: 'Введите правильный E-mail!',
+                                            },
+                                            {
+                                                required: true,
+                                                message: 'Пожалуйста, введите E-mail!',
+                                            },
+                                        ],
+                                    })(<Input />)}
+                                </Form.Item>
+                                <Form.Item label="Возраст">
+                                    {getFieldDecorator('age', {
+                                    })(<Input />)}
+                                </Form.Item>
+                                <Form.Item label="Родной город">
+                                    {getFieldDecorator('nativeLocation', {
+                                    })(<Input />)}
+                                </Form.Item>
+                            </div>
+                            <div style={{ marginLeft: '30px' }}>
+                                <Form.Item label="Номер телефона">
+                                    {getFieldDecorator('phone', {
+                                    })(<Input addonBefore={prefixSelector} style={{ width: '100%' }} />)}
+                                </Form.Item>
+                                <Form.Item label='Загрузите фото'>
+                                    <UploadPhoto />
+                                </Form.Item>
+                                <Form.Item label="VK">
+                                    {getFieldDecorator('vk', {
+                                    })(<Input />)}
+                                </Form.Item>
+                                <Form.Item label="Логин">
+                                    {getFieldDecorator('username', {
+                                        rules: [
+                                            {
+                                                required: true,
+                                                message: 'Пожалуйста, введите логин!',
+                                            },
+                                        ],
+                                    })(<Input />)}
+                                </Form.Item>
+                                <Form.Item label="Пароль" hasFeedback>
+                                    {getFieldDecorator('password', {
+                                        rules: [
+                                            {
+                                                required: true,
+                                                message: 'Пожалуйста, введите пароль!',
+                                            },
+                                            {
+                                                validator: this.validateToNextPassword,
+                                            },
+                                        ],
+                                    })(<Input.Password />)}
+                                </Form.Item>
+                                <Form.Item label="Подвердите пароль" hasFeedback>
+                                    {getFieldDecorator('confirm', {
+                                        rules: [
+                                            {
+                                                required: true,
+                                                message: 'Пожалуйста, подвердите пароль!',
+                                            },
+                                            {
+                                                validator: this.compareToFirstPassword,
+                                            },
+                                        ],
+                                    })(<Input.Password onBlur={this.handleConfirmBlur} />)}
+                                </Form.Item>
+                            </div>
+                        </div>
+                        <Form.Item {...tailFormItemLayout}>
+                            <Button style={{backgroundColor: '#4A76A8', color: '#ffffff'}} htmlType="submit" loading={this.state.iconLoading} icon='solution'>
+                                Зарегестрироваться
                         </Button>
-                        &nbsp;&nbsp;&nbsp;
+                            &nbsp;&nbsp;&nbsp;
                         Или <Link to={"/login"}>Войти!</Link>
-                    </Form.Item>
-                </Form>
+                        </Form.Item>
+                    </Form>
+                </Card>
             </div>
         );
     }
