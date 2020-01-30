@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from "react-redux";
-import { EditProfilePageAC, AddPhotoAC, EditProfileAC } from "../redux/type";
+import { EditProfilePageAC, AddPhotoAC } from "../redux/type";
 import {
     Form,
     Input,
@@ -8,7 +8,6 @@ import {
     Card,
     Icon,
     notification,
-    Divider
 } from 'antd';
 import UploadPhoto from './UploadPhoto';
 
@@ -66,7 +65,6 @@ class EditProfile extends Component {
                     this.props.addNewProfile({ first_name, last_name, email, phone, nativeLocation, username, age });
                     this.props.addPhotos(photo);
                     openNotification('topRight', 'smile', 'Successfully', 'Все сделано!')
-                    this.props.editProfile(false);
                 }
             }
         })
@@ -178,10 +176,7 @@ function mapDispatchToProps(dispatch) {
         },
         addPhotos: photos => {
             dispatch(AddPhotoAC(photos))
-        },
-        editProfile: flag => {
-            dispatch(EditProfileAC(flag));
-          }
+        }
     };
 }
 
