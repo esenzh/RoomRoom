@@ -37,3 +37,13 @@ a {
 .profileContainer {
   padding: 40px 140px;
 }
+
+.navbarText {
+  font-weight: bold;
+}
+
+.navbarUserName {
+  font-weight: bold;
+  text-transform: uppercase;
+  color: #ffffff;
+}
