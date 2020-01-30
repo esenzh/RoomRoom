@@ -140,17 +140,16 @@ class DashBoard extends Component {
                 background: "#fff",
                 padding: 30,
                 margin: 20,
-                minHeight: 280
+                minHeight: 340,
+                display: 'flex',
+                flexWrap: 'wrap'
               }}
             >
-              <Row gutter={16}>
                 {this.props.users.map((user, i) => {
                   return (
-                    <Col key={i} span={8}>
                       <Card
                         onClick={() => this.showModal(user)}
                         style={{
-
                           width: 240,
                           height: 300,
                           marginLeft: "auto",
@@ -173,10 +172,8 @@ class DashBoard extends Component {
                         </div>
 
                       </Card>
-                    </Col>
                   );
                 })}
-              </Row>
             </Content>
           </Layout>
         )}
