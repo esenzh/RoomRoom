@@ -225,7 +225,7 @@ class DashBoard extends Component {
             </p>
             {this.state.nativeLocation && <p><b>Родной город:</b> {this.state.nativeLocation}</p> }
             <p><b>О себе:</b> {this.state.about}</p>
-            <p><b>Ориентировочная цена в месяц:</b> {this.state.prise}</p>
+            <p><b>Мой бюджет аренды :</b> {this.state.prise} т.р.</p>
           </Modal>
         )}
       </div>
