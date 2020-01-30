@@ -144,14 +144,6 @@ class Signup extends Component {
         return (
             <div className='registerForm'>
                 <Card style={{ borderRadius: '20px', marginTop: '50px' }}>
-                    {/* {this.state.warningMessage === 'usernameExist' && (<Alert
-                    description="Такой логин уже используется, пожалуйста выберите другой!"
-                    type="error"
-                />)}
-                {this.state.warningMessage === 'emailExist' && (<Alert
-                    description="Этот E-mail уже используется!"
-                    type="error"
-                />)} */}
                     <br />
                     <h2 className='registerHeader'>Регистрация</h2>
                     <br />

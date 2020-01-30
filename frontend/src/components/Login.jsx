@@ -4,6 +4,7 @@ import { Link, Redirect } from 'react-router-dom';
 import { withCookies } from 'react-cookie';
 import { connect } from "react-redux";
 import { AddIsLogin } from "../redux/type";
+import logo from '../images/logo.png';
 
 const openNotification = (placement, icon, title, message) => {
     notification.open({
@@ -60,9 +61,12 @@ class Login extends Component {
         const { getFieldDecorator } = this.props.form;
         return (
             <div className="loginForm">
-                <Card style={{ borderRadius: '20px', marginTop: '200px',}}>
-                    <br />
-                    <h2>Вход</h2>
+                <Card style={{ borderRadius: '20px', marginTop: '120px', }}>
+                    <div style={{textAlign: 'center'}}>
+                        <img style={{width: '130px'}} src={logo} alt="" />
+                        <h3 style={{color: '#4a76a8'}}>Добро пожаловать в RoomRoom!</h3>
+                    </div>
+                    <br/>
                     <Form onSubmit={this.handleSubmit}>
                         <Form.Item>
                             {getFieldDecorator('username', {
@@ -86,7 +90,7 @@ class Login extends Component {
                             )}
                         </Form.Item>
                         <Form.Item>
-                            <Button style={{backgroundColor: '#4A76A8', color: '#ffffff'}} htmlType="submit" className="login-form-button" loading={this.state.iconLoading} icon='login'>
+                            <Button style={{ backgroundColor: '#4A76A8', color: '#ffffff' }} htmlType="submit" className="login-form-button" loading={this.state.iconLoading} icon='login'>
                                 Войти
                             </Button>
                             Или <Link to={"/signup"}>зарегистрируйтесь!</Link>
