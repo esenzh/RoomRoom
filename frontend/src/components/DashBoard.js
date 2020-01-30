@@ -1,9 +1,7 @@
 import React, { Component } from "react";
 import {
   Card,
-  Row,
   Layout,
-  Col,
   Modal,
   Avatar,
   Icon,
@@ -15,9 +13,7 @@ import {
 } from "antd";
 import { Redirect } from "react-router-dom";
 import { connect } from "react-redux";
-import { AddMutualUser, AddUsersDashBoard } from "../redux/type";
-
-const { Content } = Layout;
+import { AddUsersDashBoard } from "../redux/type";
 
 class DashBoard extends Component {
   constructor() {
@@ -41,7 +37,7 @@ class DashBoard extends Component {
   }
 
   isLike = async () => {
-    this.setState({ visible: false });
+    this.setState({visible: false});
     const reqComparison = await fetch("/api/sendLikeMail", {
       headers: {
         "Content-Type": "application/json"
@@ -90,7 +86,7 @@ class DashBoard extends Component {
       });
     } else {
       if (users.error === "Анкета отсутствует, создайте анкету!") {
-        this.setState({ haveAnket: true });
+        this.setState({haveAnket: true});
       } else {
         this.props.AddUsersDashBoard(users);
       }
@@ -103,15 +99,15 @@ class DashBoard extends Component {
     });
   };
   redir = () => {
-    this.setState({ redirectToAnket: true });
+    this.setState({redirectToAnket: true});
   };
 
   render() {
     if (this.state.isRedirect) {
-      return <Redirect to={"/login"} />;
+      return <Redirect to={"/login"}/>;
     }
     if (this.state.redirectToAnket) {
-      return <Redirect to={"/anketa"} />;
+      return <Redirect to={"/anketa"}/>;
     }
     if (this.state.haveAnket) {
       return (
@@ -172,75 +168,73 @@ class DashBoard extends Component {
 
           {this.state.interest && (
             <Modal
-              title="Детальная информация"
-              visible={this.state.visible}
-              onCancel={this.handleCancel}
-              footer={[
-                <div style={{ height: 60 }}>
-                  <Icon
-                    type="close-circle"
-                    style={{ fontSize: "62px", float: "left" }}
-                    onClick={this.handleCancel}
-                  />
-                  <Icon
-                    type="heart"
-                    theme="twoTone"
-                    twoToneColor="#eb2f96"
-                    style={{ fontSize: "62px", float: "right" }}
-                    onClick={this.isLike}
-                  />
-                </div>
-              ]}
-            >
-              <div style={{ textAlign: "center" }}>
-                <Carousel autoplay>
-                  {this.state.foto.map((f, i) => (
-                    <div key={i}>
-                      <Avatar size={180} src={f} />
-                    </div>
-                  ))}
-                </Carousel>
+            title="Детальная информация"
+            visible={this.state.visible}
+            onCancel={this.handleCancel}
+            footer={[
+              <div style={{height: 60}}>
+                <Icon
+                  type="close-circle"
+                  style={{fontSize: "62px", float: "left"}}
+                  onClick={this.handleCancel}
+                />
+                <Icon
+                  type="heart"
+                  theme="twoTone"
+                  twoToneColor="#eb2f96"
+                  style={{fontSize: "62px", float: "right"}}
+                  onClick={this.isLike}
+                />
               </div>
-              {/*<Descriptions title="User Info" layout="vertical">*/}
-              {/*  <Descriptions.Item label="Xочу арендовать квартиру возле метро">{this.state.location}</Descriptions.Item>*/}
-              {/*  <Descriptions.Item label="Мои интересы">{this.state.interest.join(", ")}</Descriptions.Item>*/}
-              {/*  <Descriptions.Item label="Совпавшие интересы">{this.state.сomparisonInterests.join(", ")}</Descriptions.Item>*/}
-              {/*  /!*<Descriptions.Item label="О себе:" span={2}>*!/*/}
-              {/*  /!*  No. 18, Wantang Road, Xihu District, Hangzhou, Zhejiang, China*!/*/}
-              {/*  /!*</Descriptions.Item>*!/*/}
-              {/*  <Descriptions.Item label="Ориентировочная цена в месяц">{this.state.prise}</Descriptions.Item>*/}
-              {/*</Descriptions>*/}
-              <p>
-                <b>Xочу арендовать квартиру возле метро:</b>{" "}
-                {this.state.location}
-              </p>
-              <p>
-                <b>Мои интересы:</b> {this.state.interest.join(", ")}
-              </p>
-              <p>
-                <b>
-                  Совпавшие интересы: {this.state.сomparisonInterests.length}
-                </b>{" "}
-                ({this.state.сomparisonInterests.join(", ")})
-              </p>
-              {this.state.nativeLocation && (
-                <p>
-                  <b>Родной город:</b> {this.state.nativeLocation}
-                </p>
-              )}
-              <p>
-                <b>О себе:</b> {this.state.about}
-              </p>
-              <p>
-                <b>Мой бюджет аренды :</b> {this.state.prise} т.р.
-              </p>
-            </Modal>
+            ]}
+          >
+            <div style={{textAlign: 'center'}}>
+              <Carousel autoplay>
+                {this.state.foto.map((f, i) =>
+                  <div key={i}>
+                    <Avatar size={180} src={f}/>
+                  </div>
+                )}
+              </Carousel>
+            </div>
+            <div style={{height:'40px'}}>
+
+            </div>
+            <p>
+              <div style={{color: 'black'}}>Xочу найти возле метро:</div>
+              <div style={{fontSize: '20px'}}> {this.state.location}</div>
+            </p>
+
+            <p>
+              <div style={{color: 'black'}}>Мои интересы:</div>
+              <div style={{fontSize: '20px'}}>{this.state.interest.join(", ")}</div>
+            </p>
+            <p>
+              <div style={{color: 'black'}}>Совпавшие интересы: {this.state.сomparisonInterests.length} </div>
+              <div style={{fontSize: '20px'}}>{this.state.сomparisonInterests.join(", ")}</div>
+            </p>
+            {this.state.nativeLocation &&
+            <p>
+              <div style={{color: 'black'}}>Родной город:</div>
+              <div style={{fontSize: '20px'}}>{this.state.nativeLocation}</div>
+            </p>
+            }
+            <p>
+              <div style={{color: 'black'}}>О себе:</div>
+              <div style={{fontSize: '20px'}}>{this.state.about}</div>
+            </p>
+            <p>
+              <div style={{color: 'black'}}>Мой бюджет аренды:</div>
+              <div style={{fontSize: '20px'}}>{this.state.prise} т.р.</div>
+            </p>
+          </Modal>
           )}
         </div>
       </div>
     );
   }
 }
+
 function mapStateToProps(store) {
   return {
     users: store.usersDashBoard
@@ -254,4 +248,5 @@ function mapDispatchToProps(dispatch) {
     }
   };
 }
+
 export default connect(mapStateToProps, mapDispatchToProps)(DashBoard);
