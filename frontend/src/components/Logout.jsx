@@ -16,7 +16,7 @@ class Logout extends Component {
     });
     const result = await response.json();
     if (result.response === "success") {
-      this.props.cookies.remove("isLogin");
+      await this.props.cookies.remove("isLogin");
       this.props.cleanStore();
       this.setState({
         isRedirect: true

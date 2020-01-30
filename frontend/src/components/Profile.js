@@ -21,122 +21,169 @@ class Profile extends Component {
       return <Redirect to={"/login"} />;
     }
     return (
-      <div className="profileContainer">
-        <Card style={{ borderRadius: "20px" }}>
-          <Row>
-            <Col span={6}>
-              {this.props.photos.length !== 0 && (
-                <Avatar
-                  size={200}
-                  icon="user"
-                  src={this.props.photos[0].thumbUrl}
-                />
-              )}
-            </Col>
-
-            <Col span={18}>
-              <Link to={"/profile/edit"}>
-                <Button style={{backgroundColor: '#4A76A8', color: '#ffffff', float: "right"}} icon="edit">
-                  Редактировать
-                </Button>
-              </Link>
-
+      <div style={{ padding: "10px" }}>
+        <div style={{ display: "flex", justifyContent: "center" }}>
+          <Card
+            style={{
+              borderRadius: "20px",
+              display: "flex",
+              width: "800px",
+              marginTop: "20px",
+              background:
+                "linear-gradient(6deg, rgba(132,100,250,1) 0%, rgba(74,118,168,1) 100%)"
+            }}
+          >
+            <div style={{display: 'flex'}}>
+              <div>
+                {this.props.photos.length !== 0 && (
+                  <Avatar
+                    size={150}
+                    icon="user"
+                    src={this.props.photos[0].thumbUrl}
+                  />
+                )}
+              </div>
+              <div>
+                <Link to={"/profile/edit"}>
+                  <Button ghost="default" icon="edit">
+                    Редактировать
+                  </Button>
+                </Link>
+              </div>
+            </div>
+            <div>
               {this.props.user && (
                 <div>
-                  <h1>{`${this.props.user.first_name} ${this.props.user.last_name}`}</h1>
-                  <Descriptions title=" ">
-                    <Descriptions.Item label="Логин">
-                      {this.props.user.username}
-                    </Descriptions.Item>
-                    <Descriptions.Item label="Номер телефона">
-                      {this.props.user.phone}
-                    </Descriptions.Item>
-                    <Descriptions.Item label="E-mail">
-                      {this.props.user.email}
-                    </Descriptions.Item>
-                    {this.props.user.age && (
-                      <Descriptions.Item label="Возраст">
+                  <h1
+                    style={{ color: "#ffffff" }}
+                  >{`${this.props.user.first_name} ${this.props.user.last_name}`}</h1>
+                  <div>
+                    <h3 style={{ color: "#ffffff" }}>
+                      <span style={{ fontWeight: "bold" }}>
+                        <Icon type="user" /> &nbsp; Логин:{" "}
+                      </span>{" "}
+                      <span style={{ fontWeight: "normal" }}>
+                        {this.props.user.username}
+                      </span>
+                    </h3>
+                  </div>
+                  <div>
+                    <h3 style={{ color: "#ffffff" }}>
+                      <span style={{ fontWeight: "bold" }}>
+                        <Icon type="phone" /> &nbsp; Номер телефона:{" "}
+                      </span>{" "}
+                      <span style={{ fontWeight: "normal" }}>
+                        {this.props.user.phone}
+                      </span>
+                    </h3>
+                  </div>
+                  <div>
+                    <h3 style={{ color: "#ffffff" }}>
+                      <span style={{ fontWeight: "bold" }}>
+                        <Icon type="mail" /> &nbsp; E-mail:{" "}
+                      </span>{" "}
+                      <span style={{ fontWeight: "normal" }}>
+                        {this.props.user.email}
+                      </span>
+                    </h3>
+                  </div>
+                  <div>
+                    <h3 style={{ color: "#ffffff" }}>
+                      <span style={{ fontWeight: "bold" }}>
+                        <Icon type="calendar" /> &nbsp; Возраст:{" "}
+                      </span>{" "}
+                      <span style={{ fontWeight: "normal" }}>
                         {this.props.user.age}
-                      </Descriptions.Item>
-                    )}
-                    {this.props.user.vk && (
-                      <Descriptions.Item label="VK">
-                        {this.props.user.vk}
-                      </Descriptions.Item>
-                    )}
-                    {this.props.user.nativeLocation && (
-                      <Descriptions.Item label="Родной город">
-                        {this.props.user.nativeLocation}
-                      </Descriptions.Item>
-                    )}
-                  </Descriptions>
+                      </span>
+                    </h3>
+                  </div>
+                  {this.props.user.vk && (
+                    <div>
+                      <h3 style={{ color: "#ffffff" }}>
+                        <span style={{ fontWeight: "bold" }}>
+                          <Icon type="global" /> &nbsp; VK:{" "}
+                        </span>{" "}
+                        <span style={{ fontWeight: "normal" }}>
+                          {this.props.user.vk}
+                        </span>
+                      </h3>
+                    </div>
+                  )}
+                  {this.props.user.nativeLocation && (
+                    <div>
+                      <h3 style={{ color: "#ffffff" }}>
+                        <span style={{ fontWeight: "bold" }}>
+                          <Icon type="compass" /> &nbsp; Родной город:{" "}
+                        </span>{" "}
+                        <span style={{ fontWeight: "normal" }}>
+                          {this.props.user.nativeLocation}
+                        </span>
+                      </h3>
+                    </div>
+                  )}
                 </div>
               )}
-            </Col>
-          </Row>
-        </Card>
-        <br />
-        <Card style={{ borderRadius: "20px" }}>
-          <Tabs defaultActiveKey="2">
-            <TabPane
-              tab={
-                <span>
-                  <Icon type="picture" />
-                  Мои фотографии
-                </span>
-              }
-              key="1"
-            >
-              <Row>
-                <Col span={6}>
-                  <h2>Мои фотографии:</h2>
-                </Col>
-                <Col span={18}>
+            </div>
+          </Card>
+        </div>
+        <div style={{ display: "flex", justifyContent: "center" }}>
+          <Card className="likeCard">
+            <Tabs defaultActiveKey="2">
+              <TabPane
+                tab={
+                  <span>
+                    <Icon type="picture" />
+                    Мои фотографии
+                  </span>
+                }
+                key="1"
+              >
+                <div style={{ display: "block", textAlign: "center" }}>
                   {this.props.photos &&
                     this.props.photos.map((url, i) => {
                       return (
                         <Avatar
-                          size={200}
+                          size={150}
                           icon="user"
                           shape="square"
                           src={url.thumbUrl}
-                          style={{ margin: "10px" }}
+                          style={{ margin: "10px 10px 0 0" }}
                           key={i}
                         />
                       );
                     })}
-                </Col>
-              </Row>
-            </TabPane>
-            <TabPane
-              tab={
-                <span>
-                  <Icon type="heart" theme="twoTone" twoToneColor="#eb2f96" />
-                  Лайк
-                </span>
-              }
-              key="2"
-            >
-              <Row>
-                <Col span={6}>
-                  <h2>Совпадения:</h2>
-                </Col>
-                <Col span={18}>
-                  <MutualLikeList />
-                </Col>
-              </Row>
-              <hr />
-              <Row>
-                <Col span={6}>
-                  <h2>Ваша анкета понравилась:</h2>
-                </Col>
-                <Col span={18}>
-                  <LikedByList />
-                </Col>
-              </Row>
-            </TabPane>
-          </Tabs>
-        </Card>
+                </div>
+              </TabPane>
+              <TabPane
+                tab={
+                  <span>
+                    <Icon type="heart" theme="twoTone" twoToneColor="#eb2f96" />
+                    Лайк
+                  </span>
+                }
+                key="2"
+              >
+                <div>
+                  <div>
+                    <h2>Совпадения:</h2>
+                  </div>
+                  <div>
+                    <MutualLikeList />
+                  </div>
+                </div>
+                <hr />
+                <div>
+                  <div>
+                    <h2>Ваша анкета понравилась:</h2>
+                  </div>
+                  <div>
+                    <LikedByList />
+                  </div>
+                </div>
+              </TabPane>
+            </Tabs>
+          </Card>
+        </div>
       </div>
     );
   }
