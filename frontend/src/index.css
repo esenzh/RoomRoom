@@ -17,9 +17,10 @@ a {
 }
 
 .loginForm{
-  max-width: 300px;
-  margin: auto;
+  display: flex;
+  justify-content: center;
   margin-top: 200px
+  
 }
 .login-form-button {
   width: 100%;
