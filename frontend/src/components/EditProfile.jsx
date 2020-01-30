@@ -102,7 +102,7 @@ class EditProfile extends Component {
       return <Redirect to={'/profile'}/>
     }
     if (this.state.isDelete) {
-      return <Redirect to={'/login'}/>
+      return <Redirect to={'/logout'}/>
     }
     const {getFieldDecorator} = this.props.form;
     const formItemLayout = {
