@@ -3,7 +3,8 @@
   "version": "0.0.0",
   "private": true,
   "scripts": {
-    "start": "nodemon --ignore './sessions' server.js"
+    "start": "nodemon --ignore './sessions' server.js",
+    "heroku-postbuild": "cd public/frontend && npm init && npm run build"
   },
   "dependencies": {
     "body-parser": "^1.19.0",

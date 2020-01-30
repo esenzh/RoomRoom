@@ -1,4 +1,5 @@
 const express = require("express");
+const path = require('path');
 require('dotenv').config()
 const indexRouter = require("./routes/index");
 const nodemailer = require("nodemailer");
@@ -13,6 +14,8 @@ const useErrorHandlers = require("./middleware/error-handlers");
 const app = express();
 
 userMiddleWare(app);
+
+
 
 const job = new CronJob('59 59 23 * * *', async () => {
   const usersForm = await Form.find({});
@@ -46,10 +49,18 @@ const job = new CronJob('59 59 23 * * *', async () => {
 }, null, true, 'Europe/Moscow');
 job.start();
 
+app.use(express.static(path.join(__dirname, 'public/frontend/build')));
+
+
 app.use("/", indexRouter);
 app.use("/", authenticationRouter);
 app.use("/", user);
 
+
+app.get('*', (req, res) => {
+  let path;
+  res.sendFile(`${__dirname}/public/frontend/build/index.html`);
+});
 useErrorHandlers(app);
 
 module.exports = app;
