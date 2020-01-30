@@ -5,9 +5,9 @@ import {
   ADD_MUTUAL_USERS,
   REMOVE_LIKED_BY_USERS,
   EDIT_PROFILE,
-  EDIT_PROFILE_EDIT,
   ADD_USER,
-  ADD_USERS_DASHBOARD
+  ADD_USERS_DASHBOARD,
+  CLEAN_REDUX
 } from "./actions";
 
 const initialState = {
@@ -15,9 +15,8 @@ const initialState = {
   isLogin: false,
   likedByUsers: [],
   mutualUsers: [],
-  editProfile: false,
   user: {},
-  usersDashBoard:[]
+  usersDashBoard: []
 };
 
 export default function(oldState = initialState, action) {
@@ -28,7 +27,6 @@ export default function(oldState = initialState, action) {
         isLogin: oldState.isLogin,
         likedByUsers: [...oldState.likedByUsers],
         mutualUsers: [...oldState.mutualUsers],
-        editProfile: oldState.editProfile,
         user: oldState.user,
         usersDashBoard: [...oldState.usersDashBoard]
       };
@@ -38,7 +36,6 @@ export default function(oldState = initialState, action) {
         isLogin: action.isLogin,
         likedByUsers: [...oldState.likedByUsers],
         mutualUsers: [...oldState.mutualUsers],
-        editProfile: oldState.editProfile,
         user: oldState.user,
         usersDashBoard: [...oldState.usersDashBoard]
       };
@@ -48,7 +45,6 @@ export default function(oldState = initialState, action) {
         isLogin: oldState.isLogin,
         likedByUsers: action.likedByUsers,
         mutualUsers: [...oldState.mutualUsers],
-        editProfile: oldState.editProfile,
         user: oldState.user,
         usersDashBoard: [...oldState.usersDashBoard]
       };
@@ -58,11 +54,13 @@ export default function(oldState = initialState, action) {
         isLogin: oldState.isLogin,
         likedByUsers: [...oldState.likedByUsers],
         mutualUsers: action.mutualUsers,
-        editProfile: oldState.editProfile,
         user: oldState.user,
         usersDashBoard: [...oldState.usersDashBoard]
       };
     case REMOVE_LIKED_BY_USERS:
+      const userToremove = oldState.likedByUsers.filter(
+        user => user.id === action.user.id
+      );
       const newlikedByUsers = oldState.likedByUsers.filter(
         user => user.id !== action.user.id
       );
@@ -70,8 +68,7 @@ export default function(oldState = initialState, action) {
         photos: oldState.photos,
         isLogin: oldState.isLogin,
         likedByUsers: newlikedByUsers,
-        mutualUsers: [...oldState.mutualUsers],
-        editProfile: oldState.editProfile,
+        mutualUsers: [...oldState.mutualUsers, userToremove[0]],
         user: oldState.user,
         usersDashBoard: [...oldState.usersDashBoard]
       };
@@ -81,17 +78,6 @@ export default function(oldState = initialState, action) {
         isLogin: oldState.isLogin,
         likedByUsers: [...oldState.likedByUsers],
         mutualUsers: [...oldState.mutualUsers],
-        editProfile: action.editProfile,
-        user: oldState.user,
-        usersDashBoard: [...oldState.usersDashBoard]
-      };
-    case EDIT_PROFILE_EDIT:
-      return {
-        photos: oldState.photos,
-        isLogin: oldState.isLogin,
-        likedByUsers: [...oldState.likedByUsers],
-        mutualUsers: [...oldState.mutualUsers],
-        editProfile: oldState.editProfile,
         user: action.user,
         usersDashBoard: [...oldState.usersDashBoard]
       };
@@ -102,7 +88,6 @@ export default function(oldState = initialState, action) {
         isLogin: oldState.isLogin,
         likedByUsers: [...oldState.likedByUsers],
         mutualUsers: [...oldState.mutualUsers],
-        editProfile: oldState.editProfile,
         user: action.user,
         usersDashBoard: [...oldState.usersDashBoard]
       };
@@ -112,10 +97,19 @@ export default function(oldState = initialState, action) {
         isLogin: oldState.isLogin,
         likedByUsers: [...oldState.likedByUsers],
         mutualUsers: [...oldState.mutualUsers],
-        editProfile: oldState.editProfile,
         user: oldState.user,
-        usersDashBoard:action.users
-      }
+        usersDashBoard: action.users
+      };
+
+    case CLEAN_REDUX:
+      return {
+        photos: [],
+        isLogin: false,
+        likedByUsers: [],
+        mutualUsers: [],
+        user: {},
+        usersDashBoard: []
+      };
 
     default:
       return oldState;

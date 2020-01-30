@@ -2,9 +2,8 @@ import React, { Component } from "react";
 import { Avatar, Descriptions, Row, Col, Tabs, Icon, Button } from "antd";
 import LikedByList from "./LikedByList";
 import MutualLikeList from "./MutualLikeList";
-import { Redirect } from "react-router-dom";
+import { Link, Redirect } from "react-router-dom";
 import { connect } from "react-redux";
-import { EditProfileAC } from "../redux/type";
 
 const { TabPane } = Tabs;
 
@@ -17,16 +16,9 @@ class Profile extends Component {
     };
   }
 
-  handleEdit = () => {
-    this.props.editProfile(true);
-  };
-
   render() {
     if (this.state.isRedirect) {
       return <Redirect to={"/login"} />;
-    }
-    if (this.props.edit) {
-      return <Redirect to={"/profile/edit"} />;
     }
     return (
       <div className="profileContainer">
@@ -42,14 +34,16 @@ class Profile extends Component {
           </Col>
 
           <Col span={18}>
-            <Button
-              type="primary"
-              icon="edit"
-              style={{ float: "right" }}
-              onClick={this.handleEdit}
-            >
-              Редактировать
-            </Button>
+            <Link to={'/profile/edit'}>
+              <Button
+                type="primary"
+                icon="edit"
+                style={{ float: "right" }}
+              >
+                Редактировать
+              </Button>
+            </Link>
+
             {this.props.user && (
               <div>
                 <h1>{`${this.props.user.first_name} ${this.props.user.last_name}`}</h1>
@@ -148,14 +142,6 @@ class Profile extends Component {
   }
 }
 
-function mapDispatchToProps(dispatch) {
-  return {
-    editProfile: flag => {
-      dispatch(EditProfileAC(flag));
-    }
-  };
-}
-
 function mapStateToProps(store) {
   return {
     edit: store.editProfile,
@@ -164,4 +150,4 @@ function mapStateToProps(store) {
   };
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(Profile);
+export default connect(mapStateToProps)(Profile);

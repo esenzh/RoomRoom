@@ -5,9 +5,9 @@ import {
   ADD_MUTUAL_USERS,
   REMOVE_LIKED_BY_USERS,
   EDIT_PROFILE,
-  EDIT_PROFILE_EDIT,
   ADD_USER,
-  ADD_USERS_DASHBOARD
+  ADD_USERS_DASHBOARD,
+  CLEAN_REDUX
 } from "./actions";
 
 export const AddPhotoAC = photo => {
@@ -45,16 +45,9 @@ export const AddMutualUser = users => {
   };
 };
 
-export const EditProfileAC = flag => {
-  return {
-    type: EDIT_PROFILE,
-    editProfile: flag
-  };
-};
-
 export const EditProfilePageAC = newProfile => {
   return {
-    type: EDIT_PROFILE_EDIT,
+    type: EDIT_PROFILE,
     user: newProfile
   };
 };
@@ -65,9 +58,16 @@ export const AddUserAC = user => {
     user: user
   };
 };
+
 export const AddUsersDashBoard = users => {
   return {
     type: ADD_USERS_DASHBOARD,
     users: users
+  };
+};
+
+export const CleanReduxAC = () => {
+  return {
+    type: CLEAN_REDUX
   };
 };
