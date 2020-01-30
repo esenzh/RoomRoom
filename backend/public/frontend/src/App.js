@@ -17,8 +17,7 @@ class App extends React.Component {
   render() {
     const isLogin = this.props.cookies.get("isLogin");
     return (
-      <Router>
-        <div>
+        <Router>
           {this.props.isLogin || isLogin ? <Navbar /> : ""}
           <Switch>
             <Route exact path={"/"} component={DashBoard} />
@@ -29,8 +28,7 @@ class App extends React.Component {
             <Route exact path={"/signup"} component={Signup} />
             <Route exact path={"/logout"} component={Logout} />
           </Switch>
-        </div>
-      </Router>
+        </Router>
     );
   }
 }
