@@ -60,7 +60,7 @@ class Login extends Component {
         const { getFieldDecorator } = this.props.form;
         return (
             <div className="loginForm">
-                <Card style={{ borderRadius: '20px' }}>
+                <Card style={{ borderRadius: '20px', marginTop: '200px',}}>
                     <br />
                     <h2>Вход</h2>
                     <Form onSubmit={this.handleSubmit}>
@@ -86,7 +86,7 @@ class Login extends Component {
                             )}
                         </Form.Item>
                         <Form.Item>
-                            <Button type="primary" htmlType="submit" className="login-form-button" loading={this.state.iconLoading} icon='login'>
+                            <Button style={{backgroundColor: '#4A76A8', color: '#ffffff'}} htmlType="submit" className="login-form-button" loading={this.state.iconLoading} icon='login'>
                                 Войти
                             </Button>
                             Или <Link to={"/signup"}>зарегистрируйтесь!</Link>

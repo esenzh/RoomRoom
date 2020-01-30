@@ -96,7 +96,7 @@ class EditProfile extends Component {
         };
 
         return (<div className='registerForm'>
-            <Card title="Редактируйте ваш профиль">
+            <Card style={{ borderRadius: '20px', marginTop: '50px',}}>
                 <Form {...formItemLayout} onSubmit={this.handleSubmit}>
                     <Form.Item label="Имя">
                         {getFieldDecorator('first_name', {
@@ -159,7 +159,7 @@ class EditProfile extends Component {
                         <UploadPhoto />
                     </Form.Item>
                     <Form.Item {...tailFormItemLayout}>
-                        <Button icon='save' type="primary" htmlType="submit">
+                        <Button icon='save' style={{backgroundColor: '#4A76A8', color: '#ffffff'}} htmlType="submit">
                             Сохранить
                         </Button>
                     </Form.Item>
