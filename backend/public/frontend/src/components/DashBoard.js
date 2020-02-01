@@ -157,16 +157,22 @@ class DashBoard extends Component {
           <div className="dashBoardContent">
             {this.props.users &&
               this.props.users.map((user, i) => {
+                let srcImg;
+                if(user.photo[0]){
+                  srcImg = user.photo[0].thumbUrl;
+                }else{
+                  srcImg = 'https://alawarkey.at.ua/images/avatar.png';
+                }
                 return (
-                  <div key={i}>
-                    <Card
-                      onClick={() => this.showModal(user)}
-                      className="userCard"
-                      cover={
-                        <img
-                          style={{ borderRadius: "10px 10px 0px 0px" }}
-                          alt="example"
-                          src={user.photo[0].thumbUrl}
+                    <div key={i}>
+                      <Card
+                          onClick={() => this.showModal(user)}
+                          className="userCard"
+                          cover={
+                            <img
+                                style={{ borderRadius: "10px 10px 0px 0px" }}
+                                alt="example"
+                                src={srcImg}
                         />
                       }
                     >
