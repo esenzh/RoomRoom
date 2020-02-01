@@ -157,13 +157,6 @@ class DashBoard extends Component {
           <div className="dashBoardContent">
             {this.props.users &&
               this.props.users.map((user, i) => {
-                // user.photo[0].thumbUrl
-                let srcImg;
-                if(user.photo[0]){
-                  srcImg = user.photo[0].thumbUrl;
-                }else{
-                  srcImg = 'https://alawarkey.at.ua/images/avatar.png';
-                }
                 return (
                   <div key={i}>
                     <Card
@@ -173,7 +166,7 @@ class DashBoard extends Component {
                         <img
                           style={{ borderRadius: "10px 10px 0px 0px" }}
                           alt="example"
-                          src={srcImg}
+                          src={user.photo[0].thumbUrl}
                         />
                       }
                     >

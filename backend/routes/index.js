@@ -95,13 +95,13 @@ console.log()
                 // user2Form.funs.push(user1Form.idAuthor)
                 for (let i = 0; i < user1Form.funs.length ; i++) {
                     if(user1Form.funs[i] === user2Form.idAuthor){
-                       await user1Form.funs.splice(i, 1)
+                        user1Form.funs.splice(i, 1)
                         break;
                     }
                 }
 
-                await user1Form.save();
-               await user2Form.save();
+                user1Form.save();
+                user2Form.save();
                 res.json({text: "Совпадение! Данный пользователь также хотел бы с Вами снимать картиру!"});
             } else {
 
@@ -310,6 +310,7 @@ router.post("/api/findSimilarUsers", sessionChecker, async (req, res, next) => {
 router.post("/api/usersLength", async (req, res) => {
     try {
         const usersLength = await User.find();
+        console.log(usersLength.length)
         res.json({usersLength: usersLength.length})
     } catch (e) {
         res.status(400).json({ response: "fail" });
