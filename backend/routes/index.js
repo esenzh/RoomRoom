@@ -310,7 +310,6 @@ router.post("/api/findSimilarUsers", sessionChecker, async (req, res, next) => {
 router.post("/api/usersLength", async (req, res) => {
     try {
         const usersLength = await User.find();
-        console.log(usersLength.length)
         res.json({usersLength: usersLength.length})
     } catch (e) {
         res.status(400).json({ response: "fail" });
