@@ -8,7 +8,8 @@ import {
   Button,
   Card,
   Icon,
-  notification, Modal,
+  notification,
+  Modal,
 } from 'antd';
 
 import UploadPhoto from './UploadPhoto';
