@@ -40,6 +40,7 @@ router.post("/api/newForm", async (req, res, next) => {
 }
 });
 
+//newfile
 router.route("/api/sendLikeMail").post(async (req, res, next) => {
     try {
         const user1 = req.session.user;
@@ -47,12 +48,14 @@ router.route("/api/sendLikeMail").post(async (req, res, next) => {
 
         const user1Form = await Form.findOne({idAuthor: user1._id});
         const user2Form = await Form.findOne({idAuthor: user2ID.id });
+        const user2 = await  User.findById(user2ID.id);
 
-        if (user2Form.funs.includes(user1Form.idAuthor)) {
+        if (user2Form.funs.includes(user1Form.idAuthor) || user2Form.сomparison.includes(user1Form.idAuthor) ) {
 
-            res.json({text:"Вы уже стаивли лайк данному пользователю!"});
+            res.json({text:"Вы уже стаивли лайк данному пользователю, передите в профиль!"});
         } else {
             if (user2Form.likes.includes(user1Form.idAuthor)) {
+console.log()
                 async function main() {
                     let testAccount = await nodemailer.createTestAccount();
                     const transporter = nodemailer.createTransport({
@@ -67,14 +70,18 @@ router.route("/api/sendLikeMail").post(async (req, res, next) => {
 
                     let info = await transporter.sendMail({
                         from: '"Roomroom 👻" <pekarnyavkusnaya@yandex.ru>', // sender address
-                        to: `igordg@mail.ru`,  // list of receivers  user2.email,
-                        subject: "Roomroom ✔", // Subject line
+                        to: `${user2.email}`,  // list of receivers  user2.email,
+                        subject: "RoomRoom ✔", // Subject line
                         text: "Текст1", // plain text body
                         html:
-                            `<img src="https://gorod.tomsk.ru/uploads/33808/1240896561/my_room.jpg" alt="RoomRoom"><br>
-                            <b>Здравствуйте! На сервисе RoomRoom появился пользователь, который хотел бы вместе с Вами арендовать квартиру!</b>
+                            `<img src="https://cdn1.savepice.ru/uploads/2020/1/30/b3e09135bd39934b18867a3d1f3a3684-full.png" alt="RoomRoom"><br>
+                            <b>Здравствуйте! На сервисе RoomRoom появился пользователь,</b><br>
+                            <b>который хотел бы вместе с Вами арендовать квартиру!</b>
                                 <p>Имя пользователя: ${user1.first_name} ${user1.last_name}</p>
-                                <p>Более подробная информация в Вашем профиле RoomRoom в разделе "Совпадания"</p> `
+                                <p>Номер телефона: ${user1.phone}</p>
+                                <p>Mail: ${user1.email}</p>
+                                <p>Более подробная информация о пользователе в личном кабинете</p>
+                                <p>Ваш RoomRoom! :)</p> `
                     });
                     console.log("Message sent: %s", info.messageId);
                     console.log("Preview URL: %s", nodemailer.getTestMessageUrl(info));
@@ -85,11 +92,19 @@ router.route("/api/sendLikeMail").post(async (req, res, next) => {
                 user1Form.likes.push(user2Form.idAuthor);
                 user1Form.сomparison.push(user2Form.idAuthor);
                 user2Form.сomparison.push(user1Form.idAuthor);
-                user2Form.funs.push(user1Form.idAuthor)
-                user1Form.save();
-                user2Form.save();
-                res.json({text: "Совпадение найдено!"});
+                // user2Form.funs.push(user1Form.idAuthor)
+                for (let i = 0; i < user1Form.funs.length ; i++) {
+                    if(user1Form.funs[i] === user2Form.idAuthor){
+                       await user1Form.funs.splice(i, 1)
+                        break;
+                    }
+                }
+
+                await user1Form.save();
+               await user2Form.save();
+                res.json({text: "Совпадение! Данный пользователь также хотел бы с Вами снимать картиру!"});
             } else {
+
                 async function main() {
                     let testAccount = await nodemailer.createTestAccount();
                     const transporter = nodemailer.createTransport({
@@ -104,14 +119,15 @@ router.route("/api/sendLikeMail").post(async (req, res, next) => {
 
                     let info = await transporter.sendMail({
                         from: '"Roomroom 👻" <pekarnyavkusnaya@yandex.ru>', // sender address
-                        to: `igordg@mail.ru`,  // list of receivers  user2.email,
-                        subject: "Roomroom ✔", // Subject line
+                        to: `${user2.email}`,  // list of receivers  user2.email,
+                        subject: "RoomRoom ✔", // Subject line
                         text: "Текст1", // plain text body
                         html:
-                            `<img src="https://gorod.tomsk.ru/uploads/33808/1240896561/my_room.jpg" alt="RoomRoom"><br>
+                            `<img src="https://cdn1.savepice.ru/uploads/2020/1/30/b3e09135bd39934b18867a3d1f3a3684-full.png" alt="RoomRoom"><br>
                             <b>Здравствуйте! На сервисе RoomRoom у Вас появились новые лайки!</b>
-                                <p>Лайк поставлен пользователем ${user1.first_name} ${user1.last_name}</p>
-                                <p>Более подробная информация в Вашем профиле RoomRoom</p>`
+                                <p>Лайк поставлен пользователем ${user1.first_name} ${user1.last_name}.</p>
+                                <p>Более подробная информация о пользователе в личном кабинете</p>
+                                <p>Ваш RoomRoom! :)</p> `
                     });
                     console.log("Message sent: %s", info.messageId);
                     console.log("Preview URL: %s", nodemailer.getTestMessageUrl(info));
@@ -177,11 +193,12 @@ router.post("/api/findSimilarUsers", sessionChecker, async (req, res, next) => {
             let arrInterests = [];
             for (let i = 0; i < arr1.interest.length; i++) {
                 for (let k = 0; k < e.interest.length; k++) {
-                    if (arr1.interest[i] === e.interest[k]) {
+                    if (arr1.interest[i] == e.interest[k]) {
                         arrInterests.push(arr1.interest[i]);
                     }
                 }
             }
+
             сomparison.push(arrInterests);
             allComparison.push(сomparison);
         });
@@ -209,10 +226,12 @@ router.post("/api/findSimilarUsers", sessionChecker, async (req, res, next) => {
                 sortUserPrise.push(finishREsult[i]);
             }
         }
+
         let arrSortUserId = [];
         for (let i = 0; i < sortUserPrise.length; i++) {
             arrSortUserId.push(sortUserPrise[i][0].idAuthor)
         }
+
         const baseSortFormsId = await Form.find({idAuthor: arrSortUserId});
         const baseSortUsersId = await User.find({_id: arrSortUserId});
 
@@ -223,6 +242,7 @@ router.post("/api/findSimilarUsers", sessionChecker, async (req, res, next) => {
             for (let k = 0; k < baseSortUsersId.length; k++) {
                 if (arrSortUserId[i] === baseSortUsersId[k].id) {
                     gradationUsers.push(baseSortUsersId[k]);
+
                 }
             }
         }
@@ -231,6 +251,7 @@ router.post("/api/findSimilarUsers", sessionChecker, async (req, res, next) => {
             for (let k = 0; k < baseSortFormsId.length; k++) {
                 if (arrSortUserId[i] === baseSortFormsId[k].idAuthor) {
                     gradationForms.push(baseSortFormsId[k]);
+
                 }
             }
         }
@@ -283,6 +304,16 @@ router.post("/api/findSimilarUsers", sessionChecker, async (req, res, next) => {
   } catch (error) {
     next(error);
   }
+});
+
+
+router.post("/api/usersLength", async (req, res) => {
+    try {
+        const usersLength = await User.find();
+        res.json({usersLength: usersLength.length})
+    } catch (e) {
+        res.status(400).json({ response: "fail" });
+    }
 });
 
 router.get("/api/likes/by", async (req, res) => {

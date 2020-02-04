@@ -31,8 +31,10 @@ class DashBoard extends Component {
       first_name: null,
       interest: null,
       сomparisonInterests: null,
-      nativeLocation: null,
-      isRedirect: false
+
+      nativeLocation:null,
+      isRedirect: false,
+      usersLength: null
     };
   }
 
@@ -68,7 +70,20 @@ class DashBoard extends Component {
   };
 
   async componentDidMount() {
+
+    const reqUsersLength = await fetch("/api/usersLength", {
+      headers: {
+        "Content-Type": "application/json"
+      },
+      method: "POST"
+    });
+    let usersLength = await reqUsersLength.json();
+
+    this.setState({usersLength: usersLength.usersLength });
+
+
     if (this.props.users.length === 0) {
+
       this.setState({ loading: true });
     }
     const reqComparison = await fetch("/api/findSimilarUsers", {
@@ -142,6 +157,13 @@ class DashBoard extends Component {
           <div className="dashBoardContent">
             {this.props.users &&
               this.props.users.map((user, i) => {
+                // user.photo[0].thumbUrl
+                let srcImg;
+                if(user.photo[0]){
+                  srcImg = user.photo[0].thumbUrl;
+                }else{
+                  srcImg = 'https://alawarkey.at.ua/images/avatar.png';
+                }
                 return (
                   <div key={i}>
                     <Card
@@ -151,7 +173,7 @@ class DashBoard extends Component {
                         <img
                           style={{ borderRadius: "10px 10px 0px 0px" }}
                           alt="example"
-                          src={user.photo[0].thumbUrl}
+                          src={srcImg}
                         />
                       }
                     >
@@ -228,8 +250,12 @@ class DashBoard extends Component {
               <div style={{fontSize: '20px'}}>{this.state.prise} т.р.</div>
             </p>
           </Modal>
-          )}
+
+        )}
         </div>
+        <footer style={{backgroundColor: '#4A76A8', color: '#ffffff', margin: '0 auto', width: "80%"}} align={"center"}>
+          <p>Всего пользователей в RoomRoom: {this.state.usersLength}</p>
+        </footer>
       </div>
     );
   }

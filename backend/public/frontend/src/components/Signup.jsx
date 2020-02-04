@@ -228,12 +228,12 @@ class Signup extends Component {
                                         ],
                                     })(<Input.Password />)}
                                 </Form.Item>
-                                <Form.Item label="Подвердите пароль" hasFeedback>
+                                <Form.Item label="Еще раз пароль" hasFeedback>
                                     {getFieldDecorator('confirm', {
                                         rules: [
                                             {
                                                 required: true,
-                                                message: 'Пожалуйста, подвердите пароль!',
+                                                message: 'Пожалуйста, подтвердите пароль!',
                                             },
                                             {
                                                 validator: this.compareToFirstPassword,
@@ -245,7 +245,7 @@ class Signup extends Component {
                         </div>
                         <Form.Item {...tailFormItemLayout}>
                             <Button style={{backgroundColor: '#4A76A8', color: '#ffffff'}} htmlType="submit" loading={this.state.iconLoading} icon='solution'>
-                                Зарегестрироваться
+                                Зарегистрироваться
                         </Button>
                             &nbsp;&nbsp;&nbsp;
                         Или <Link to={"/login"}>Войти!</Link>
