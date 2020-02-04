@@ -13,14 +13,18 @@ ____
 Воспользоваться сервисом можно по сылке <https://roomandroom.herokuapp.com/>
 Для клонировая введите в терминал команду 
 ```
-$ git clone git@github.com:RuWolf/RoomRoom.git
+$ git clone https://github.com/esenzh/RoomRoom.git
 ```
 Для запуска проекта используйте команду
 ```
 npm install
 ```
 ```
+cd backend/public/frontend
+npm run build
+```
+```
 cd backend/
 npm start
 ```
-Фронт запустится на <https://www.localhost5000>
+Запуск на <https://www.localhost5000>
