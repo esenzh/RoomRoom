@@ -453,6 +453,7 @@ class DynamicRule extends Component {
             </Form.Item>
           </Form>
         </Card>
+        {/* Закомментированный код удаляйте прежде чем пушить в продакшн) */}
         {/* <Modal
           title="Basic Modal"
           visible={this.state.visible}

@@ -1,3 +1,6 @@
+// Отличается стиль у разных компонентов. 
+// Например тут везде таб равен 4 пробелам. В Navbar - 2. По airbnb - 2, 
+// но на самом деле не важно, главное, чтобы везде было одинаково.
 import React, { Component } from 'react';
 import { withCookies } from 'react-cookie';
 import { connect } from "react-redux";

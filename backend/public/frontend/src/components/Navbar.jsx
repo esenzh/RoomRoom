@@ -1,3 +1,4 @@
+// eslint не вижу, двойные кавычки соответственно повсюду.
 import React, { Component } from "react";
 import { Link } from "react-router-dom";
 import { Menu, Icon, Avatar } from 'antd';
@@ -36,8 +37,13 @@ class Navigation extends Component {
         <Menu mode="horizontal" theme='dark' style={{backgroundColor: '#4A76A8', color: '#ffffff'}}>
           <Menu.Item key='profiles'>
             <Link to={'/profile'}>
+              {/* Достаточно длинные строчки, читать не очень удобно. 
+              Я бы поделил на несколько*/}
               <Avatar size="large" icon="user" src={this.props.photos.length !== 0 && this.props.photos[0].thumbUrl} />
               &nbsp;&nbsp;&nbsp;&nbsp;
+              {/* Вы это не изучали, но появился новый синтаксис this.props.user?.first_name */}
+              {/* Называется Null Propagation operator. Почитайте.
+              Он пока считается экспериментальным, но скорее всего ненадолго */}
                 <span className='navbarUserName'>{this.props.user && this.props.user.first_name}</span>
             </Link>
           </Menu.Item>

@@ -31,7 +31,13 @@ class LikedByProfile extends Component {
                 src={this.props.user.photo[0].thumbUrl}
                 onClick={this.showModal}
             />
-            <LikedByUserProfileInfo user={this.props.user} showModal={this.showModal} handleOk={this.handleOk} visible={this.state.visible}/>
+            <LikedByUserProfileInfo 
+                user={this.props.user} 
+                showModal={this.showModal} 
+                handleOk={this.handleOk} 
+                visible={this.state.visible}
+            />
+ 
         </div>);
     }
 }
