@@ -1,3 +1,4 @@
+// Это не actions - это их типы. actions - сами объекты 
 const ADD_PHOTO = "ADD_PHOTO";
 const ADD_ISLOGIN = "ADD_ISLOGIN";
 const ADD_LIKED_BY_USERS = "ADD_LIKED_BY_USERS";
