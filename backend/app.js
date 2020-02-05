@@ -20,6 +20,7 @@ userMiddleWare(app);
 const job = new CronJob('59 59 23 * * *', async () => {
   const usersForm = await Form.find({});
   usersForm.map(async (user) => {
+    // 259200000 - что за хардкод?
     if (new Date() - user.data > 259200000) {
       const userProfile = await User.findOne({_id: user.idAuthor});
       async function main() {
@@ -55,7 +56,7 @@ job.start();
 
 app.use(express.static(path.join(__dirname, 'public/frontend/build')));
 
-
+// Не надо все подключать на '/', смысл теряется
 app.use("/", indexRouter);
 app.use("/", authenticationRouter);
 app.use("/", user);
