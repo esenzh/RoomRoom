@@ -11,7 +11,8 @@ const userSchema = Schema({
   username: { type: String, unique: true, required: true },
   password: { type: String, required: true },
   age: { type: Number },
-  nativeLocation: { type: String }
+  nativeLocation: { type: String },
+  sex: {type: String},
 });
 
 module.exports = mongoose.model("User", userSchema);
