@@ -8,6 +8,7 @@ import {
   message,
   Spin,
   Empty,
+    Switch,
   Button,
   Carousel
 } from "antd";
@@ -22,6 +23,8 @@ class DashBoard extends Component {
       redirectToAnket: false,
       loading: false,
       haveAnket: false,
+      showMan:false,
+      showWoman:false,
       id: null,
       visible: false,
       location: null,
@@ -31,7 +34,6 @@ class DashBoard extends Component {
       first_name: null,
       interest: null,
       сomparisonInterests: null,
-
       nativeLocation:null,
       isRedirect: false,
       usersLength: null
@@ -54,7 +56,7 @@ class DashBoard extends Component {
   };
 
   showModal = user => {
-    let fotos = user.photo.map(foto => foto.thumbUrl);
+    let photos = user.photo.map(photo => photo.thumbUrl);
     this.setState({
       id: user.id,
       location: user.location,
@@ -62,7 +64,7 @@ class DashBoard extends Component {
       prise: user.prise,
       first_name: user.first_name,
       interest: user.interest,
-      foto: fotos,
+      foto: photos,
       сomparisonInterests: user.сomparisonInterests,
       nativeLocation: user.nativeLocation,
       visible: true
@@ -106,6 +108,14 @@ class DashBoard extends Component {
         this.props.AddUsersDashBoard(users);
       }
     }
+  }
+  onChangeSexMan = (checked) => {
+    this.setState({showMan:checked})
+    // console.log(`switch to ${checked}`);
+  }
+  onChangeSexWoman = (checked) => {
+    this.setState({showWoman:checked})
+    // console.log(`switch to ${checked}`);
   }
 
   handleCancel = e => {
@@ -152,39 +162,49 @@ class DashBoard extends Component {
           <p style={{ fontSize: "25px" }} align={"center"}>
             Подходящие для Вас пользователи!
           </p>
+
         )}
+        <div style={{ textAlign: "center" }}>
+          <Switch defaultChecked onChange={this.onChangeSexMan} /> Показывать мужчин
+        </div>
+        <div style={{ textAlign: "center" }}>
+          <Switch defaultChecked onChange={this.onChangeSexWoman} /> Показывать женщин
+        </div>
         <div className="dashBoardContainer">
           <div className="dashBoardContent">
             {this.props.users &&
               this.props.users.map((user, i) => {
-                // user.photo[0].thumbUrl
-                let srcImg;
-                if(user.photo[0]){
-                  srcImg = user.photo[0].thumbUrl;
-                }else{
-                  srcImg = 'https://alawarkey.at.ua/images/avatar.png';
-                }
-                return (
-                  <div key={i}>
-                    <Card
-                      onClick={() => this.showModal(user)}
-                      className="userCard"
-                      cover={
-                        <img
-                          style={{ borderRadius: "10px 10px 0px 0px" }}
-                          alt="example"
-                          src={srcImg}
-                        />
-                      }
-                    >
-                      <div>
-                        <h3 style={{ float: "left" }}>
-                          {user.first_name}, {user.age}
-                        </h3>
+                if ((user.sex === 'male' && this.state.showMan) || (user.sex === 'female' && this.state.showWoman)){
+                  // user.photo[0].thumbUrl
+                  let srcImg;
+                  if(user.photo[0]){
+                    srcImg = user.photo[0].thumbUrl;
+                  }else{
+                    srcImg = 'https://alawarkey.at.ua/images/avatar.png';
+                  }
+                  return (
+                      <div key={i}>
+                        <Card
+                            onClick={() => this.showModal(user)}
+                            className="userCard"
+                            cover={
+                              <img
+                                  style={{ borderRadius: "10px 10px 0px 0px" }}
+                                  alt="example"
+                                  src={srcImg}
+                              />
+                            }
+                        >
+                          <div>
+                            <h3 style={{ float: "left" }}>
+                              {user.first_name}  {user.age}
+                            </h3>
+                          </div>
+                        </Card>
                       </div>
-                    </Card>
-                  </div>
-                );
+                  );
+                }
+
               })}
           </div>
 
