@@ -224,16 +224,9 @@ router.post("/api/findSimilarUsers", sessionChecker, async (req, res, next) => {
             }
         }
 
-        sortUserPrise = [];
-        for (let i = 0; i < finishREsult.length; i++) {
-            if (finishREsult[i][5].prise <= (arr1.prise + 5)) {
-                sortUserPrise.push(finishREsult[i]);
-            }
-        }
-
         let arrSortUserId = [];
-        for (let i = 0; i < sortUserPrise.length; i++) {
-            arrSortUserId.push(sortUserPrise[i][0].idAuthor)
+        for (let i = 0; i < finishREsult.length; i++) {
+            arrSortUserId.push(finishREsult[i][0].idAuthor)
         }
 
         const baseSortFormsId = await Form.find({idAuthor: arrSortUserId});
@@ -291,7 +284,7 @@ router.post("/api/findSimilarUsers", sessionChecker, async (req, res, next) => {
                 obj.nativeLocation = '';
             }
             obj.photo = gradationUsers[i].photo;
-            obj.сomparisonInterests = sortUserPrise[i][6];
+            obj.сomparisonInterests = finishREsult[i][6];
             obj.sex = gradationUsers[i].sex;
             frontViewArr.push(obj);
         }
