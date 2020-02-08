@@ -10,7 +10,7 @@ import {
   Empty,
   Switch,
   Button,
-  Carousel
+  Carousel, Slider
 } from "antd";
 import {Redirect} from "react-router-dom";
 import {connect} from "react-redux";
@@ -26,6 +26,8 @@ class DashBoard extends Component {
       haveAnket: false,
       showMan: true,
       showWoman: true,
+      minPrice: 0,
+      maxPrice: 50,
       visible: false,
       isRedirect: false,
       usersLength: null
@@ -66,7 +68,6 @@ class DashBoard extends Component {
   };
 
   async componentDidMount() {
-
     const reqUsersLength = await fetch("/api/usersLength", {
       headers: {
         "Content-Type": "application/json"
@@ -117,6 +118,19 @@ class DashBoard extends Component {
   redir = () => {
     this.setState({redirectToAnket: true});
   };
+  onChangePrice = value => {
+    this.setState({
+      minPrice: value[0],
+      maxPrice: value[1],
+    });
+  };
+  filterPrise = (price) => {
+    return this.state.minPrice <= price && price <= this.state.maxPrice;
+  };
+  filterSex = (sex) => {
+    return (sex === 'male' && this.state.showMan) || (sex === 'female' && this.state.showWoman);
+  };
+
 
   ym = () => {
     return (
@@ -178,12 +192,16 @@ class DashBoard extends Component {
         <div style={{textAlign: "center"}}>
           <Switch defaultChecked onChange={this.onChangeSexWoman}/> Показывать женщин
         </div>
+        <div style={{marginLeft: 'auto', marginRight: 'auto', width: '250px'}}>
+          <Slider range value={[this.state.minPrice, this.state.maxPrice]} onChange={this.onChangePrice}
+                  defaultValue={[this.state.minPrice, this.state.maxPrice]}/>Бюджет
+        </div>
+
         <div className="dashBoardContainer">
           <div className="dashBoardContent">
             {this.props.users &&
             this.props.users.map((user, i) => {
-              if ((user.sex === 'male' && this.state.showMan) || (user.sex === 'female' && this.state.showWoman)) {
-                // user.photo[0].thumbUrl
+              if (this.filterPrise(user.prise) && this.filterSex(user.sex)) {
                 let srcImg;
                 if (user.photo[0]) {
                   srcImg = user.photo[0].thumbUrl;
@@ -259,7 +277,8 @@ class DashBoard extends Component {
                 <div style={{fontSize: '20px'}}>{this.state.modalUser.interest.join(", ")}</div>
               </p>
               <p>
-                <div style={{color: 'black'}}>Совпавшие интересы: {this.state.modalUser.сomparisonInterests.length} </div>
+                <div style={{color: 'black'}}>Совпавшие
+                  интересы: {this.state.modalUser.сomparisonInterests.length} </div>
                 <div style={{fontSize: '20px'}}>{this.state.modalUser.сomparisonInterests.join(", ")}</div>
               </p>
               {this.state.modalUser.nativeLocation &&
