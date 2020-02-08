@@ -182,6 +182,8 @@ router.post("/api/findSimilarUsers", sessionChecker, async (req, res, next) => {
             let about = {about: e.about};
             let likes = {likes: e.likes};
             let prise = {prise: e.prise};
+            // let sex = {sex: e.sex};
+
 
             сomparison.push(userId);
             сomparison.push(location);
@@ -189,6 +191,8 @@ router.post("/api/findSimilarUsers", sessionChecker, async (req, res, next) => {
             сomparison.push(about);
             сomparison.push(likes);
             сomparison.push(prise);
+            // сomparison.push(sex);
+
 
             let arrInterests = [];
             for (let i = 0; i < arr1.interest.length; i++) {
@@ -220,16 +224,9 @@ router.post("/api/findSimilarUsers", sessionChecker, async (req, res, next) => {
             }
         }
 
-        sortUserPrise = [];
-        for (let i = 0; i < finishREsult.length; i++) {
-            if (finishREsult[i][5].prise <= (arr1.prise + 5)) {
-                sortUserPrise.push(finishREsult[i]);
-            }
-        }
-
         let arrSortUserId = [];
-        for (let i = 0; i < sortUserPrise.length; i++) {
-            arrSortUserId.push(sortUserPrise[i][0].idAuthor)
+        for (let i = 0; i < finishREsult.length; i++) {
+            arrSortUserId.push(finishREsult[i][0].idAuthor)
         }
 
         const baseSortFormsId = await Form.find({idAuthor: arrSortUserId});
@@ -251,7 +248,6 @@ router.post("/api/findSimilarUsers", sessionChecker, async (req, res, next) => {
             for (let k = 0; k < baseSortFormsId.length; k++) {
                 if (arrSortUserId[i] === baseSortFormsId[k].idAuthor) {
                     gradationForms.push(baseSortFormsId[k]);
-
                 }
             }
         }
@@ -268,7 +264,8 @@ router.post("/api/findSimilarUsers", sessionChecker, async (req, res, next) => {
                 age: '',
                 nativeLocation: '',
                 photo: "",
-                сomparisonInterests: ''
+                сomparisonInterests: '',
+                sex: ''
             };
             (obj.id = arrSortUserId[i]), (obj.location = gradationForms[i].location);
             obj.interest = gradationForms[i].interest;
@@ -287,7 +284,8 @@ router.post("/api/findSimilarUsers", sessionChecker, async (req, res, next) => {
                 obj.nativeLocation = '';
             }
             obj.photo = gradationUsers[i].photo;
-            obj.сomparisonInterests = sortUserPrise[i][6];
+            obj.сomparisonInterests = finishREsult[i][6];
+            obj.sex = gradationUsers[i].sex;
             frontViewArr.push(obj);
         }
 
@@ -341,6 +339,7 @@ router.get("/api/likes/by", async (req, res) => {
           nativeLocation: users[i].nativeLocation,
         });
       }
+      console.log('0k')
       res.status(200).json({ response: formsUsers });
     }
   } catch (e) {

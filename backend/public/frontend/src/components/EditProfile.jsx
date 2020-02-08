@@ -8,7 +8,8 @@ import {
   Button,
   Card,
   Icon,
-  notification, Modal,
+  notification,
+  Modal,
 } from 'antd';
 
 import UploadPhoto from './UploadPhoto';
@@ -198,7 +199,7 @@ class EditProfile extends Component {
                 Сохранить
               </Button>
               <Button style={{backgroundColor: 'red', color: '#ffffff', alignSelf: "right"}}
-                      onClick={this.showDeleteConfirm} type="dashed">
+                      onClick={this.showDeleteConfirm} type="danger">
                 Удалить профиль
               </Button>
             </Form.Item>
