@@ -118,6 +118,24 @@ class DashBoard extends Component {
     this.setState({redirectToAnket: true});
   };
 
+  ym = () => {
+    return (
+        "<script src='https://mc.yandex.ru/metrika/watch.js' type='text/javascript'></script>\
+        <script type='text/javascript'>\
+              try {\
+                    var yaCounter57428827 = new Ya.Metrika({\
+                    id:57428827,\
+                    clickmap:true,\
+                    trackLinks:true,\
+                    accurateTrackBounce:true,\
+                    webvisor:true,\
+                    trackHash:true\
+                    });\
+              } catch(e) {console.log('error') }\
+        </script>"
+    );
+  }
+
   render() {
     if (this.state.isRedirect) {
       return <Redirect to={"/login"}/>;
@@ -264,6 +282,8 @@ class DashBoard extends Component {
         </div>
         <footer style={{backgroundColor: '#4A76A8', color: '#ffffff', margin: '0 auto', width: "80%"}} align={"center"}>
           <p>Всего пользователей в RoomRoom: {this.state.usersLength}</p>
+
+          <div dangerouslySetInnerHTML={{__html: this.ym()}}/>
         </footer>
       </div>
     );
