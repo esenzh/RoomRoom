@@ -6,10 +6,13 @@ const User = require("../models/user");
 const sessionChecker = require('../middleware/auth');
 
 router.post("/api/newForm", async (req, res, next) => {
+  // user1? ну ребят, я такие комментарии пишу обычно на первой фазе)
     const user1 = req.session.user;
     const user1Form = await Form.findOne({idAuthor: user1._id});
     if (user1Form) {
         const {metro, interest, budget, about} = req.body;
+        // Как-то неудобно тут. Вы вытащили в переменные данные, а теперь построчно загоняете 
+        // в другой объект их. Как-нибудь попроще можно.
         user1Form.location = metro;
         user1Form.interest = interest;
         user1Form.data = new Date();
@@ -43,20 +46,24 @@ router.post("/api/newForm", async (req, res, next) => {
 //newfile
 router.route("/api/sendLikeMail").post(async (req, res, next) => {
     try {
+      // Без комментариев...
         const user1 = req.session.user;
         const user2ID = req.body;
 
+        // в одном случае id  в другом _id? а в чем разница тогда?
         const user1Form = await Form.findOne({idAuthor: user1._id});
         const user2Form = await Form.findOne({idAuthor: user2ID.id });
         const user2 = await  User.findById(user2ID.id);
 
+        // Если вам нужно такое длинное условие - выносите. А вообще тут явно деструктуризация бы помогла.
         if (user2Form.funs.includes(user1Form.idAuthor) || user2Form.сomparison.includes(user1Form.idAuthor) ) {
 
-            res.json({text:"Вы уже стаивли лайк данному пользователю, передите в профиль!"});
+            res.json({text:"Вы уже ставили лайк данному пользователю, передите в профиль!"});
         } else {
             if (user2Form.likes.includes(user1Form.idAuthor)) {
 console.log()
                 async function main() {
+                  // неиспользуемая переменная
                     let testAccount = await nodemailer.createTestAccount();
                     const transporter = nodemailer.createTransport({
                         host: "smtp.yandex.ru",
@@ -106,7 +113,6 @@ console.log()
             } else {
 
                 async function main() {
-                    let testAccount = await nodemailer.createTestAccount();
                     const transporter = nodemailer.createTransport({
                         host: "smtp.yandex.ru",
                         port: 465,
@@ -154,6 +160,7 @@ router.delete('/api/profile', async (req,res, next) => {
     }
     await User.findOneAndDelete({_id:user._id})
     res.json({response:'success'})
+    // Необходимый консоль лог?
     console.log("ff")
   }catch (e) {
     res.status(404)
@@ -164,6 +171,10 @@ router.post("/api/findSimilarUsers", sessionChecker, async (req, res, next) => {
     let user = req.session.user;
     const userForm = await Form.findOne({ idAuthor: user._id });
     if(userForm) {
+      // Тут уже совсем плохо с именованием.
+      // И вообще непонятно почему так много кода в файле index.js
+      // можно было разнести по файликам
+      // все что ниже данной строки просьба переписать почище.
         let arr1 = userForm;
         let arr2 = [];
         let arr3 = await Form.find();
@@ -175,6 +186,7 @@ router.post("/api/findSimilarUsers", sessionChecker, async (req, res, next) => {
         let allComparison = [];
 
         arr2.map(function (e) {
+          // Оптимизируйте
             let сomparison = [];
             let userId = {idAuthor: e.idAuthor};
             let location = {location: e.location};
@@ -217,7 +229,7 @@ router.post("/api/findSimilarUsers", sessionChecker, async (req, res, next) => {
         }
 
         let finishREsult = [];
-
+// lengthAllComparison[i][6] именно 6 ? Непонятный код
         for (let i = 0; i < lengthAllComparison.length; i++) {
             if (lengthAllComparison[i][6].length !== 0) {
                 finishREsult.push(lengthAllComparison[i]);

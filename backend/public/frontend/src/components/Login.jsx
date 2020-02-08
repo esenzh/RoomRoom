@@ -9,8 +9,7 @@ import logo from '../images/logo.png';
 const openNotification = (placement, icon, title, message) => {
     notification.open({
         message: title,
-        description:
-            message,
+        description: message,
         placement,
         icon: <Icon type={icon} style={{ color: '#108ee9' }} />,
         duration: 3
@@ -90,7 +89,13 @@ class Login extends Component {
                             )}
                         </Form.Item>
                         <Form.Item>
-                            <Button style={{ backgroundColor: '#4A76A8', color: '#ffffff' }} htmlType="submit" className="login-form-button" loading={this.state.iconLoading} icon='login'>
+                            <Button
+                                style={{ backgroundColor: '#4A76A8', color: '#ffffff' }} 
+                                htmlType="submit" 
+                                className="login-form-button" 
+                                loading={this.state.iconLoading} 
+                                icon='login'
+                            >
                                 Войти
                             </Button>
                             Или <Link to={"/signup"}>зарегистрируйтесь!</Link>
@@ -105,6 +110,7 @@ class Login extends Component {
 function mapDispatchToProps(dispatch) {
     return {
         addIsLogin: (toogle) => {
+            // с маленькой буквы
             dispatch(AddIsLogin(toogle));
         }
     };

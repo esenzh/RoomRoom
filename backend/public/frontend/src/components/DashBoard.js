@@ -18,6 +18,10 @@ import { AddUsersDashBoard } from "../redux/type";
 class DashBoard extends Component {
   constructor() {
     super();
+    // Большой локальный стейт. Скорее всего это лучше отдать редаксу. Но не точно)
+    // Почитайте https://redux.js.org/faq/organizing-state/
+    // https://stackoverflow.com/questions/39992000/how-do-i-use-local-state-along-with-redux-store-state-in-the-same-react-componen
+    // Если ничего не дублируется, то можете в принципе и тут оставить.
     this.state = {
       redirectToAnket: false,
       loading: false,
@@ -28,6 +32,7 @@ class DashBoard extends Component {
       about: null,
       prise: null,
       foto: null,
+      // '_' эту штуку в js не используем.
       first_name: null,
       interest: null,
       сomparisonInterests: null,
@@ -54,6 +59,7 @@ class DashBoard extends Component {
   };
 
   showModal = user => {
+    // photos
     let fotos = user.photo.map(foto => foto.thumbUrl);
     this.setState({
       id: user.id,
@@ -269,6 +275,7 @@ function mapStateToProps(store) {
 
 function mapDispatchToProps(dispatch) {
   return {
+    // методы не называем с заглавной буквы.
     AddUsersDashBoard: users => {
       dispatch(AddUsersDashBoard(users));
     }

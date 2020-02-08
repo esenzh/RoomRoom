@@ -44,6 +44,8 @@ router
       res.status(200).json({ response: "success" });
     }
   })
+  // А вот чтобы не писать постоянно api, нужно при подключении роутов указывать префикс api.
+  // Как мы с вами делали когда например подключали юзеров: app.use('/users', usersRouter).
   .post("/api/login", async (req, res) => {
     const { username, password } = req.body;
     const user = await Users.findOne({ username });
@@ -58,6 +60,8 @@ router
     try {
       await req.session.destroy();
       res.clearCookie("user_sid");
+      // fail или success по идее должно быть понятно из статуса ответа (200/400/500 и тд.)
+      // Вы получается дублируете информацию.
       res.status(200).json({ response: "success" });
     } catch (error) {
       res.status(400).json({ response: "fail" });

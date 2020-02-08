@@ -22,6 +22,7 @@ class MutualLikeList extends Component {
         })
         const result = await response.json();
         if (result.response === 'fail' || result.response === 'nomatch') {
+            // необходимый пустой массив?
             this.props.addMutualUsers([])
         } else if (result.response === 'noform') {
             this.props.addMutualUsers([])

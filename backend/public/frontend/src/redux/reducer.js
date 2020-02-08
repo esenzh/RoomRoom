@@ -19,45 +19,33 @@ const initialState = {
   usersDashBoard: []
 };
 
-export default function(oldState = initialState, action) {
+export default function (oldState = initialState, action) {
   switch (action.type) {
     case ADD_PHOTO:
       return {
+        // Всегда вытаскивайте сначала элементы из старого стейта
+        // И нет смысла указывать те части стейта, которые не изменяются
+        ...oldState,
         photos: action.photo,
-        isLogin: oldState.isLogin,
-        likedByUsers: [...oldState.likedByUsers],
-        mutualUsers: [...oldState.mutualUsers],
-        user: oldState.user,
-        usersDashBoard: [...oldState.usersDashBoard]
       };
     case ADD_ISLOGIN:
       return {
-        photos: oldState.photos,
+        ...oldState,
         isLogin: action.isLogin,
-        likedByUsers: [...oldState.likedByUsers],
-        mutualUsers: [...oldState.mutualUsers],
-        user: oldState.user,
-        usersDashBoard: [...oldState.usersDashBoard]
       };
     case ADD_LIKED_BY_USERS:
       return {
-        photos: oldState.photos,
-        isLogin: oldState.isLogin,
+        ...oldState,
         likedByUsers: action.likedByUsers,
-        mutualUsers: [...oldState.mutualUsers],
-        user: oldState.user,
-        usersDashBoard: [...oldState.usersDashBoard]
       };
     case ADD_MUTUAL_USERS:
       return {
-        photos: oldState.photos,
-        isLogin: oldState.isLogin,
-        likedByUsers: [...oldState.likedByUsers],
+        ...oldState,
         mutualUsers: action.mutualUsers,
-        user: oldState.user,
-        usersDashBoard: [...oldState.usersDashBoard]
       };
     case REMOVE_LIKED_BY_USERS:
+      // В этом кейсе сложноватые манипуляции. 
+      // Мне кажется можно обойтись меньшим количеством кода.
       const userToremove = oldState.likedByUsers.filter(
         user => user.id === action.user.id
       );
@@ -65,52 +53,30 @@ export default function(oldState = initialState, action) {
         user => user.id !== action.user.id
       );
       return {
-        photos: oldState.photos,
-        isLogin: oldState.isLogin,
+        ...oldState,
         likedByUsers: newlikedByUsers,
         mutualUsers: [...oldState.mutualUsers, userToremove[0]],
-        user: oldState.user,
-        usersDashBoard: [...oldState.usersDashBoard]
       };
     case EDIT_PROFILE:
       return {
-        photos: oldState.photos,
-        isLogin: oldState.isLogin,
-        likedByUsers: [...oldState.likedByUsers],
-        mutualUsers: [...oldState.mutualUsers],
+        ...oldState,
         user: action.user,
-        usersDashBoard: [...oldState.usersDashBoard]
       };
 
     case ADD_USER:
       return {
-        photos: oldState.photos,
-        isLogin: oldState.isLogin,
-        likedByUsers: [...oldState.likedByUsers],
-        mutualUsers: [...oldState.mutualUsers],
+        ...oldState,
         user: action.user,
-        usersDashBoard: [...oldState.usersDashBoard]
       };
     case ADD_USERS_DASHBOARD:
       return {
-        photos: oldState.photos,
-        isLogin: oldState.isLogin,
-        likedByUsers: [...oldState.likedByUsers],
-        mutualUsers: [...oldState.mutualUsers],
-        user: oldState.user,
+        ...oldState,
         usersDashBoard: action.users
       };
 
     case CLEAN_REDUX:
-      return {
-        photos: [],
-        isLogin: false,
-        likedByUsers: [],
-        mutualUsers: [],
-        user: {},
-        usersDashBoard: []
-      };
-
+      return oldState;
+      
     default:
       return oldState;
   }
