@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { Modal, Avatar, List, Icon } from 'antd';
 import { connect } from 'react-redux';
-import { RemoveLikedByUsers } from '../redux/type';
+import { RemoveLikedByUsers } from '../redux/action';
 
 class LikedByUserProfileInfo extends Component {
     constructor(props) {

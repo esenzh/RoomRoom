@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import {connect} from "react-redux";
-import {EditProfilePageAC, AddPhotoAC} from "../redux/type";
+import {EditProfilePageAC, AddPhotoAC} from "../redux/action";
 import {Redirect} from 'react-router-dom';
 import {
   Form,

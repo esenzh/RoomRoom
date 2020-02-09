@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import LikedByProfile from './LikedByProfile';
 import { connect } from 'react-redux';
-import { AddLikedByUsers } from '../redux/type';
+import { AddLikedByUsers } from '../redux/action';
 import { Empty } from 'antd';
 
 class LikedByList extends Component {
