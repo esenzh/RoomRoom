@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import MutualLikeProfile from './MutualLikeProfile';
 import { connect } from 'react-redux';
-import { AddMutualUser } from '../redux/type';
+import { AddMutualUser } from '../redux/action';
 import { Empty } from 'antd';
 
 class MutualLikeList extends Component {

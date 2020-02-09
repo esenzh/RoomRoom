@@ -14,9 +14,12 @@ import {
 
 import {Redirect} from "react-router-dom";
 import {connect} from "react-redux";
-import {AddUsersDashBoard} from "../redux/type";
+
 import {colorMetro, provinceData, cityData} from '../dataMetro/station'
 
+
+
+import {AddUsersDashBoard} from "../redux/action";
 const {Option} = Select;
 
 class DashBoard extends Component {
@@ -273,8 +276,10 @@ class DashBoard extends Component {
         <div className="dashBoardContainer">
           <div className="dashBoardContent">
             {this.props.users &&
+
             this.props.users.map((user, i) => {
               if (this.filterPrise(user.prise) && this.filterSex(user.sex)) {
+
                 let srcImg;
                 if (user.photo[0]) {
                   srcImg = user.photo[0].thumbUrl;
@@ -282,6 +287,7 @@ class DashBoard extends Component {
                   srcImg = 'https://alawarkey.at.ua/images/avatar.png';
                 }
                 return (
+
                   <div key={i}>
                     <Card
                       onClick={() => this.showModal(user)}

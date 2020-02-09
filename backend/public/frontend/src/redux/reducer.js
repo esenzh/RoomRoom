@@ -8,7 +8,7 @@ import {
   ADD_USER,
   ADD_USERS_DASHBOARD,
   CLEAN_REDUX
-} from "./actions";
+} from "./type";
 
 const initialState = {
   photos: [],
