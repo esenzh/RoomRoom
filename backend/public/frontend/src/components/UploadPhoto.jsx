@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from "react-redux";
-import { AddPhotoAC } from "../redux/type";
+import { AddPhotoAC } from "../redux/action";
 
 import { Upload, Icon, Modal } from 'antd';
 

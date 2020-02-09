@@ -3,7 +3,7 @@ import { Form, Icon, Input, Button, notification, Card } from 'antd';
 import { Link, Redirect } from 'react-router-dom';
 import { withCookies } from 'react-cookie';
 import { connect } from "react-redux";
-import { AddIsLogin } from "../redux/type";
+import { AddIsLogin } from "../redux/action";
 import logo from '../images/logo.png';
 
 const openNotification = (placement, icon, title, message) => {

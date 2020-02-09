@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 import { Menu, Icon, Avatar } from 'antd';
 import { withCookies } from 'react-cookie';
 import { connect } from "react-redux";
-import { AddUserAC, AddPhotoAC } from "../redux/type";
+import { AddUserAC, AddPhotoAC } from "../redux/action";
 
 
 class Navigation extends Component {

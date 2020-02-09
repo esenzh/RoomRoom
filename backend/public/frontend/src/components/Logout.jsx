@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import { withCookies } from "react-cookie";
 import { Redirect } from "react-router-dom";
 import { connect } from "react-redux";
-import { CleanReduxAC } from "../redux/type";
+import { CleanReduxAC } from "../redux/action";
 
 class Logout extends Component {
   constructor(props) {

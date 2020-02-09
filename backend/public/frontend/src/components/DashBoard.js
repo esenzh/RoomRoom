@@ -14,7 +14,7 @@ import {
 } from "antd";
 import {Redirect} from "react-router-dom";
 import {connect} from "react-redux";
-import {AddUsersDashBoard} from "../redux/type";
+import {AddUsersDashBoard} from "../redux/action";
 
 class DashBoard extends Component {
   constructor() {
