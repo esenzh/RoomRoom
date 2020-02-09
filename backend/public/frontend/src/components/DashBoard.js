@@ -22,6 +22,7 @@ import {colorMetro, provinceData, cityData} from '../dataMetro/station'
 import {AddUsersDashBoard} from "../redux/action";
 const {Option} = Select;
 
+
 class DashBoard extends Component {
   constructor() {
     super();
@@ -39,6 +40,7 @@ class DashBoard extends Component {
       usersLength: null,
       cities: cityData[provinceData[0]],
       secondCity: cityData[provinceData[0]][0],
+
     };
   }
 
@@ -194,6 +196,10 @@ class DashBoard extends Component {
     );
   };
 
+  showFilter = () => {
+
+  };
+
   render() {
     if (this.state.isRedirect) {
       return <Redirect to={"/login"}/>;
@@ -232,15 +238,9 @@ class DashBoard extends Component {
           </p>
 
         )}
-        <div style={{textAlign: "center"}}>
-          <Switch defaultChecked onChange={this.onChangeSexMan}/> Показывать мужчин
-        </div>
-        <div style={{textAlign: "center"}}>
-          <Switch defaultChecked onChange={this.onChangeSexWoman}/> Показывать женщин
-        </div>
-        <div style={{marginLeft: 'auto', marginRight: 'auto', width: '250px'}}>
-          <Slider range value={[this.state.minPrice, this.state.maxPrice]} onChange={this.onChangePrice}
-                  defaultValue={[this.state.minPrice, this.state.maxPrice]}/>Бюджет
+
+        <div>
+          <Button type="dashed" onClick={this.showFilter}>Дополнительные фильтры</Button>
         </div>
         <div style={{marginLeft: 'auto', marginRight: 'auto', width: '250px'}}>
           <Form>
@@ -257,6 +257,19 @@ class DashBoard extends Component {
                     </Option>
                   ))}
                 </Select>
+
+
+
+          <div style={{textAlign: "center"}}>
+            <Switch defaultChecked onChange={this.onChangeSexMan}/> Показывать мужчин
+          </div>
+          <div style={{textAlign: "center"}}>
+            <Switch defaultChecked onChange={this.onChangeSexWoman}/> Показывать женщин
+          </div>
+          <div style={{marginLeft: 'auto', marginRight: 'auto', width: '250px'}}>
+            <Slider range value={[this.state.minPrice, this.state.maxPrice]} onChange={this.onChangePrice}
+                    defaultValue={[this.state.minPrice, this.state.maxPrice]}/>Бюджет
+          </div>}
 
                 <Select
                   value={this.state.secondCity}
