@@ -1,7 +1,6 @@
 import React, {Component} from "react";
 import {
   Card,
-  Layout,
   Modal,
   Avatar,
   Icon,
@@ -10,11 +9,18 @@ import {
   Empty,
   Switch,
   Button,
-  Carousel, Slider
+  Carousel, Slider, Select, Badge, Form
 } from "antd";
+
 import {Redirect} from "react-router-dom";
 import {connect} from "react-redux";
+
+import {colorMetro, provinceData, cityData} from '../dataMetro/station'
+
+
+
 import {AddUsersDashBoard} from "../redux/action";
+const {Option} = Select;
 
 
 class DashBoard extends Component {
@@ -32,6 +38,9 @@ class DashBoard extends Component {
       visible: false,
       isRedirect: false,
       usersLength: null,
+      cities: cityData[provinceData[0]],
+      secondCity: cityData[provinceData[0]][0],
+
     };
   }
 
@@ -108,48 +117,84 @@ class DashBoard extends Component {
   onChangeSexMan = (checked) => {
     this.setState({showMan: checked})
   };
+
   onChangeSexWoman = (checked) => {
     this.setState({showWoman: checked})
   };
+
   handleCancel = e => {
     this.setState({
       visible: false
     });
   };
+
   redir = () => {
     this.setState({redirectToAnket: true});
   };
+
   onChangePrice = value => {
     this.setState({
       minPrice: value[0],
       maxPrice: value[1],
     });
   };
+
   filterPrise = (price) => {
     return this.state.minPrice <= price && price <= this.state.maxPrice;
   };
+
   filterSex = (sex) => {
     return (sex === 'male' && this.state.showMan) || (sex === 'female' && this.state.showWoman);
   };
 
+  handleProvinceChange = value => {
+    this.setState({
+      cities: cityData[value],
+      secondCity: cityData[value][0]
+    });
+  };
+
+  onSecondCityChange = value => {
+    this.setState({
+      secondCity: value
+    });
+  };
+
+  searchMetro = async () => {
+    this.setState({loading: true});
+    const reqComparison = await fetch("/api/findSimilarUsers", {
+      headers: {
+        "Content-Type": "application/json"
+      },
+      method: "POST",
+      body: JSON.stringify({
+        newState: this.state.secondCity,
+
+      })
+    });
+    let users = await reqComparison.json();
+
+    this.setState({loading: false});
+    this.props.AddUsersDashBoard(users);
+  };
 
   ym = () => {
     return (
-        "<script src='https://mc.yandex.ru/metrika/watch.js' type='text/javascript'></script>\
-        <script type='text/javascript'>\
-              try {\
-                    var yaCounter57428827 = new Ya.Metrika({\
-                    id:57428827,\
-                    clickmap:true,\
-                    trackLinks:true,\
-                    accurateTrackBounce:true,\
-                    webvisor:true,\
-                    trackHash:true\
-                    });\
-              } catch(e) {console.log('error') }\
-        </script>"
+      "<script src='https://mc.yandex.ru/metrika/watch.js' type='text/javascript'></script>\
+      <script type='text/javascript'>\
+            try {\
+                  var yaCounter57428827 = new Ya.Metrika({\
+                  id:57428827,\
+                  clickmap:true,\
+                  trackLinks:true,\
+                  accurateTrackBounce:true,\
+                  webvisor:true,\
+                  trackHash:true\
+                  });\
+            } catch(e) {console.log('error') }\
+      </script>"
     );
-  }
+  };
 
   showFilter = () => {
 
@@ -177,12 +222,14 @@ class DashBoard extends Component {
         </Empty>
       );
     }
+
+    const {cities} = this.state;
     return (
       <div>
         <br/>
         {this.state.loading && (
           <div style={{textAlign: "center"}}>
-            <Spin size="large" tip="Загрузка..."></Spin>
+            <Spin size="large" tip="Загрузка..."/>
           </div>
         )}
         {this.props.users && (
@@ -195,6 +242,22 @@ class DashBoard extends Component {
         <div>
           <Button type="dashed" onClick={this.showFilter}>Дополнительные фильтры</Button>
         </div>
+        <div style={{marginLeft: 'auto', marginRight: 'auto', width: '250px'}}>
+          <Form>
+            <Form.Item label="Метро" hasFeedback>
+              <div>
+                <Select
+                  defaultValue={provinceData[0]}
+                  onChange={this.handleProvinceChange}
+                >
+                  {provinceData.map(province => (
+                    <Option key={province}>
+                      <Badge color={colorMetro[province]}/>
+                      {province}
+                    </Option>
+                  ))}
+                </Select>
+
 
 
           <div style={{textAlign: "center"}}>
@@ -208,9 +271,21 @@ class DashBoard extends Component {
                     defaultValue={[this.state.minPrice, this.state.maxPrice]}/>Бюджет
           </div>}
 
-
-
-
+                <Select
+                  value={this.state.secondCity}
+                  onChange={this.onSecondCityChange}
+                >
+                  {cities.map(city => (
+                    <Option value={city} key={city}>
+                      {city}
+                    </Option>
+                  ))}
+                </Select>
+              </div>
+            </Form.Item>
+          </Form>
+          <Button onClick={this.searchMetro} type="primary" icon="search">Поиск</Button>
+        </div>
         <div className="dashBoardContainer">
           <div className="dashBoardContent">
             {this.props.users &&
