@@ -168,12 +168,11 @@ class DashBoard extends Component {
       },
       method: "POST",
       body: JSON.stringify({
-        newState: this.state.secondCity,
+        newStation: this.state.secondCity,
 
       })
     });
     let users = await reqComparison.json();
-
     this.setState({loading: false});
     this.props.AddUsersDashBoard(users);
   };
@@ -243,6 +242,16 @@ class DashBoard extends Component {
           <Button type="dashed" onClick={this.showFilter}>Дополнительные фильтры</Button>
         </div>
         <div style={{marginLeft: 'auto', marginRight: 'auto', width: '250px'}}>
+          <div style={{textAlign: "center"}}>
+            <Switch defaultChecked onChange={this.onChangeSexMan}/> Показывать мужчин
+          </div>
+          <div style={{textAlign: "center"}}>
+            <Switch defaultChecked onChange={this.onChangeSexWoman}/> Показывать женщин
+          </div>
+          <div style={{marginLeft: 'auto', marginRight: 'auto', width: '250px'}}>
+            <Slider range value={[this.state.minPrice, this.state.maxPrice]} onChange={this.onChangePrice}
+                    defaultValue={[this.state.minPrice, this.state.maxPrice]}/>Бюджет
+          </div>
           <Form>
             <Form.Item label="Метро" hasFeedback>
               <div>
@@ -257,20 +266,6 @@ class DashBoard extends Component {
                     </Option>
                   ))}
                 </Select>
-
-
-
-          <div style={{textAlign: "center"}}>
-            <Switch defaultChecked onChange={this.onChangeSexMan}/> Показывать мужчин
-          </div>
-          <div style={{textAlign: "center"}}>
-            <Switch defaultChecked onChange={this.onChangeSexWoman}/> Показывать женщин
-          </div>
-          <div style={{marginLeft: 'auto', marginRight: 'auto', width: '250px'}}>
-            <Slider range value={[this.state.minPrice, this.state.maxPrice]} onChange={this.onChangePrice}
-                    defaultValue={[this.state.minPrice, this.state.maxPrice]}/>Бюджет
-          </div>}
-
                 <Select
                   value={this.state.secondCity}
                   onChange={this.onSecondCityChange}
@@ -282,6 +277,12 @@ class DashBoard extends Component {
                   ))}
                 </Select>
               </div>
+
+
+
+
+
+
             </Form.Item>
           </Form>
           <Button onClick={this.searchMetro} type="primary" icon="search">Поиск</Button>
