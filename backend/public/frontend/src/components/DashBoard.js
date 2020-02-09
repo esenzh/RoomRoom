@@ -16,6 +16,7 @@ import {Redirect} from "react-router-dom";
 import {connect} from "react-redux";
 import {AddUsersDashBoard} from "../redux/action";
 
+
 class DashBoard extends Component {
   constructor() {
     super();
@@ -30,7 +31,7 @@ class DashBoard extends Component {
       maxPrice: 50,
       visible: false,
       isRedirect: false,
-      usersLength: null
+      usersLength: null,
     };
   }
 
@@ -150,6 +151,10 @@ class DashBoard extends Component {
     );
   }
 
+  showFilter = () => {
+
+  };
+
   render() {
     if (this.state.isRedirect) {
       return <Redirect to={"/login"}/>;
@@ -186,16 +191,25 @@ class DashBoard extends Component {
           </p>
 
         )}
-        <div style={{textAlign: "center"}}>
-          <Switch defaultChecked onChange={this.onChangeSexMan}/> Показывать мужчин
+
+        <div>
+          <Button type="dashed" onClick={this.showFilter}>Дополнительные фильтры</Button>
         </div>
-        <div style={{textAlign: "center"}}>
-          <Switch defaultChecked onChange={this.onChangeSexWoman}/> Показывать женщин
-        </div>
-        <div style={{marginLeft: 'auto', marginRight: 'auto', width: '250px'}}>
-          <Slider range value={[this.state.minPrice, this.state.maxPrice]} onChange={this.onChangePrice}
-                  defaultValue={[this.state.minPrice, this.state.maxPrice]}/>Бюджет
-        </div>
+
+
+          <div style={{textAlign: "center"}}>
+            <Switch defaultChecked onChange={this.onChangeSexMan}/> Показывать мужчин
+          </div>
+          <div style={{textAlign: "center"}}>
+            <Switch defaultChecked onChange={this.onChangeSexWoman}/> Показывать женщин
+          </div>
+          <div style={{marginLeft: 'auto', marginRight: 'auto', width: '250px'}}>
+            <Slider range value={[this.state.minPrice, this.state.maxPrice]} onChange={this.onChangePrice}
+                    defaultValue={[this.state.minPrice, this.state.maxPrice]}/>Бюджет
+          </div>}
+
+
+
 
         <div className="dashBoardContainer">
           <div className="dashBoardContent">

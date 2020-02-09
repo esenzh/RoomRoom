@@ -161,6 +161,7 @@ router.delete('/api/profile', async (req, res, next) => {
         res.status(404)
     }
 })
+
 router.post("/api/findSimilarUsers", sessionChecker, async (req, res, next) => {
     try {
         let user = req.session.user;
