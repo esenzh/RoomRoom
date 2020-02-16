@@ -285,22 +285,18 @@ class DashBoard extends Component {
                   ))}
                 </Select>
                 <Select
-                  value={this.state.secondCity}
+                  mode="multiple"
+                  placeholder="Please select"
                   onChange={this.onSecondCityChange}
+                  style={{ width: '100%' }}
                 >
                   {cities.map(city => (
-                    <Option value={city} key={city}>
-                      {city}
-                    </Option>
-                  ))}
+                      <Option value={city} key={city}>
+                        {city}
+                      </Option>
+                    ))}
                 </Select>
               </div>
-
-
-
-
-
-
             </Form.Item>
           </Form>
           <Button onClick={this.searchMetro} type="primary" icon="search">Поиск</Button>
