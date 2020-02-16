@@ -176,11 +176,24 @@ router.post("/api/findSimilarUsers", sessionChecker, async (req, res, next) => {
             let arr1 = userForm;
             let arr2 = [];
             let arr3 = await Form.find();
-            for (let i = 0; i < arr3.length; i++) {
-                if (arr1.location === arr3[i].location) {
-                    arr2.push(arr3[i]);
+
+            if(typeof arr1.location === 'Array'){
+                for (let i = 0; i < arr1.location.length; i++) {
+                    for (let j = 0; j < arr3.length; j++) {
+                        if (arr1.location[i] === arr3[j].location) {
+                            arr2.push(arr3[j]);
+                        }
+                    }
+                }
+
+            }else{
+                for (let i = 0; i < arr3.length; i++) {
+                    if (arr1.location === arr3[i].location) {
+                        arr2.push(arr3[i]);
+                    }
                 }
             }
+
             let allComparison = [];
 
             arr2.map(function (e) {
