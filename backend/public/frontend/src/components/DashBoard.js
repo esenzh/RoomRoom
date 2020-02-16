@@ -35,6 +35,8 @@ class DashBoard extends Component {
       showWoman: true,
       minPrice: 0,
       maxPrice: 50,
+      minAge: 18,
+      maxAge: 100,
       visible: false,
       isRedirect: false,
       usersLength: null,
@@ -138,9 +140,21 @@ class DashBoard extends Component {
       maxPrice: value[1],
     });
   };
+  onChangeAge = value => {
+    this.setState({
+      minAge: value[0],
+      maxAge: value[1],
+    });
+  };
 
   filterPrise = (price) => {
     return this.state.minPrice <= price && price <= this.state.maxPrice;
+  };
+  filterAge = (age) => {
+    if (age === null){
+     return true
+    }
+    return this.state.minAge <= age && age <= this.state.maxAge;
   };
 
   filterSex = (sex) => {
@@ -249,8 +263,12 @@ class DashBoard extends Component {
             <Switch defaultChecked onChange={this.onChangeSexWoman}/> Показывать женщин
           </div>
           <div style={{marginLeft: 'auto', marginRight: 'auto', width: '250px'}}>
-            <Slider range value={[this.state.minPrice, this.state.maxPrice]} onChange={this.onChangePrice}
-                    defaultValue={[this.state.minPrice, this.state.maxPrice]}/>Бюджет
+            <Slider range value={[this.state.minPrice, this.state.maxPrice]} max={150} onChange={this.onChangePrice}
+                    defaultValue={[this.state.minPrice, this.state.maxPrice]} marks={{0: '0 т.р.', 150: '150 т.р.'}}/>Бюджет
+          </div>
+          <div style={{marginLeft: 'auto', marginRight: 'auto', width: '250px'}}>
+            <Slider range max={100} min={18} value={[this.state.minAge, this.state.maxAge]} onChange={this.onChangeAge}
+                    defaultValue={[this.state.minAge, this.state.maxAge]} marks={{18: '18 лет', 100: '100 лет'}}/>Возраст
           </div>
           <Form>
             <Form.Item label="Метро" hasFeedback>
@@ -267,22 +285,18 @@ class DashBoard extends Component {
                   ))}
                 </Select>
                 <Select
-                  value={this.state.secondCity}
+                  mode="multiple"
+                  placeholder="Please select"
                   onChange={this.onSecondCityChange}
+                  style={{ width: '100%' }}
                 >
                   {cities.map(city => (
-                    <Option value={city} key={city}>
-                      {city}
-                    </Option>
-                  ))}
+                      <Option value={city} key={city}>
+                        {city}
+                      </Option>
+                    ))}
                 </Select>
               </div>
-
-
-
-
-
-
             </Form.Item>
           </Form>
           <Button onClick={this.searchMetro} type="primary" icon="search">Поиск</Button>
@@ -292,7 +306,7 @@ class DashBoard extends Component {
             {this.props.users &&
 
             this.props.users.map((user, i) => {
-              if (this.filterPrise(user.prise) && this.filterSex(user.sex)) {
+              if (this.filterPrise(user.prise) && this.filterSex(user.sex) && this.filterAge(user.age)) {
 
                 let srcImg;
                 if (user.photo[0]) {
