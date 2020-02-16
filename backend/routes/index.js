@@ -165,22 +165,36 @@ router.delete('/api/profile', async (req, res, next) => {
 router.post("/api/findSimilarUsers", sessionChecker, async (req, res, next) => {
     try {
         let user = req.session.user;
-        const userForm = await Form.findOne({idAuthor: user._id});
-
-        const {newStation} = req.body;
-        if (newStation) {
-            userForm.location = newStation;
-        }
+        const userForm = JSON.parse(JSON.stringify(await Form.findOne({idAuthor: user._id})));
 
         if (userForm) {
+            const {newStation} = req.body;
+
+            if (newStation) {
+                userForm.location = newStation;
+            }
+
             let arr1 = userForm;
             let arr2 = [];
             let arr3 = await Form.find();
-            for (let i = 0; i < arr3.length; i++) {
-                if (arr1.location === arr3[i].location) {
-                    arr2.push(arr3[i]);
+
+
+            if (typeof arr1.location === 'object') {
+                for (let i = 0; i < arr1.location.length; i++) {
+                    for (let j = 0; j < arr3.length; j++) {
+                        if (arr1.location[i] === arr3[j].location) {
+                            arr2.push(arr3[j]);
+                        }
+                    }
+                }
+            } else {
+                for (let i = 0; i < arr3.length; i++) {
+                    if (arr1.location === arr3[i].location) {
+                        arr2.push(arr3[i]);
+                    }
                 }
             }
+
             let allComparison = [];
 
             arr2.map(function (e) {
