@@ -370,8 +370,8 @@ class DashBoard extends Component {
 
               </div>
               <p>
-                <div style={{color: 'black'}}>Xочу найти возле метро:</div>
-                <div style={{fontSize: '20px'}}> {this.state.modalUser.location}</div>
+                <div style={{color: 'black'}}>Ищу квартиру для совместной аренды рядом с метро:</div>
+                <div style={{fontSize: '20px'}}>{this.state.modalUser.location}</div>
               </p>
 
               <p>
