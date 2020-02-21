@@ -1,23 +1,23 @@
 import React, { Component } from 'react';
 import { Card } from 'antd';
 import Steps from '../../Steps';
-import Form from './Form';
 
-class RegisterWhere extends Component {
+const { Step } = Steps;
+
+class Register_who extends Component {
     constructor(props) {
         super(props);
-        this.state = {}
+        this.state = {  }
     }
-
-    render() {
-        return (<div style={{ padding: 10 }}>
-            <Steps stepNumber={0} />
+    render() { 
+        return ( <div style={{ padding: 10 }}>
+            <Steps stepNumber={1} />
             <br /><br />
             <Card className='signUpForm'>
-                <Form />
+                
             </Card>
         </div>);
     }
 }
-
-export default RegisterWhere;
+ 
+export default Register_who;

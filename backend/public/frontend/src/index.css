@@ -151,32 +151,26 @@ li {
   border-radius: 5px;
 }
 
-.signUpWhereForm {
+.signUpForm {
   border-radius: 5px !important;
   width: 1000px !important;
   margin: auto !important;
 }
 
 @media screen and (max-width: 1020px) {
-  .signUpWhereForm {
+  .signUpForm {
     width: 700px !important;
   }
 }
 
 @media screen and (max-width: 720px) {
-  .signUpWhereForm {
+  .signUpForm {
     width: 500px !important;
   }
 }
 
 @media screen and (max-width: 554px) {
-  .signUpWhereForm {
+  .signUpForm {
     width: 360px !important;
   }
-}
-
-.calendarDiv {
-  width: 300px;
-  border: 1px solid #d9d9d9;
-  border-radius: 4px;
 }
