@@ -12,6 +12,11 @@ import WrappedDynamicRule from "./components/WrappedDynamicRule";
 import Logout from "./components/Logout";
 import DashBoard from "./components/DashBoard";
 import EditProfile from "./components/EditProfile";
+import Landing from "./components/Landing";
+import Register_where from "./components/user_owner/register_where/Register_where";
+import Register_who from "./components/user_owner/Register_who";
+import Register_you from "./components/user_owner/Register_you";
+
 
 class App extends React.Component {
   render() {
@@ -21,9 +26,13 @@ class App extends React.Component {
           {this.props.isLogin || isLogin ? <Navbar /> : ""}
           <Switch>
             <Route exact path={"/"} component={DashBoard} />
+            <Route exact path={"/landing"} component={Landing} />
             <Route exact path={"/anketa"} component={WrappedDynamicRule} />
             <Route exact path={"/profile"} component={Profile} />
             <Route path={"/profile/edit"} component={EditProfile} />
+            <Route exact path={"/signup/where"} component={Register_where} />
+            <Route exact path={"/signup/who"} component={Register_who} />
+            <Route exact path={"/signup/you"} component={Register_you} />
             <Route exact path={"/login"} component={Login} />
             <Route exact path={"/signup"} component={Signup} />
             <Route exact path={"/logout"} component={Logout} />
