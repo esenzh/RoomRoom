@@ -15,7 +15,7 @@ import EditProfile from "./components/EditProfile";
 import Landing from "./components/Landing";
 import Register_where from "./components/user_owner/register_where/Register_where";
 import Register_who from "./components/user_owner/register_who/Register_who";
-import Register_you from "./components/user_owner/Register_you";
+import Register_you from "./components/user_owner/register_you/Register_you";
 
 
 class App extends React.Component {

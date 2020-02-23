@@ -151,6 +151,10 @@ li {
   border-radius: 5px;
 }
 
+.customRadio {
+  margin: 0 5px 5px 0 !important;
+}
+
 .signUpForm {
   border-radius: 5px !important;
   width: 1000px !important;

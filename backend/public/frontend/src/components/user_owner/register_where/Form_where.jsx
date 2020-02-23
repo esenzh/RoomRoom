@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { InputNumber, Form, Button, Checkbox, Radio, Icon, DatePicker } from 'antd';
-
+import { withRouter } from "react-router-dom";
 
 class FormWhere extends Component {
     constructor(props) {
@@ -67,7 +67,7 @@ class FormWhere extends Component {
                     admissionDay
                 }
                 localStorage.setItem('userInputWhere', JSON.stringify(userInput));
-                // const response = await fetch()
+                this.props.history.push('/signup/who')
             }
         })
     }
@@ -135,8 +135,8 @@ class FormWhere extends Component {
                         <div>
                             <p className='question'>Комната смежные или изолированная?</p>
                             <Radio.Group buttonStyle="solid">
-                                <Radio.Button value={'смежная'}>смежная</Radio.Button>
-                                <Radio.Button value={'изолированная'}>изолированная</Radio.Button>
+                                <Radio.Button className='customRadio' value={'смежная'}>смежная</Radio.Button>
+                                <Radio.Button className='customRadio' value={'изолированная'}>изолированная</Radio.Button>
                             </Radio.Group>
                         </div>
                     )}
@@ -180,8 +180,8 @@ class FormWhere extends Component {
                         <div>
                             <p className='question'>Есть ли Интернет?</p>
                             <Radio.Group buttonStyle="solid">
-                                <Radio.Button value={'да'}>да</Radio.Button>
-                                <Radio.Button value={'нет'}>нет</Radio.Button>
+                                <Radio.Button className='customRadio' value={'да'}>да</Radio.Button>
+                                <Radio.Button className='customRadio' value={'нет'}>нет</Radio.Button>
                             </Radio.Group>
                         </div>
                     )}
@@ -257,6 +257,7 @@ class FormWhere extends Component {
                         </div>
                     )}
                 </Form.Item>
+                <p className='question'>Когда возможно заехать?</p>
                 <Form.Item
                     style={{ display: 'inline-block', width: 'calc(50% - 12px)' }}
                 >
@@ -277,5 +278,5 @@ class FormWhere extends Component {
         );
     }
 }
-const FormWher = Form.create({ name: 'normal_login' })(FormWhere);
-export default FormWher;
+const Form_Where = Form.create({ name: 'form_where' })(FormWhere);
+export default withRouter(Form_Where);
