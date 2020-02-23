@@ -50,7 +50,7 @@ class FormYou extends Component {
                     photoOfOwner: this.props.photos
                 }
 
-                const response = await fetch('/signup/userOwner', {
+                const response = await fetch('/api/signup/owner', {
                     method: 'POST',
                     headers: {'Content-Type': 'application/json'},
                     body: JSON.stringify({

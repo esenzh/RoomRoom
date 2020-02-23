@@ -45,60 +45,8 @@ router
       res.status(200).json({ response: "success" });
     }
   })
-    .post("/api/signupUserOwners", async (req, res, next) => {
-      const {
-        first_name,
-        last_name,
-        email,
-        phone,
-        photo,
-        vk,
-        username,
-        password,
-        age,
-        nativeLocation,
-        sex,
-        location,
-        interest,
-        data,
-        about,
-        likes,
-        сomparison,
-        funs,
-        price,
-      } = req.body;
-      const user = new UserOwners ({
-        first_name,
-        last_name,
-        email,
-        phone,
-        photo,
-        vk,
-        age,
-        nativeLocation,
-        username,
-        password: await bcrypt.hash(password, saltRounds),
-        sex,
-        location,
-        interest,
-        data,
-        about,
-        likes,
-        сomparison,
-        funs,
-        price,
-      });
-      const dbusername = await UserOwners.findOne({ username });
-      const dbemail = await UserOwners.findOne({ email });
-      if (dbusername && dbusername.username === username) {
-        res.status(400).json({ response: "usernameExist" });
-      } else if (dbemail && dbemail.email === email) {
-        res.status(400).json({ response: "emailExist" });
-      } else {
-        await user.save();
-        req.session.user =  user;
-        res.status(200).json({ response: "success" });
-      }
+    .post("/api/signup/owner", async (req, res, next) => {
+      console.log(req.body)
     })
     .post("/api/login", async (req, res) => {
       const { username, password } = req.body;
