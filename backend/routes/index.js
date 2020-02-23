@@ -55,7 +55,6 @@ router.route("/api/sendLikeMail").post(async (req, res, next) => {
             res.json({text: "Вы уже стаивли лайк данному пользователю, передите в профиль!"});
         } else {
             if (user2Form.likes.includes(user1Form.idAuthor)) {
-                console.log()
 
                 async function main() {
                     let testAccount = await nodemailer.createTestAccount();

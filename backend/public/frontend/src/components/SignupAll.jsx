@@ -38,7 +38,7 @@ class Signup extends Component {
     handleSubmit = e => {
         e.preventDefault();
         this.props.form.validateFieldsAndScroll(async (err, values) => {
-            if (!err) {
+            if (!err && this.state.value !== 1) {
                 this.setState({ iconLoading: true })
                 const {
                     first_name,
@@ -76,6 +76,8 @@ class Signup extends Component {
                     openNotification('topRight', 'warning', 'Warning', 'Этот E-mail уже используется!')
                     this.setState({ iconLoading: false })
                 }
+            }else{
+                openNotification('topRight', 'warning', 'Warning', 'Выберите поле "Сдаю комнату" или поле "Ищу комнату"!')
             }
         });
     };
@@ -238,10 +240,6 @@ class Signup extends Component {
         })(<Input.Password onBlur={this.handleConfirmBlur} placeholder="Снова пароль" />)}
     </Form.Item>
 
-    {/*    <input type="radio" id={"Сокольническая"} name={'line'} value={'Сокольническая ветка'} />Сдаю комнату*/}
-
-    {/*    <input type="radio" id={"Замоскворецкая"} name={'line'} style={{marginLeft: "20px"}} value={'Замоскворецкая'} />Ищу комнату*/}
-    {/*</Form.Item>*/}
     <Radio.Group onChange={this.onChange} value={this.state.value}>
         <Radio style={{marginLeft: "20px"}} value={'Сдаю комнату'}>Сдаю комнату</Radio>
         <Radio value={'Ищу комнату'}>Ищу комнату</Radio>
