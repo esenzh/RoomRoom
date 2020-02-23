@@ -240,61 +240,67 @@ class DashBoard extends Component {
           <p style={{fontSize: "25px"}} align={"center"}>
             Подходящие для Вас пользователи!
           </p>
-
         )}
+
         <Collapse >
           <Panel header="Дополнительные фильтры" key="1">
-            <div style={{marginLeft: 'auto', marginRight: 'auto', width: '250px'}}>
-              <div style={{textAlign: "center"}}>
-                <Switch defaultChecked onChange={this.onChangeSexMan}/> Показывать мужчин
-              </div>
-              <div style={{textAlign: "center"}}>
-                <Switch defaultChecked onChange={this.onChangeSexWoman}/> Показывать женщин
-              </div>
-              <div style={{marginLeft: 'auto', marginRight: 'auto', width: '250px'}}>
-                <Slider range value={[this.state.minPrice, this.state.maxPrice]} max={150} onChange={this.onChangePrice}
-                        defaultValue={[this.state.minPrice, this.state.maxPrice]} marks={{0: '0 т.р.', 150: '150 т.р.'}}/>Бюджет
-              </div>
-              <div style={{marginLeft: 'auto', marginRight: 'auto', width: '250px'}}>
-                <Slider range max={100} min={18} value={[this.state.minAge, this.state.maxAge]} onChange={this.onChangeAge}
-                        defaultValue={[this.state.minAge, this.state.maxAge]} marks={{18: '18 лет', 100: '100 лет'}}/>Возраст
-              </div>
-              <Form>
-                <Form.Item label="Метро" hasFeedback>
-                  <div>
-                    <Select
-                      defaultValue={provinceData[0]}
-                      onChange={this.handleProvinceChange}
-                    >
-                      {provinceData.map(province => (
-                        <Option key={province}>
-                          <Badge color={colorMetro[province]}/>
-                          {province}
-                        </Option>
-                      ))}
-                    </Select>
-                    <Select
-                      mode="multiple"
-                      placeholder="Please select"
-                      onChange={this.onSecondCityChange}
-                      style={{ width: '100%' }}
-                    >
-                      {cities.map(city => (
-                        <Option value={city} key={city}>
-                          {city}
-                        </Option>
-                      ))}
-                    </Select>
+
+            <div style={{marginLeft: 'auto', marginRight: 'auto', width: '55%'}}>
+
+              <section style={{ display: "flex", flexFlow: "column raw", aligItems: "center", justifyContent: "space-around", backgroundColor: '#F5F5F6', color: '#4A76A8' }}>
+                <div>
+                  <div style={{textAlign: "center"}}>
+                    <Switch defaultChecked onChange={this.onChangeSexMan}/> &nbsp;&nbsp;&nbsp; <img width={"40px"} src="https://img.icons8.com/ultraviolet/100/000000/farmer-male.png" alt={"Мужчины"}/>
                   </div>
-                </Form.Item>
-              </Form>
-              <Button onClick={this.searchMetro} type="primary" icon="search">Поиск</Button>
+                  <div style={{textAlign: "center"}}>
+                    <Switch defaultChecked onChange={this.onChangeSexWoman}/> &nbsp;&nbsp;&nbsp; <img  width={"40px"} src="https://img.icons8.com/ultraviolet/100/000000/farmer-female.png" alt={"Женщины"}/>
+                  </div>
+                </div>
+
+                <div style={{marginLeft: 'auto', marginRight: 'auto', width: '250px'}}>
+                  <Slider range value={[this.state.minPrice, this.state.maxPrice]} max={150} onChange={this.onChangePrice}
+                          defaultValue={[this.state.minPrice, this.state.maxPrice]} marks={{0: '0 т.р.', 150: '150 т.р.'}}/>Бюджет
+                </div>
+                <div style={{marginLeft: 'auto', marginRight: 'auto', width: '250px'}}>
+                  <Slider range max={100} min={18} value={[this.state.minAge, this.state.maxAge]} onChange={this.onChangeAge}
+                          defaultValue={[this.state.minAge, this.state.maxAge]} marks={{18: '18 лет', 100: '100 лет'}}/>Возраст
+                </div>
+              </section>
+              <div>
+                <Form>
+                  <Form.Item label="Метро" hasFeedback>
+                    <div>
+                      <Select
+                          defaultValue={provinceData[0]}
+                          onChange={this.handleProvinceChange}
+                      >
+                        {provinceData.map(province => (
+                            <Option key={province}>
+                              <Badge color={colorMetro[province]}/>
+                              {province}
+                            </Option>
+                        ))}
+                      </Select>
+                      <Select
+                          mode="multiple"
+                          placeholder="Please select"
+                          onChange={this.onSecondCityChange}
+                          style={{ width: '100%' }}
+                      >
+                        {cities.map(city => (
+                            <Option value={city} key={city}>
+                              {city}
+                            </Option>
+                        ))}
+                      </Select>
+                    </div>
+                  </Form.Item>
+                </Form>
+                <Button onClick={this.searchMetro} type="primary" icon="search">Поиск</Button>
+              </div>
             </div>
           </Panel>
-
         </Collapse>
-
-
 
         <div className="dashBoardContainer">
           <div className="dashBoardContent">
