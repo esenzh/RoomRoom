@@ -59,9 +59,9 @@ class Navigation extends Component {
               ВЫЙТИ
             </Link>
           </Menu.Item>
-          <Menu.Item key='anketa' className='navbarText' style={{float: 'right'}}>
-            <Link to={'/anketa'}>
-              <Icon type="anketa" />
+          <Menu.Item key='helpProject' className='navbarText' style={{float: 'right'}}>
+            <Link to={'/helpProject'}>
+              <Icon type="helpProject" />
               ПОДДЕРЖАТЬ ПРОЕКТ
             </Link>
           </Menu.Item>

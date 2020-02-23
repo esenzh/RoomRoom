@@ -9,7 +9,7 @@ import Profile from "./components/Profile";
 import Login from "./components/Login";
 import Signup from "./components/Signup";
 import SignupAll from "./components/SignupAll";
-
+import HelpProject from "./components/helpProject";
 import WrappedDynamicRule from "./components/WrappedDynamicRule";
 import Logout from "./components/Logout";
 import DashBoard from "./components/DashBoard";
@@ -24,6 +24,7 @@ class App extends React.Component {
           <Switch>
             <Route exact path={"/"} component={DashBoard} />
             <Route exact path={"/anketa"} component={WrappedDynamicRule} />
+            <Route exact path={"/helpProject"} component={HelpProject} />
             <Route exact path={"/profile"} component={Profile} />
             <Route path={"/profile/edit"} component={EditProfile} />
             <Route exact path={"/login"} component={Login} />
