@@ -19,7 +19,7 @@ a {
 #root {
   height: 100%;
   width: 100%;
-  background-color: #EDEEF0;
+  /* background-color: #EDEEF0; */
 }
 
 .loginForm{
@@ -95,4 +95,82 @@ a {
   border-radius: 20px !important;
   width: 500px !important; 
   margin-top: 50px !important;
+}
+
+.choice_question{
+  text-align: center;
+  margin-top: 300px;
+}
+
+.have_btn{
+  font-size: 17px;
+  height: 50px;
+  background-color: lightblue;
+  color: #ffffff;
+  width: 150px;
+  cursor: pointer;
+  border: none;
+}
+
+hr.vertical {
+  width: 0px;
+  height: 100%;
+  /* or height in PX */
+}
+
+.need_btn{
+  font-size: 17px;
+  height: 50px;
+  background-color: lightgreen;
+  color: #ffffff;
+  width: 150px;
+  cursor: pointer;
+  border: none;
+}
+.question {
+  font-family: "Source Sans Pro", "OpenSans", "Helvetica Neue", Helvetica, Arial, sans-serif;
+    font-weight: 700;
+    font-size: 1rem;
+    vertical-align: super;
+}
+
+ol {
+  list-style-type: none;
+  padding: 5px;
+}
+
+li {
+  list-style-type: none;
+}
+
+.customCheckbox {
+  background-color: #1990FF;
+  color: #ffffff !important;
+  padding: 7px !important;
+  margin: 10px 10px 10px 0 !important;
+  border-radius: 5px;
+}
+
+.signUpForm {
+  border-radius: 5px !important;
+  width: 1000px !important;
+  margin: auto !important;
+}
+
+@media screen and (max-width: 1020px) {
+  .signUpForm {
+    width: 700px !important;
+  }
+}
+
+@media screen and (max-width: 720px) {
+  .signUpForm {
+    width: 500px !important;
+  }
+}
+
+@media screen and (max-width: 554px) {
+  .signUpForm {
+    width: 360px !important;
+  }
 }
