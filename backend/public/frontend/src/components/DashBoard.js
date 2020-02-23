@@ -375,34 +375,37 @@ class DashBoard extends Component {
               <div style={{height: '40px'}}>
 
               </div>
-              <p>
-                <div style={{color: 'black'}}>Ищу квартиру для совместной аренды рядом с метро:</div>
-                <div style={{fontSize: '20px'}}>{this.state.modalUser.location}</div>
-              </p>
+              <div style={{backgroundColor: 'white'}}>
+                <p>
+                  <div style={{color: '#4A76A8'}}>Ищу квартиру для совместной аренды рядом с метро:</div>
+                  <div style={{fontSize: '20px'}}>{this.state.modalUser.location}</div>
+                </p>
 
-              <p>
-                <div style={{color: 'black'}}>Мои интересы:</div>
-                <div style={{fontSize: '20px'}}>{this.state.modalUser.interest.join(", ")}</div>
-              </p>
-              <p>
-                <div style={{color: 'black'}}>Совпавшие
-                  интересы: {this.state.modalUser.сomparisonInterests.length} </div>
-                <div style={{fontSize: '20px'}}>{this.state.modalUser.сomparisonInterests.join(", ")}</div>
-              </p>
-              {this.state.modalUser.nativeLocation &&
-              <p>
-                <div style={{color: 'black'}}>Родной город:</div>
-                <div style={{fontSize: '20px'}}>{this.state.modalUser.nativeLocation}</div>
-              </p>
-              }
-              <p>
-                <div style={{color: 'black'}}>О себе:</div>
-                <div style={{fontSize: '20px'}}>{this.state.modalUser.about}</div>
-              </p>
-              <p>
-                <div style={{color: 'black'}}>Мой бюджет аренды:</div>
-                <div style={{fontSize: '20px'}}>{this.state.modalUser.prise} т.р.</div>
-              </p>
+                <p>
+                  <div style={{color: '#4A76A8'}}>Мои интересы:</div>
+                  <div style={{fontSize: '20px'}}>{this.state.modalUser.interest.join(", ")}</div>
+                </p>
+                <p>
+                  <div style={{color: '#4A76A8'}}>Совпавшие
+                    интересы: {this.state.modalUser.сomparisonInterests.length} </div>
+                  <div style={{fontSize: '20px'}}>{this.state.modalUser.сomparisonInterests.join(", ")}</div>
+                </p>
+                {this.state.modalUser.nativeLocation &&
+                <p>
+                  <div style={{color: '#4A76A8'}}>Родной город:</div>
+                  <div style={{fontSize: '20px'}}>{this.state.modalUser.nativeLocation}</div>
+                </p>
+                }
+                <p>
+                  <div style={{color: '#4A76A8'}}>О себе:</div>
+                  <div style={{fontSize: '20px'}}>{this.state.modalUser.about}</div>
+                </p>
+                <p>
+                  <div style={{color: '#4A76A8'}}>Мой бюджет аренды:</div>
+                  <div style={{fontSize: '20px'}}>{this.state.modalUser.prise} т.р.</div>
+                </p>
+              </div>
+
             </Modal>
 
           )}
