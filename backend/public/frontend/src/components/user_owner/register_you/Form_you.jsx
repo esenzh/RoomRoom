@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import { InputNumber, Form, Checkbox, Radio, Input, Button } from 'antd';
-import { withCookies } from 'react-cookie';
 import { connect } from "react-redux";
 import UploadPhoto from '../../UploadPhoto';
 
@@ -204,4 +203,4 @@ function mapStateToProps(store) {
 }
 
 const Form_You = Form.create({ name: 'form_you' })(FormYou)
-export default withCookies(connect(mapStateToProps)(Form_You));
+export default connect(mapStateToProps)(Form_You);

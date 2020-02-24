@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import { InputNumber, Form, Button, Checkbox, Radio, Icon, DatePicker } from 'antd';
 import { withRouter } from "react-router-dom";
+import { connect } from "react-redux";
+import UploadPhoto from '../../UploadPhoto';
 
 class FormWhere extends Component {
     constructor(props) {
@@ -75,11 +77,12 @@ class FormWhere extends Component {
                     furnitureInRoom: this.state.furnitureInRoom,
                     internet,
                     nearBy: this.state.nearBy,
+                    apartmentPhoto: this.props.photos,
                     fee,
                     bills,
                     deposit,
                     rentalDuration,
-                    admissionDay
+                    admissionDay: admissionDay._d
                 }
                 console.log(userInput)
                 localStorage.setItem('userInputWhere', JSON.stringify(userInput));
@@ -220,6 +223,16 @@ class FormWhere extends Component {
                     )}
                 </Form.Item>
                 <Form.Item>
+                    {getFieldDecorator('apartmentPhoto', {
+                        rules: [{ required: true, message: 'Пожалуйста, загрузите фото' }],
+                    })(
+                        <div>
+                            <p className='question'>Загрузите фотографию квартиры</p>
+                            <UploadPhoto />
+                        </div>
+                    )}
+                </Form.Item>
+                <Form.Item>
                     {getFieldDecorator('fee', {
                         rules: [{ required: true, message: 'Пожалуйста, введите cколько оплата' }],
                     })(
@@ -293,5 +306,12 @@ class FormWhere extends Component {
         );
     }
 }
+
+function mapStateToProps(store) {
+    return {
+        photos: store.photos
+    };
+}
+
 const Form_Where = Form.create({ name: 'form_where' })(FormWhere);
-export default withRouter(Form_Where);
+export default withRouter(connect(mapStateToProps)(Form_Where));

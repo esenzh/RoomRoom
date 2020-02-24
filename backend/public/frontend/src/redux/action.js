@@ -1,6 +1,5 @@
 import {
   ADD_PHOTO,
-  ADD_APARTMENT_PHOTO,
   ADD_ISLOGIN,
   ADD_LIKED_BY_USERS,
   ADD_MUTUAL_USERS,
@@ -14,13 +13,6 @@ import {
 export const AddPhotoAC = photo => {
   return {
     type: ADD_PHOTO,
-    photo
-  };
-};
-
-export const AddApartmentPhotoAC = photo => {
-  return {
-    type: ADD_APARTMENT_PHOTO,
     photo
   };
 };

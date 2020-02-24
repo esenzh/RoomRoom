@@ -1,7 +1,6 @@
 import {
   ADD_PHOTO,
   ADD_ISLOGIN,
-  ADD_APARTMENT_PHOTO,
   ADD_LIKED_BY_USERS,
   ADD_MUTUAL_USERS,
   REMOVE_LIKED_BY_USERS,
@@ -27,11 +26,6 @@ export default function(oldState = initialState, action) {
       return {
         ...oldState,
         photos: action.photo
-      };
-    case ADD_APARTMENT_PHOTO:
-      return {
-        ...oldState,
-        apartmentPhotos: action.photo
       };
     case ADD_ISLOGIN:
       return {
