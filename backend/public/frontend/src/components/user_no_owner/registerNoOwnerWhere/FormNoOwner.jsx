@@ -1,5 +1,6 @@
 import React, {Component} from 'react';
 import {InputNumber, Form, Button, Radio, Icon, DatePicker, Select, Badge} from 'antd';
+import {withRouter} from "react-router-dom";
 import {colorMetro, provinceData, cityData} from '../../../dataMetro/station'
 
 const {Option} = Select;
@@ -58,33 +59,33 @@ class FormNoOwner extends Component {
       <Form onSubmit={this.handleSubmit}>
         <Form.Item>
 
-            <div>
-              <p className='question'>В каком районе? Выбрать метро</p>
-              <Select
-                defaultValue={provinceData[0]}
-                onChange={this.handleProvinceChange}
-              >
-                {provinceData.map(province => (
-                  <Option key={province}>
-                    <Badge color={colorMetro[province]}/>
-                    {province}
-                  </Option>
-                ))}
-              </Select>
+          <div>
+            <p className='question'>В каком районе? Выбрать метро</p>
+            <Select
+              defaultValue={provinceData[0]}
+              onChange={this.handleProvinceChange}
+            >
+              {provinceData.map(province => (
+                <Option key={province}>
+                  <Badge color={colorMetro[province]}/>
+                  {province}
+                </Option>
+              ))}
+            </Select>
 
-              <Select
-                mode="multiple"
-                placeholder="Please select"
-                onChange={this.onSecondCityChange}
-                style={{width: '100%'}}
-              >
-                {cities.map(city => (
-                  <Option value={city} key={city}>
-                    {city}
-                  </Option>
-                ))}
-              </Select>
-            </div>
+            <Select
+              mode="multiple"
+              placeholder="Please select"
+              onChange={this.onSecondCityChange}
+              style={{width: '100%'}}
+            >
+              {cities.map(city => (
+                <Option value={city} key={city}>
+                  {city}
+                </Option>
+              ))}
+            </Select>
+          </div>
 
         </Form.Item>
         <Form.Item>
@@ -92,8 +93,8 @@ class FormNoOwner extends Component {
             rules: [{required: true, message: 'Пожалуйста, введите бюджет'}],
           })(
             <div>
-              <p className='question'>Сколько бюджет т.р.?</p>
-              <InputNumber min={1}/>
+              <p className='question'>Сколько бюджет ?</p>
+              <InputNumber min={1} placeholder='₽'/>
             </div>
           )}
         </Form.Item>
@@ -110,13 +111,14 @@ class FormNoOwner extends Component {
             </div>
           )}
         </Form.Item>
+        <p className='question'>Когда хотите заселиться? </p>
         <Form.Item
-          style={{ display: 'inline-block', width: 'calc(50% - 12px)' }}
+          style={{display: 'inline-block', width: 'calc(50% - 12px)'}}
         >
           {getFieldDecorator('admissionDay', {
-            rules: [{ required: true, message: 'Пожалуйста, введите когда возможно заехать' }],
+            rules: [{required: true, message: 'Пожалуйста, введите когда возможно заехать'}],
           })(
-            <DatePicker size='large' placeholder="Выберите дату" />
+            <DatePicker size='large' placeholder="Выберите дату"/>
           )}
         </Form.Item>
         <br/>
@@ -132,4 +134,4 @@ class FormNoOwner extends Component {
 }
 
 const FormWher = Form.create({name: 'normal_login'})(FormNoOwner);
-export default FormWher;
+export default withRouter(FormWher);

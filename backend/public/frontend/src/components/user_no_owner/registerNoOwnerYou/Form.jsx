@@ -11,7 +11,7 @@ class FormYou extends Component {
     super(props);
     this.state = {
       disabled: false,
-      petsOfOnwer: [],
+      petsOfUser: [],
     }
   }
 
@@ -29,43 +29,39 @@ class FormYou extends Component {
     this.props.form.validateFields(async (err, values) => {
       if (!err) {
         const {
-          sexOfOwner,
-          ageOfOwner,
-          professionOfOwner,
-          childrenOfOwner,
-          isOwnerSmokes,
-          aboutOwner
+          sexOfUser,
+          ageOfUser,
+          aboutUser,
+          professionOfUser
         } = values;
 
         const userInputYou = {
-          sexOfOwner,
-          ageOfOwner,
-          professionOfOwner,
-          childrenOfOwner,
-          petsOfOnwer: this.state.petsOfOnwer,
-          isOwnerSmokes,
-          aboutOwner,
-          photoOfOwner: this.props.photos
+          sexOfUser,
+          ageOfUser,
+          petsOfUser: this.state.petsOfUser,
+          aboutUser,
+          professionOfUser,
+          photoOfUser: this.props.photos
         };
         console.log(userInputYou)
 
-        const response = await fetch('/api/signup/owner', {
-          method: 'POST',
-          headers: {'Content-Type': 'application/json'},
-          body: JSON.stringify({
-            userInputWhere: this.state.userInputWhere,
-            userInputWho: this.state.userInputWho,
-            userInputYou
-          })
-        });
-        const result = await response.json();
+        // const response = await fetch('/api/signup/owner', {
+        //   method: 'POST',
+        //   headers: {'Content-Type': 'application/json'},
+        //   body: JSON.stringify({
+        //     userInputWhere: this.state.userInputWhere,
+        //     userInputWho: this.state.userInputWho,
+        //     userInputYou
+        //   })
+        // });
+        // const result = await response.json();
       }
     })
   };
 
   onChangePetsOfOwner = (value) => {
     this.setState({
-      petsOfOnwer: value
+      petsOfUser: value
     })
   };
 
@@ -74,7 +70,7 @@ class FormYou extends Component {
     return (
       <Form onSubmit={this.handleSubmit}>
         <Form.Item>
-          {getFieldDecorator('sexOfOwner', {
+          {getFieldDecorator('sexOfUser', {
             rules: [{ required: true, message: 'Пожалуйста, укажите какой ваш пол' }],
           })(
             <div>
@@ -88,7 +84,7 @@ class FormYou extends Component {
           )}
         </Form.Item>
         <Form.Item>
-          {getFieldDecorator('ageOfOwner', {
+          {getFieldDecorator('ageOfUser', {
             rules: [{ required: true, message: 'Пожалуйста, введите какой ваш возраст' }],
           })(
             <div>
@@ -98,7 +94,7 @@ class FormYou extends Component {
           )}
         </Form.Item>
         <Form.Item>
-          {getFieldDecorator('professionOfOwner', {
+          {getFieldDecorator('professionOfUser', {
             rules: [{ required: true, message: 'Пожалуйста, укажите чем вы занимаетесь' }],
           })(
             <div>
@@ -114,48 +110,19 @@ class FormYou extends Component {
           )}
         </Form.Item>
         <Form.Item>
-          {getFieldDecorator('childrenOfOwner', {
-            rules: [{ required: true, message: 'Пожалуйста, укажите вы проживаете с детьми' }],
-          })(
+          {getFieldDecorator('animalSmokeChild')(
             <div>
-              <p className='question'>Вы проживаете с детьми?</p>
-              <Radio.Group buttonStyle="solid">
-                <Radio.Button className='customRadio' value={'Да'}>Да</Radio.Button>
-                <Radio.Button className='customRadio' value={'Нет'}>Нет</Radio.Button>
-              </Radio.Group>
-            </div>
-          )}
-        </Form.Item>
-        <Form.Item>
-          {getFieldDecorator('petsOfOnwer', {
-            rules: [{ required: true, message: 'Пожалуйста, укажите вы проживаете с животными' }],
-          })(
-            <div>
-              <p className='question'>Вы проживаете с животными?</p>
+              <p className='question'>Вы проживаете с?</p>
               <Checkbox.Group onChange={this.onChangePetsOfOwner}>
-                <Checkbox className='customCheckbox' value={'Нет'}>Нет</Checkbox>
-                <Checkbox className='customCheckbox' disabled={this.state.disabled} value={'Кот'}>Кот</Checkbox>
-                <Checkbox className='customCheckbox' disabled={this.state.disabled} value={'Собака'}>Собака</Checkbox>
-                <Checkbox className='customCheckbox' disabled={this.state.disabled} value={'Другие'}>Другие</Checkbox>
+                <Checkbox className='customCheckbox' value={'С животным'}>С животным</Checkbox>
+                <Checkbox className='customCheckbox' disabled={this.state.disabled} value={'С ребенком'}>С ребенком</Checkbox>
+                <Checkbox className='customCheckbox' disabled={this.state.disabled} value={'Курите'}>Курите</Checkbox>
               </Checkbox.Group>
             </div>
           )}
         </Form.Item>
         <Form.Item>
-          {getFieldDecorator('isOwnerSmokes', {
-            rules: [{ required: true, message: 'Пожалуйста, укажите вы курите' }],
-          })(
-            <div>
-              <p className='question'>Вы курите?</p>
-              <Radio.Group buttonStyle="solid">
-                <Radio.Button className='customRadio' value={'Да'}>Да</Radio.Button>
-                <Radio.Button className='customRadio' value={'Нет'}>Нет</Radio.Button>
-              </Radio.Group>
-            </div>
-          )}
-        </Form.Item>
-        <Form.Item>
-          {getFieldDecorator('aboutOwner', {
+          {getFieldDecorator('aboutUser', {
             rules: [{ required: true, message: 'Пожалуйста, укажите чем занимаетесь' }],
           })(
             <div>
@@ -166,7 +133,7 @@ class FormYou extends Component {
         </Form.Item>
         {/* TODO: social accounts */}
         <Form.Item>
-          {getFieldDecorator('photoOfOwner', {
+          {getFieldDecorator('photoOfUser', {
             rules: [{ required: true, message: 'Пожалуйста, загрузите свою фотографию' }],
           })(
             <div>

@@ -1,5 +1,6 @@
 import React, {Component} from 'react';
-import {Button, DatePicker, Icon, InputNumber, Radio, Form, Slider} from "antd";
+import {Button, Icon, Radio, Form, Slider, Checkbox} from "antd";
+import { withRouter } from "react-router-dom";
 
 
 class FormWho extends Component {
@@ -7,7 +8,8 @@ class FormWho extends Component {
     super(props);
     this.state = {
       minAge: 18,
-      maxAge: 100
+      maxAge: 100,
+      aboutOwner: []
     }
   }
 
@@ -16,25 +18,25 @@ class FormWho extends Component {
     this.props.form.validateFields(async (err, values) => {
       if (!err) {
         const {
-          people,
           sex,
-          children,
-          animal,
-          smoke
         } = values;
 
         const userInput = {
-          people,
           sex,
           age:[this.state.minAge,this.state.maxAge],
-          children,
-          animal,
-          smoke
+          aboutOwner: this.state.aboutOwner,
+
         };
-        console.log(userInput)
-        localStorage.setItem('userInputWhere', JSON.stringify(userInput));
-        // const response = await fetch()
+        console.log(userInput);
+        localStorage.setItem('userInputWho', JSON.stringify(userInput));
+        this.props.history.push('/signup/you')
+
       }
+    })
+  };
+  onChangeAboutOwner = (value) => {
+    this.setState({
+      aboutOwner: value
     })
   };
   onChangeAge = value => {
@@ -49,26 +51,11 @@ class FormWho extends Component {
       <Form onSubmit={this.handleSubmit}>
 
         <Form.Item>
-          {getFieldDecorator('people', {
-            rules: [{required: true, message: 'Сколько человек вы ищите в комнату?'}],
-          })(
-            <div>
-              <p className='question'>Сколько человек вы ищите в комнату?</p>
-              <Radio.Group buttonStyle="people">
-                <Radio.Button value={1}>1</Radio.Button>
-                <Radio.Button value={2}>2</Radio.Button>
-                <Radio.Button value={"нет предпочтений"}>нет предпочтений</Radio.Button>
-              </Radio.Group>
-            </div>
-          )}
-        </Form.Item>
-
-        <Form.Item>
           {getFieldDecorator('sex', {
-            rules: [{required: true, message: 'Сколько человек вы ищите в комнату?'}],
+            rules: [{required: true, message: 'С кем вы готовы жить в квартире?'}],
           })(
             <div>
-              <p className='question'>Какого пола?</p>
+              <p className='question'>С кем вы готовы жить в квартире?</p>
               <Radio.Group buttonStyle="sex">
                 <Radio.Button value={"М"}>М</Radio.Button>
                 <Radio.Button value={"Ж"}>Ж</Radio.Button>
@@ -84,49 +71,24 @@ class FormWho extends Component {
               <div style={{width: '250px'}}>
                 <Slider range max={100} min={18} value={[this.state.minAge, this.state.maxAge]} onChange={this.onChangeAge}
                         defaultValue={[this.state.minAge, this.state.maxAge]} marks={{18: '18 лет', 100: '100 лет'}}/>
-                        Диапозон возраста {this.state.minAge} - {this.state.maxAge}
+
               </div>
             </div>
           )}
         </Form.Item>
         <Form.Item>
-          {getFieldDecorator('children', {
-            rules: [{required: true, message: 'С детьми?'}],
-          })(
+          {getFieldDecorator('animalSmokeChild')(
             <div>
-              <p className='question'>С детьми?</p>
-              <Radio.Group buttonStyle="children">
-                <Radio.Button value={"С детьми"}>С детьми</Radio.Button>
-                <Radio.Button value={"без детей"}>без детей</Radio.Button>
-              </Radio.Group>
+              <p className='question'>Доп информация?</p>
+              <Checkbox.Group onChange={this.onChangeAboutOwner}>
+                <Checkbox className='customCheckbox' value={'С животным'}>С животным</Checkbox>
+                <Checkbox className='customCheckbox' disabled={this.state.disabled} value={'С ребенком'}>С ребенком</Checkbox>
+                <Checkbox className='customCheckbox' disabled={this.state.disabled} value={'Курящего'}>Курящего</Checkbox>
+              </Checkbox.Group>
             </div>
           )}
         </Form.Item>
-        <Form.Item>
-          {getFieldDecorator('animal', {
-            rules: [{required: true, message: 'С животными?'}],
-          })(
-            <div>
-              <p className='question'>С животными?</p>
-              <Radio.Group buttonStyle="animal">
-                <Radio.Button value={"c животными"}>С животными</Radio.Button>
-                <Radio.Button value={"без животных"}>без животных</Radio.Button>
-              </Radio.Group>
-            </div>
-          )}
-        </Form.Item>
-        <Form.Item>
-          {getFieldDecorator('smoke')(
-            <div>
-              <p className='question'>Курящего ?</p>
-              <Radio.Group buttonStyle="smoke">
-                <Radio.Button value={"курящего"}>Курящего</Radio.Button>
-                <Radio.Button value={"не курящего"}>не курящего</Radio.Button>
-                <Radio.Button value={"нет предпочтений"}>нет предпочтений</Radio.Button>
-              </Radio.Group>
-            </div>
-          )}
-        </Form.Item>
+
 
         <br/>
         <Form.Item>
@@ -140,4 +102,4 @@ class FormWho extends Component {
   }
 }
 const FormWher = Form.create({name: 'normal_login'})(FormWho);
-export default FormWher;
+export default withRouter(FormWher);
