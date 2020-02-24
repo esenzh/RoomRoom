@@ -1,6 +1,7 @@
 import {
   ADD_PHOTO,
   ADD_ISLOGIN,
+  ADD_APARTMENT_PHOTO,
   ADD_LIKED_BY_USERS,
   ADD_MUTUAL_USERS,
   REMOVE_LIKED_BY_USERS,
@@ -12,6 +13,7 @@ import {
 
 const initialState = {
   photos: [],
+  apartmentPhotos: [],
   isLogin: false,
   likedByUsers: [],
   mutualUsers: [],
@@ -23,39 +25,28 @@ export default function(oldState = initialState, action) {
   switch (action.type) {
     case ADD_PHOTO:
       return {
-        photos: action.photo,
-        isLogin: oldState.isLogin,
-        likedByUsers: [...oldState.likedByUsers],
-        mutualUsers: [...oldState.mutualUsers],
-        user: oldState.user,
-        usersDashBoard: [...oldState.usersDashBoard]
+        ...oldState,
+        photos: action.photo
+      };
+    case ADD_APARTMENT_PHOTO:
+      return {
+        ...oldState,
+        apartmentPhotos: action.photo
       };
     case ADD_ISLOGIN:
       return {
-        photos: oldState.photos,
+        ...oldState,
         isLogin: action.isLogin,
-        likedByUsers: [...oldState.likedByUsers],
-        mutualUsers: [...oldState.mutualUsers],
-        user: oldState.user,
-        usersDashBoard: [...oldState.usersDashBoard]
       };
     case ADD_LIKED_BY_USERS:
       return {
-        photos: oldState.photos,
-        isLogin: oldState.isLogin,
+        ...oldState,
         likedByUsers: action.likedByUsers,
-        mutualUsers: [...oldState.mutualUsers],
-        user: oldState.user,
-        usersDashBoard: [...oldState.usersDashBoard]
       };
     case ADD_MUTUAL_USERS:
       return {
-        photos: oldState.photos,
-        isLogin: oldState.isLogin,
-        likedByUsers: [...oldState.likedByUsers],
+        ...oldState,
         mutualUsers: action.mutualUsers,
-        user: oldState.user,
-        usersDashBoard: [...oldState.usersDashBoard]
       };
     case REMOVE_LIKED_BY_USERS:
       const userToremove = oldState.likedByUsers.filter(
@@ -65,51 +56,29 @@ export default function(oldState = initialState, action) {
         user => user.id !== action.user.id
       );
       return {
-        photos: oldState.photos,
-        isLogin: oldState.isLogin,
+        ...oldState,
         likedByUsers: newlikedByUsers,
         mutualUsers: [...oldState.mutualUsers, userToremove[0]],
-        user: oldState.user,
-        usersDashBoard: [...oldState.usersDashBoard]
       };
     case EDIT_PROFILE:
       return {
-        photos: oldState.photos,
-        isLogin: oldState.isLogin,
-        likedByUsers: [...oldState.likedByUsers],
-        mutualUsers: [...oldState.mutualUsers],
+        ...oldState,
         user: action.user,
-        usersDashBoard: [...oldState.usersDashBoard]
       };
 
     case ADD_USER:
       return {
-        photos: oldState.photos,
-        isLogin: oldState.isLogin,
-        likedByUsers: [...oldState.likedByUsers],
-        mutualUsers: [...oldState.mutualUsers],
+        ...oldState,
         user: action.user,
-        usersDashBoard: [...oldState.usersDashBoard]
       };
     case ADD_USERS_DASHBOARD:
       return {
-        photos: oldState.photos,
-        isLogin: oldState.isLogin,
-        likedByUsers: [...oldState.likedByUsers],
-        mutualUsers: [...oldState.mutualUsers],
-        user: oldState.user,
+        ...oldState,
         usersDashBoard: action.users
       };
 
     case CLEAN_REDUX:
-      return {
-        photos: [],
-        isLogin: false,
-        likedByUsers: [],
-        mutualUsers: [],
-        user: {},
-        usersDashBoard: []
-      };
+      return oldState;
 
     default:
       return oldState;

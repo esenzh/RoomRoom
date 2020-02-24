@@ -1,5 +1,6 @@
 import {
   ADD_PHOTO,
+  ADD_APARTMENT_PHOTO,
   ADD_ISLOGIN,
   ADD_LIKED_BY_USERS,
   ADD_MUTUAL_USERS,
@@ -13,6 +14,13 @@ import {
 export const AddPhotoAC = photo => {
   return {
     type: ADD_PHOTO,
+    photo
+  };
+};
+
+export const AddApartmentPhotoAC = photo => {
+  return {
+    type: ADD_APARTMENT_PHOTO,
     photo
   };
 };
@@ -34,7 +42,7 @@ export const AddLikedByUsers = users => {
 export const RemoveLikedByUsers = user => {
   return {
     type: REMOVE_LIKED_BY_USERS,
-    user: user
+    user
   };
 };
 
@@ -55,14 +63,14 @@ export const EditProfilePageAC = newProfile => {
 export const AddUserAC = user => {
   return {
     type: ADD_USER,
-    user: user
+    user
   };
 };
 
 export const AddUsersDashBoard = users => {
   return {
     type: ADD_USERS_DASHBOARD,
-    users: users
+    users
   };
 };
 
