@@ -35,13 +35,15 @@ class Profile extends Component {
           >
             <div style={{ display: "flex" }}>
               <div>
-                {this.props.photos.length !== 0 && (
+                {/*{this.props.photos.length !== 0 && (*/}
                   <Avatar
                     size={150}
                     icon="user"
-                    src={this.props.photos[0].thumbUrl}
+                    // src={this.props.photos[0].thumbUrl}
+                    src={'https://lh3.googleusercontent.com/proxy/AA0OcB1ldc8u9pEdt_eJfnOvUTwASWBpjAD8HRv5YmiolWYsUvbk_rq0w51Q9qV1YVPRAwWCXDdeLKtlouggcx8-aaHi7PYuskq7Uv13-8xqmrppLnUn6aY0RFE1I-gWgg8APqc5oX2fadaHcTxQZa2x5mVL_YjGJlnXobdn7q3qRTppqKiFSw'}
+
                   />
-                )}
+                {/*)}*/}
               </div>
               <div>
                 <Link to={"/profile/edit"}>

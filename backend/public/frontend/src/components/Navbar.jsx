@@ -36,7 +36,9 @@ class Navigation extends Component {
         <Menu mode="horizontal" theme='dark' style={{backgroundColor: '#4A76A8', color: '#ffffff'}}>
           <Menu.Item key='profiles'>
             <Link to={'/profile'}>
-              <Avatar size="large" icon="user" src={this.props.photos.length !== 0 && this.props.photos[0].thumbUrl} />
+              {/*<Avatar size="large" icon="user" src={this.props.photos.length !== 0 && this.props.photos[0].thumbUrl} />*/}
+              <Avatar size="large" icon="user" src={'https://lh3.googleusercontent.com/proxy/AA0OcB1ldc8u9pEdt_eJfnOvUTwASWBpjAD8HRv5YmiolWYsUvbk_rq0w51Q9qV1YVPRAwWCXDdeLKtlouggcx8-aaHi7PYuskq7Uv13-8xqmrppLnUn6aY0RFE1I-gWgg8APqc5oX2fadaHcTxQZa2x5mVL_YjGJlnXobdn7q3qRTppqKiFSw'} />
+
               &nbsp;&nbsp;&nbsp;&nbsp;
                 <span className='navbarUserName'>{this.props.user && this.props.user.first_name}</span>
             </Link>

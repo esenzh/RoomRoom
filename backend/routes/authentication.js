@@ -89,10 +89,8 @@ router
     })
     .post("/api/login", async (req, res) => {
       const { mail, password } = req.body;
-      console.log(mail)
       const user = await Users.findOne({ email: mail });
-      const userOwner = await UserOwners.findOne({email: mail });
-      console.log(user)
+      const userOwner = await UserOwners.findOne({ email: mail });
       if(user){
         console.log('user')
         if (user && (await bcrypt.compare(password, user.password))) {
