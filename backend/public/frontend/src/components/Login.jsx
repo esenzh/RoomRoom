@@ -34,7 +34,7 @@ class Login extends Component {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({
-                        username: values.username,
+                        mail: values.mail,
                         password: values.password
                     })
                 })
@@ -69,12 +69,12 @@ class Login extends Component {
                     <br/>
                     <Form onSubmit={this.handleSubmit}>
                         <Form.Item>
-                            {getFieldDecorator('username', {
+                            {getFieldDecorator('mail', {
                                 rules: [{ required: true, message: 'Пожалуйста, введите логин!' }],
                             })(
                                 <Input
                                     prefix={<Icon type="user" style={{ color: 'rgba(0,0,0,.25)' }} />}
-                                    placeholder="Логин"
+                                    placeholder="Mail"
                                 />,
                             )}
                         </Form.Item>

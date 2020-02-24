@@ -20,7 +20,7 @@ const openNotification = (placement, icon, title, message) => {
     notification.open({
         message: title,
         description:
-            message,
+        message,
         placement,
         icon: <Icon type={icon} style={{ color: '#108ee9' }} />,
         duration: 3
@@ -32,7 +32,7 @@ class Signup extends Component {
         confirmDirty: false,
         isRedirect: false,
         iconLoading: false,
-            value: 1,
+        value: 1,
     };
 
     handleSubmit = e => {
@@ -44,9 +44,6 @@ class Signup extends Component {
                     first_name,
                     last_name,
                     email,
-                    phone,
-                    prefix,
-                    username,
                     password,
                 } = values
 
@@ -57,8 +54,6 @@ class Signup extends Component {
                         first_name,
                         last_name,
                         email,
-                        phone: `${prefix}${phone}`,
-                        username,
                         password,
                     })
                 })
@@ -69,9 +64,6 @@ class Signup extends Component {
                         isRedirect: true,
                         iconLoading: false
                     })
-                } else if (result.response === 'usernameExist') {
-                    openNotification('topRight', 'warning', 'Warning', 'Такой логин уже используется!')
-                    this.setState({ iconLoading: false })
                 } else if (result.response === 'emailExist') {
                     openNotification('topRight', 'warning', 'Warning', 'Этот E-mail уже используется!')
                     this.setState({ iconLoading: false })
@@ -87,22 +79,22 @@ class Signup extends Component {
         this.setState({ confirmDirty: this.state.confirmDirty || !!value });
     };
 
-    compareToFirstPassword = (rule, value, callback) => {
-        const { form } = this.props;
-        if (value && value !== form.getFieldValue('password')) {
-            callback('Два пароля которые вы ввели не совпадают друг с другом!');
-        } else {
-            callback();
-        }
-    };
+    // compareToFirstPassword = (rule, value, callback) => {
+    //     const { form } = this.props;
+    //     if (value && value !== form.getFieldValue('password')) {
+    //         callback('Два пароля которые вы ввели не совпадают друг с другом!');
+    //     } else {
+    //         callback();
+    //     }
+    // };
 
-    validateToNextPassword = (rule, value, callback) => {
-        const { form } = this.props;
-        if (value && this.state.confirmDirty) {
-            form.validateFields(['confirm'], { force: true });
-        }
-        callback();
-    };
+    // validateToNextPassword = (rule, value, callback) => {
+    //     const { form } = this.props;
+    //     if (value && this.state.confirmDirty) {
+    //         form.validateFields(['confirm'], { force: true });
+    //     }
+    //     callback();
+    // };
 
     onChange = e => {
         this.setState({
@@ -112,23 +104,16 @@ class Signup extends Component {
     render() {
         if (this.state.isRedirect) {
             if (this.state.value === 'Сдаю комнату'){
-                return <Redirect to={'/signupOwnerUser' } />
+                return <Redirect to={'/anketa' } />
             }else if(this.state.value === 'Ищу комнату'){
-                return <Redirect to={'/signupEasyUser'} />
+                return <Redirect to={'/anketa'} />
             }
 
         }
         const { getFieldDecorator } = this.props.form;
 
         const formItemLayout = {
-            labelCol: {
-                xs: { span: 24 },
-                sm: { span: 8 },
-            },
-            wrapperCol: {
-                xs: { span: 24 },
-                sm: { span: 16 },
-            },
+
         };
         const tailFormItemLayout = {
             wrapperCol: {
@@ -142,28 +127,28 @@ class Signup extends Component {
                 },
             },
         };
-        const prefixSelector = getFieldDecorator('prefix', {
-            initialValue: '+7',
-        })(
-            <Select style={{ width: 70 }}>
-                <Option value="86">+7</Option>
-            </Select>,
-        );
+        // const prefixSelector = getFieldDecorator('prefix', {
+        //     initialValue: '+7',
+        // })(
+        //     <Select style={{ width: 70 }}>
+        //         <Option value="86">+7</Option>
+        //     </Select>,
+        // );
         return (
             <div className='registerForm'>
                 <Card style={{ borderRadius: '30px', marginTop: '10px', backgroundColor: 'white'}}>
                     <div style={{textAlign: 'center'}}>
                         <img style={{width: '130px'}} src={logo} alt="" />
-                        <h3 style={{color: '#4a76a8'}}>Добро пожаловать в RoomRoom!<br />
-                            Форма регистрации</h3>
+                        <h3 style={{color: '#4a76a8'}}>
+                            Зарегистрируйся сейчас и найди<br/> классного соседа!</h3>
                     </div>
                     <br/>
 
                     <Form {...formItemLayout} onSubmit={this.handleSubmit}>
-                        <div style={{ display: 'flex',
+                        <div style={{ display: '',
                             marginTop: '-5px'}}>
                             <div>
-                                <Form.Item label='Имя'>
+                                <Form.Item >
                                     {getFieldDecorator('first_name', {
                                         rules: [
                                             {
@@ -173,7 +158,7 @@ class Signup extends Component {
                                         ],
                                     })(<Input placeholder="Имя"/>)}
                                 </Form.Item>
-                                <Form.Item label="Фамилия" >
+                                <Form.Item  >
                                     {getFieldDecorator('last_name', {
                                         rules: [
                                             {
@@ -183,7 +168,7 @@ class Signup extends Component {
                                         ],
                                     })(<Input placeholder="Фамилия" />)}
                                 </Form.Item>
-                                <Form.Item label="E-mail">
+                                <Form.Item >
                                     {getFieldDecorator('email', {
                                         rules: [
                                             {
@@ -197,65 +182,39 @@ class Signup extends Component {
                                         ],
                                     })(<Input placeholder="E-mail"/>)}
                                 </Form.Item>
-                                <Form.Item label="Телефон">
-                                    {getFieldDecorator('phone', {
-                                    })(<Input addonBefore={prefixSelector} style={{ width: '100%' }} />)}
+
+
+                                <Form.Item  hasFeedback>
+                                    {getFieldDecorator('password', {
+                                        rules: [
+                                            {
+                                                required: true,
+                                                message: 'Пожалуйста, введите пароль!',
+                                            },
+                                            {
+                                                validator: this.validateToNextPassword,
+                                            },
+                                        ],
+                                    })(<Input.Password placeholder="Пароль"/>)}
                                 </Form.Item>
+
+                                <Radio.Group onChange={this.onChange} value={this.state.value}>
+                                    <Radio style={{marginLeft: "20px"}} value={'Сдаю комнату'}>Сдаю комнату</Radio>
+                                    <Radio value={'Ищу комнату'}>Ищу комнату</Radio>
+                                </Radio.Group>
                             </div>
-<div>
-    <Form.Item label="Логин">
-        {getFieldDecorator('username', {
-            rules: [
-                {
-                    required: true,
-                    message: 'Пожалуйста, введите логин!',
-                },
-            ],
-        })(<Input placeholder="Логин"/>)}
-    </Form.Item>
-    <Form.Item label="Пароль" hasFeedback>
-        {getFieldDecorator('password', {
-            rules: [
-                {
-                    required: true,
-                    message: 'Пожалуйста, введите пароль!',
-                },
-                {
-                    validator: this.validateToNextPassword,
-                },
-            ],
-        })(<Input.Password placeholder="Пароль"/>)}
-    </Form.Item>
-    <Form.Item label="Снова пароль" style={{marginLeft: "20px"}} hasFeedback>
-        {getFieldDecorator('confirm', {
-            rules: [
-                {
-                    required: true,
-                    message: 'Пожалуйста, подвердите пароль!',
-                },
-                {
-                    validator: this.compareToFirstPassword,
-                },
-            ],
-        })(<Input.Password onBlur={this.handleConfirmBlur} placeholder="Снова пароль" />)}
-    </Form.Item>
-
-    <Radio.Group onChange={this.onChange} value={this.state.value}>
-        <Radio style={{marginLeft: "20px"}} value={'Сдаю комнату'}>Сдаю комнату</Radio>
-        <Radio value={'Ищу комнату'}>Ищу комнату</Radio>
-    </Radio.Group>
-</div>
                         </div>
-
+                        &nbsp;&nbsp;&nbsp;
                         <Form.Item {...tailFormItemLayout}>
                             <Button style={{backgroundColor: '#4A76A8', width: '50%'}} htmlType="submit" loading={this.state.iconLoading} icon='solution'>
-                                Get started!
-                        </Button>
-                            <br/>
-                            &nbsp;&nbsp;&nbsp;
-                        Или <Link to={"/login"}>Войти!</Link>
+                                Start!
+                            </Button>
+
+
+
                         </Form.Item>
                     </Form>
+                    <p align={'center'}>Ты уже в RoomRoom?<br/><Link to={"/login"}>Войти</Link></p>
                 </Card>
             </div>
         );

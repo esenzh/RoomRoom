@@ -13,31 +13,18 @@ router
       first_name,
       last_name,
       email,
-      phone,
-      photo,
-      vk,
-      username,
       password,
-      age,
-      nativeLocation
+
     } = req.body;
     const user = new Users({
       first_name,
       last_name,
       email,
-      phone,
-      photo,
-      vk,
-      age,
-      nativeLocation,
-      username,
       password: await bcrypt.hash(password, saltRounds)
     });
-    const dbusername = await Users.findOne({ username });
+
     const dbemail = await Users.findOne({ email });
-    if (dbusername && dbusername.username === username) {
-      res.status(400).json({ response: "usernameExist" });
-    } else if (dbemail && dbemail.email === email) {
+    if (dbemail && dbemail.email === email) {
       res.status(400).json({ response: "emailExist" });
     } else {
       await user.save();
@@ -101,10 +88,11 @@ router
       }
     })
     .post("/api/login", async (req, res) => {
-      const { username, password } = req.body;
-      const user = await Users.findOne({ username });
-      const userOwner = await UserOwners.findOne({ username });
-
+      const { mail, password } = req.body;
+      console.log(mail)
+      const user = await Users.findOne({ email: mail });
+      const userOwner = await UserOwners.findOne({email: mail });
+      console.log(user)
       if(user){
         console.log('user')
         if (user && (await bcrypt.compare(password, user.password))) {
