@@ -1,11 +1,15 @@
 import React, { Component } from 'react';
-import { InputNumber, Form, Slider, Radio, Icon, Button } from 'antd';
+import { InputNumber, Form, Slider, Radio, Icon, Button, Checkbox } from 'antd';
 import { withRouter } from "react-router-dom";
 
 class FormWho extends Component {
     constructor(props) {
         super(props);
-        this.state = {}
+        this.state = {
+            children: 'Без детей',
+            pets: 'Без животных',
+            smoking: 'Не курящий'
+        }
     }
     handleSubmit = async event => {
         event.preventDefault();
@@ -15,23 +19,48 @@ class FormWho extends Component {
                     peopleNumber,
                     sex,
                     agePreference,
-                    isAlone,
-                    pets,
-                    smoking
                 } = values;
 
                 const userInput = {
                     peopleNumber,
                     sex,
                     agePreference,
-                    isAlone,
-                    pets,
-                    smoking
+                    children: this.state.children,
+                    pets: this.state.pets,
+                    smoking: this.state.smoking
                 }
                 localStorage.setItem('userInputWho', JSON.stringify(userInput))
                 this.props.history.push('/signup/you')
             }
         })
+    }
+
+    onChangePreference = (e) => {
+        if (e.target.value === 'С детьми' && e.target.checked) {
+            this.setState({
+                children: e.target.value
+            })
+        } else if (e.target.value === 'С детьми' && !e.target.checked) {
+            this.setState({
+                children: 'Без детей'
+            })
+        } else if (e.target.value === 'С животными' && e.target.checked) {
+            this.setState({
+                pets: 'С животными'
+            })
+        } else if (e.target.value === 'С животными' && !e.target.checked) {
+            this.setState({
+                pets: 'Без животных'
+            })
+        } else if (e.target.value === 'Курящего' && e.target.checked) {
+            this.setState({
+                smoking: 'Курящего'
+            })
+        } else if (e.target.value === 'Курящего' && !e.target.checked) {
+            this.setState({
+                smoking: 'Не курящий'
+            })
+        }
     }
 
     render() {
@@ -53,7 +82,7 @@ class FormWho extends Component {
                 })(
                     <div>
                         <p className='question'>Какого пола?</p>
-                        <Radio.Group buttonStyle="solid">
+                        <Radio.Group buttonStyle="outline">
                             <Radio.Button className='customRadio' value={'М'}>М</Radio.Button>
                             <Radio.Button className='customRadio' value={'Ж'}>Ж</Radio.Button>
                             <Radio.Button className='customRadio' value={'нет предпочтений'}>Нет предпочтений</Radio.Button>
@@ -69,45 +98,19 @@ class FormWho extends Component {
                     <Slider range min={18} max={100} />
                 )}
             </Form.Item>
+            <p className='question'>Ваши пожелания?</p>
             <Form.Item>
-                {getFieldDecorator('isAlone', {
-                    rules: [{ required: true, message: 'Пожалуйста, укажите один из вариантов' }],
-                })(
+                {getFieldDecorator('children')(
                     <div>
-                        <p className='question'>Выберите один из вариантов?</p>
-                        <Radio.Group buttonStyle="solid">
-                            <Radio.Button className='customRadio' value={'С детьми'}>С детьми</Radio.Button>
-                            <Radio.Button className='customRadio' value={'Без детей'}>Без детей</Radio.Button>
-                            <Radio.Button className='customRadio' value={'Без предпочтений'}>Без предпочтений</Radio.Button>
-                        </Radio.Group>
-                    </div>
-                )}
-            </Form.Item>
-            <Form.Item>
-                {getFieldDecorator('pets', {
-                    rules: [{ required: true, message: 'Пожалуйста, укажите один из вариантов' }],
-                })(
-                    <div>
-                        <p className='question'>Выберите один из вариантов?</p>
-                        <Radio.Group buttonStyle="solid">
-                            <Radio.Button className='customRadio' value={'С животными'}>С животными</Radio.Button>
-                            <Radio.Button className='customRadio' value={'Без животных'}>Без животных</Radio.Button>
-                            <Radio.Button className='customRadio' value={'Без предпочтений'}>Без предпочтений</Radio.Button>
-                        </Radio.Group>
-                    </div>
-                )}
-            </Form.Item>
-            <Form.Item>
-                {getFieldDecorator('smoking', {
-                    rules: [{ required: true, message: 'Пожалуйста, укажите один из вариантов' }],
-                })(
-                    <div>
-                        <p className='question'>Выберите один из вариантов?</p>
-                        <Radio.Group buttonStyle="solid">
-                            <Radio.Button className='customRadio' value={'Курящего'}>Курящего</Radio.Button>
-                            <Radio.Button className='customRadio' value={'Не курящего'}>Не курящего</Radio.Button>
-                            <Radio.Button className='customRadio' value={'Без предпочтений'}>Без предпочтений</Radio.Button>
-                        </Radio.Group>
+                        <Checkbox.Group>
+                            <Checkbox onChange={this.onChangePreference} className='customCheckbox' value={'С детьми'}>Можно с детьми</Checkbox>
+                        </Checkbox.Group>
+                        <Checkbox.Group>
+                            <Checkbox onChange={this.onChangePreference} className='customCheckbox' value={'С животными'}>Можно с животными</Checkbox>
+                        </Checkbox.Group>
+                        <Checkbox.Group>
+                            <Checkbox onChange={this.onChangePreference} className='customCheckbox' value={'Курящего'}>Можно курящего</Checkbox>
+                        </Checkbox.Group>
                     </div>
                 )}
             </Form.Item>
