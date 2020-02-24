@@ -8,7 +8,8 @@ class FormWhere extends Component {
         this.state = {
             furnitureAndTech: [],
             furnitureInRoom: [],
-            nearBy: []
+            nearBy: [],
+            showShortDuration: false,
         }
     }
 
@@ -28,6 +29,20 @@ class FormWhere extends Component {
         this.setState({
             nearBy: value
         })
+    }
+
+    showInputForDuration = () => {
+        this.setState({
+            showShortDuration: !this.state.showShortDuration
+        })
+    }
+
+    hideInputForDuration = () => {
+        if (this.state.showShortDuration) {
+            this.setState({
+                showShortDuration: !this.state.showShortDuration
+            })
+        }
     }
 
     handleSubmit = async event => {
@@ -66,6 +81,7 @@ class FormWhere extends Component {
                     rentalDuration,
                     admissionDay
                 }
+                console.log(userInput)
                 localStorage.setItem('userInputWhere', JSON.stringify(userInput));
                 this.props.history.push('/signup/who')
             }
@@ -211,8 +227,7 @@ class FormWhere extends Component {
                             <p className='question'>Сколько оплата?</p>
                             <InputNumber
                                 min={0}
-                                formatter={value => `₽ ${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
-                                parser={value => value.replace(/\₽\s?|(,*)/g, '')}
+                                placeholder='₽'
                             />
                         </div>
                     )}
@@ -225,8 +240,7 @@ class FormWhere extends Component {
                             <p className='question'>Коммунальные платежи:</p>
                             <InputNumber
                                 min={0}
-                                formatter={value => `₽ ${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
-                                parser={value => value.replace(/\₽\s?|(,*)/g, '')}
+                                placeholder='₽'
                             />
                         </div>
                     )}
@@ -239,8 +253,7 @@ class FormWhere extends Component {
                             <p className='question'>Залог:</p>
                             <InputNumber
                                 min={0}
-                                formatter={value => `₽ ${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
-                                parser={value => value.replace(/\₽\s?|(,*)/g, '')}
+                                placeholder='₽'
                             />
                         </div>
                     )}
@@ -251,9 +264,11 @@ class FormWhere extends Component {
                     })(
                         <div>
                             <p className='question'>На какой срок?</p>
-                            <InputNumber min={1} max={12} />
-                            &nbsp;
-                            <label>на (от 1 до 12) недель</label>
+                            <Radio.Group buttonStyle="solid">
+                                <Radio.Button className='customRadio' onClick={this.hideInputForDuration} value={'Длительный'}>Длительный</Radio.Button>
+                                <Radio.Button className='customRadio' onClick={this.showInputForDuration}  value={'Не длительный'}>на (от 1 до 12) недель</Radio.Button>
+                            </Radio.Group>
+                            {this.state.showShortDuration && (<InputNumber min={1} max={12} placeholder='введите срок' />)}
                         </div>
                     )}
                 </Form.Item>
