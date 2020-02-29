@@ -9,19 +9,14 @@ import {
   Empty,
   Switch,
   Button,
-  Carousel, Slider, Select, Badge, Form
+  Carousel, Slider, Select, Badge, Form, Collapse
 } from "antd";
-
 import {Redirect} from "react-router-dom";
 import {connect} from "react-redux";
-
 import {colorMetro, provinceData, cityData} from '../dataMetro/station'
-
-
-
 import {AddUsersDashBoard} from "../redux/action";
 const {Option} = Select;
-
+const { Panel } = Collapse;
 
 class DashBoard extends Component {
   constructor() {
@@ -209,10 +204,6 @@ class DashBoard extends Component {
     );
   };
 
-  showFilter = () => {
-
-  };
-
   render() {
     if (this.state.isRedirect) {
       return <Redirect to={"/login"}/>;
@@ -251,56 +242,60 @@ class DashBoard extends Component {
           </p>
 
         )}
-
-        <div>
-          <Button type="dashed" onClick={this.showFilter}>Дополнительные фильтры</Button>
-        </div>
-        <div style={{marginLeft: 'auto', marginRight: 'auto', width: '250px'}}>
-          <div style={{textAlign: "center"}}>
-            <Switch defaultChecked onChange={this.onChangeSexMan}/> Показывать мужчин
-          </div>
-          <div style={{textAlign: "center"}}>
-            <Switch defaultChecked onChange={this.onChangeSexWoman}/> Показывать женщин
-          </div>
-          <div style={{marginLeft: 'auto', marginRight: 'auto', width: '250px'}}>
-            <Slider range value={[this.state.minPrice, this.state.maxPrice]} max={150} onChange={this.onChangePrice}
-                    defaultValue={[this.state.minPrice, this.state.maxPrice]} marks={{0: '0 т.р.', 150: '150 т.р.'}}/>Бюджет
-          </div>
-          <div style={{marginLeft: 'auto', marginRight: 'auto', width: '250px'}}>
-            <Slider range max={100} min={18} value={[this.state.minAge, this.state.maxAge]} onChange={this.onChangeAge}
-                    defaultValue={[this.state.minAge, this.state.maxAge]} marks={{18: '18 лет', 100: '100 лет'}}/>Возраст
-          </div>
-          <Form>
-            <Form.Item label="Метро" hasFeedback>
-              <div>
-                <Select
-                  defaultValue={provinceData[0]}
-                  onChange={this.handleProvinceChange}
-                >
-                  {provinceData.map(province => (
-                    <Option key={province}>
-                      <Badge color={colorMetro[province]}/>
-                      {province}
-                    </Option>
-                  ))}
-                </Select>
-                <Select
-                  mode="multiple"
-                  placeholder="Please select"
-                  onChange={this.onSecondCityChange}
-                  style={{ width: '100%' }}
-                >
-                  {cities.map(city => (
-                      <Option value={city} key={city}>
-                        {city}
-                      </Option>
-                    ))}
-                </Select>
+        <Collapse >
+          <Panel header="Дополнительные фильтры" key="1">
+            <div style={{marginLeft: 'auto', marginRight: 'auto', width: '250px'}}>
+              <div style={{textAlign: "center"}}>
+                <Switch defaultChecked onChange={this.onChangeSexMan}/> Показывать мужчин
               </div>
-            </Form.Item>
-          </Form>
-          <Button onClick={this.searchMetro} type="primary" icon="search">Поиск</Button>
-        </div>
+              <div style={{textAlign: "center"}}>
+                <Switch defaultChecked onChange={this.onChangeSexWoman}/> Показывать женщин
+              </div>
+              <div style={{marginLeft: 'auto', marginRight: 'auto', width: '250px'}}>
+                <Slider range value={[this.state.minPrice, this.state.maxPrice]} max={150} onChange={this.onChangePrice}
+                        defaultValue={[this.state.minPrice, this.state.maxPrice]} marks={{0: '0 т.р.', 150: '150 т.р.'}}/>Бюджет
+              </div>
+              <div style={{marginLeft: 'auto', marginRight: 'auto', width: '250px'}}>
+                <Slider range max={100} min={18} value={[this.state.minAge, this.state.maxAge]} onChange={this.onChangeAge}
+                        defaultValue={[this.state.minAge, this.state.maxAge]} marks={{18: '18 лет', 100: '100 лет'}}/>Возраст
+              </div>
+              <Form>
+                <Form.Item label="Метро" hasFeedback>
+                  <div>
+                    <Select
+                      defaultValue={provinceData[0]}
+                      onChange={this.handleProvinceChange}
+                    >
+                      {provinceData.map(province => (
+                        <Option key={province}>
+                          <Badge color={colorMetro[province]}/>
+                          {province}
+                        </Option>
+                      ))}
+                    </Select>
+                    <Select
+                      mode="multiple"
+                      placeholder="Please select"
+                      onChange={this.onSecondCityChange}
+                      style={{ width: '100%' }}
+                    >
+                      {cities.map(city => (
+                        <Option value={city} key={city}>
+                          {city}
+                        </Option>
+                      ))}
+                    </Select>
+                  </div>
+                </Form.Item>
+              </Form>
+              <Button onClick={this.searchMetro} type="primary" icon="search">Поиск</Button>
+            </div>
+          </Panel>
+
+        </Collapse>
+
+
+
         <div className="dashBoardContainer">
           <div className="dashBoardContent">
             {this.props.users &&
