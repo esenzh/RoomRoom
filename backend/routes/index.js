@@ -55,7 +55,6 @@ router.route("/api/sendLikeMail").post(async (req, res, next) => {
             res.json({text: "Вы уже стаивли лайк данному пользователю, передите в профиль!"});
         } else {
             if (user2Form.likes.includes(user1Form.idAuthor)) {
-                console.log()
 
                 async function main() {
                     let testAccount = await nodemailer.createTestAccount();
@@ -64,18 +63,18 @@ router.route("/api/sendLikeMail").post(async (req, res, next) => {
                         port: 465,
                         secure: true,
                         auth: {
-                            user: "pekarnyavkusnaya",
-                            pass: "pekarnyavkusnaya111"
+                            user: "R00MR00M",
+                            pass: "iremoormoor"
                         }
                     });
 
                     let info = await transporter.sendMail({
-                        from: '"Roomroom 👻" <pekarnyavkusnaya@yandex.ru>', // sender address
+                        from: '"Roomroom 👻" <R00MR00M@yandex.ru>', // sender address
                         to: `${user2.email}`,  // list of receivers  user2.email,
                         subject: "RoomRoom ✔", // Subject line
                         text: "Текст1", // plain text body
                         html:
-                            `<img src="https://cdn1.savepice.ru/uploads/2020/1/30/b3e09135bd39934b18867a3d1f3a3684-full.png" alt="RoomRoom"><br>
+                            `<img src="https://www.thetommyfield.com/assets/get-a-room.png" alt="RoomRoom"><br>
                             <b>Здравствуйте! На сервисе RoomRoom появился пользователь,</b><br>
                             <b>который хотел бы вместе с Вами арендовать квартиру!</b>
                                 <p>Имя пользователя: ${user1.first_name} ${user1.last_name}</p>
@@ -114,18 +113,18 @@ router.route("/api/sendLikeMail").post(async (req, res, next) => {
                         port: 465,
                         secure: true,
                         auth: {
-                            user: "pekarnyavkusnaya",
-                            pass: "pekarnyavkusnaya111"
+                            user: "R00MR00M",
+                            pass: "iremoormoor"
                         }
                     });
 
                     let info = await transporter.sendMail({
-                        from: '"Roomroom 👻" <pekarnyavkusnaya@yandex.ru>', // sender address
+                        from: '"Roomroom 👻" <R00MR00M@yandex.ru>', // sender address
                         to: `${user2.email}`,  // list of receivers  user2.email,
                         subject: "RoomRoom ✔", // Subject line
                         text: "Текст1", // plain text body
                         html:
-                            `<img src="https://cdn1.savepice.ru/uploads/2020/1/30/b3e09135bd39934b18867a3d1f3a3684-full.png" alt="RoomRoom"><br>
+                            `<img src="https://www.thetommyfield.com/assets/get-a-room.png" alt="RoomRoom"><br>
                             <b>Здравствуйте! На сервисе RoomRoom у Вас появились новые лайки!</b>
                                 <p>Лайк поставлен пользователем ${user1.first_name} ${user1.last_name}.</p>
                                 <p>Более подробная информация о пользователе в личном кабинете</p>

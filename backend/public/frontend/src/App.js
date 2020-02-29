@@ -8,6 +8,8 @@ import Navbar from "./components/Navbar";
 import Profile from "./components/Profile";
 import Login from "./components/Login";
 import Signup from "./components/Signup";
+import SignupAll from "./components/SignupAll";
+
 import WrappedDynamicRule from "./components/WrappedDynamicRule";
 import Logout from "./components/Logout";
 import DashBoard from "./components/DashBoard";
@@ -40,7 +42,8 @@ class App extends React.Component {
             <Route exact path={"/signup/who"} component={Register_who_noowner} />
             <Route exact path={"/signup/you"} component={Register_you_noowner} />
             <Route exact path={"/login"} component={Login} />
-            <Route exact path={"/signup"} component={Signup} />
+            <Route exact path={"/signup"} component={SignupAll} />
+            <Route exact path={"/signupAll"} component={SignupAll} />
             <Route exact path={"/logout"} component={Logout} />
           </Switch>
         </Router>
