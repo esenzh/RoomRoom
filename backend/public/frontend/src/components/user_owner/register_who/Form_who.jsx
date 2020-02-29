@@ -52,11 +52,11 @@ class FormWho extends Component {
             this.setState({
                 pets: 'Без животных'
             })
-        } else if (e.target.value === 'Курящего' && e.target.checked) {
+        } else if (e.target.value === 'Курящий' && e.target.checked) {
             this.setState({
-                smoking: 'Курящего'
+                smoking: 'Курящий'
             })
-        } else if (e.target.value === 'Курящего' && !e.target.checked) {
+        } else if (e.target.value === 'Курящий' && !e.target.checked) {
             this.setState({
                 smoking: 'Не курящий'
             })
@@ -95,13 +95,13 @@ class FormWho extends Component {
                 {getFieldDecorator('agePreference', {
                     rules: [{ required: true, message: 'Пожалуйста, введите какого возраста' }],
                 })(
-                    <Slider range min={18} max={100} />
+                    <Slider range min={18} max={100} style={{width: 300}}/>
                 )}
             </Form.Item>
-            <p className='question'>Ваши пожелания?</p>
             <Form.Item>
-                {getFieldDecorator('children')(
+                {getFieldDecorator('preference')(
                     <div>
+                        <p className='question'>Ваши пожелания?</p>
                         <Checkbox.Group>
                             <Checkbox onChange={this.onChangePreference} className='customCheckbox' value={'С детьми'}>Можно с детьми</Checkbox>
                         </Checkbox.Group>
@@ -109,7 +109,7 @@ class FormWho extends Component {
                             <Checkbox onChange={this.onChangePreference} className='customCheckbox' value={'С животными'}>Можно с животными</Checkbox>
                         </Checkbox.Group>
                         <Checkbox.Group>
-                            <Checkbox onChange={this.onChangePreference} className='customCheckbox' value={'Курящего'}>Можно курящего</Checkbox>
+                            <Checkbox onChange={this.onChangePreference} className='customCheckbox' value={'Курящий'}>Можно курящего</Checkbox>
                         </Checkbox.Group>
                     </div>
                 )}

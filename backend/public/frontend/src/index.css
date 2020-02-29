@@ -49,12 +49,6 @@ a {
   margin-top: 20px !important;
 }
 
-@media screen and (max-width: 385px) {
-  .likeCard {
-    width: 355px !important;
-  }
-}
-
 .navbarUserName {
   font-weight: bold;
   text-transform: uppercase;
@@ -83,12 +77,6 @@ a {
   border-radius: 10px !important;
   padding: 8px 8px 0 8px !important;
   margin: 10px !important;
-}
-
-@media screen and (max-width: 554px) {
-  .userCard {
-    width: 350px !important;
-  }
 }
 
 .anketaCard {
@@ -166,6 +154,22 @@ li {
   border-radius: 5px !important;
   width: 1000px !important;
   margin: auto !important;
+}
+
+.signupTextArea {
+  width: 400px !important;
+}
+
+@media screen and (max-width: 385px) {
+  .likeCard {
+    width: 355px !important;
+  }
+}
+
+@media screen and (max-width: 554px) {
+  .userCard {
+    width: 350px !important;
+  }
 }
 
 @media screen and (max-width: 1020px) {

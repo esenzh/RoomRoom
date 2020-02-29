@@ -1,16 +1,18 @@
 import React, { Component } from 'react';
-import { InputNumber, Form, Checkbox, Radio, Input, Button } from 'antd';
+import { InputNumber, Form, Select, Radio, Input, Button, Checkbox } from 'antd';
 import { connect } from "react-redux";
 import UploadPhoto from '../../UploadPhoto';
 
 const { TextArea } = Input;
+const { Option } = Select;
 
 class FormYou extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            disabled: false,
-            petsOfOnwer: [],
+            children: 'Без детей',
+            pets: 'Без животных',
+            smoking: 'Не курящий'
         }
     }
 
@@ -31,9 +33,9 @@ class FormYou extends Component {
                     peopleLivingNumber,
                     sexOfOwner,
                     ageOfOwner,
+                    prefix,
+                    phone,
                     professionOfOwner,
-                    childrenOfOwner,
-                    isOwnerSmokes,
                     aboutOwner
                 } = values;
 
@@ -41,36 +43,68 @@ class FormYou extends Component {
                     peopleLivingNumber,
                     sexOfOwner,
                     ageOfOwner,
+                    phone: `${prefix}${phone}`,
                     professionOfOwner,
-                    childrenOfOwner,
-                    petsOfOnwer: this.state.petsOfOnwer,
-                    isOwnerSmokes,
+                    childrenOfOwner: this.state.children,
+                    petsOfOnwer: this.state.pets,
+                    isOwnerSmokes: this.state.smoking,
                     aboutOwner,
                     photoOfOwner: this.props.photos
                 }
 
-                const response = await fetch('/api/signup/owner', {
-                    method: 'POST',
-                    headers: {'Content-Type': 'application/json'},
-                    body: JSON.stringify({
-                        userInputWhere: this.state.userInputWhere,
-                        userInputWho: this.state.userInputWho,
-                        userInputYou
-                    })
-                })
-                const result = await response.json();
+                console.log(userInputYou)
+
+                // const response = await fetch('/api/signup/owner', {
+                //     method: 'POST',
+                //     headers: { 'Content-Type': 'application/json' },
+                //     body: JSON.stringify({
+                //         userInputWhere: this.state.userInputWhere,
+                //         userInputWho: this.state.userInputWho,
+                //         userInputYou
+                //     })
+                // })
+                // const result = await response.json();
             }
         })
     }
 
-    onChangePetsOfOwner = (value) => {
-        this.setState({
-            petsOfOnwer: value
-        })
+    onChangePreference = (e) => {
+        if (e.target.value === 'С детьми' && e.target.checked) {
+            this.setState({
+                children: e.target.value
+            })
+        } else if (e.target.value === 'С детьми' && !e.target.checked) {
+            this.setState({
+                children: 'Без детей'
+            })
+        } else if (e.target.value === 'С животными' && e.target.checked) {
+            this.setState({
+                pets: 'С животными'
+            })
+        } else if (e.target.value === 'С животными' && !e.target.checked) {
+            this.setState({
+                pets: 'Без животных'
+            })
+        } else if (e.target.value === 'Курящий' && e.target.checked) {
+            this.setState({
+                smoking: 'Курящий'
+            })
+        } else if (e.target.value === 'Курящий' && !e.target.checked) {
+            this.setState({
+                smoking: 'Не курящий'
+            })
+        }
     }
 
     render() {
         const { getFieldDecorator } = this.props.form;
+        const prefixSelector = getFieldDecorator('prefix', {
+            initialValue: '+7',
+        })(
+            <Select style={{ width: 70 }}>
+                <Option value="86">+7</Option>
+            </Select>,
+        );
         return (
             <Form onSubmit={this.handleSubmit}>
                 <Form.Item>
@@ -108,6 +142,15 @@ class FormYou extends Component {
                     )}
                 </Form.Item>
                 <Form.Item>
+                    {getFieldDecorator('phone', {
+                    })(
+                        <div>
+                            <p className='question'>Номер телефона</p>
+                            <Input addonBefore={prefixSelector} style={{ width: 300 }} />
+                        </div>
+                    )}
+                </Form.Item>
+                <Form.Item>
                     {getFieldDecorator('professionOfOwner', {
                         rules: [{ required: true, message: 'Пожалуйста, укажите чем вы занимаетесь' }],
                     })(
@@ -124,43 +167,18 @@ class FormYou extends Component {
                     )}
                 </Form.Item>
                 <Form.Item>
-                    {getFieldDecorator('childrenOfOwner', {
-                        rules: [{ required: true, message: 'Пожалуйста, укажите вы проживаете с детьми' }],
-                    })(
+                    {getFieldDecorator('preference')(
                         <div>
-                            <p className='question'>Вы проживаете с детьми?</p>
-                            <Radio.Group buttonStyle="solid">
-                                <Radio.Button className='customRadio' value={'Да'}>Да</Radio.Button>
-                                <Radio.Button className='customRadio' value={'Нет'}>Нет</Radio.Button>
-                            </Radio.Group>
-                        </div>
-                    )}
-                </Form.Item>
-                <Form.Item>
-                    {getFieldDecorator('petsOfOnwer', {
-                        rules: [{ required: true, message: 'Пожалуйста, укажите вы проживаете с животными' }],
-                    })(
-                        <div>
-                            <p className='question'>Вы проживаете с животными?</p>
-                            <Checkbox.Group onChange={this.onChangePetsOfOwner}>
-                                <Checkbox className='customCheckbox' value={'Нет'}>Нет</Checkbox>
-                                <Checkbox className='customCheckbox' disabled={this.state.disabled} value={'Кот'}>Кот</Checkbox>
-                                <Checkbox className='customCheckbox' disabled={this.state.disabled} value={'Собака'}>Собака</Checkbox>
-                                <Checkbox className='customCheckbox' disabled={this.state.disabled} value={'Другие'}>Другие</Checkbox>
+                            <p className='question'>Как вы проживаете?</p>
+                            <Checkbox.Group>
+                                <Checkbox onChange={this.onChangePreference} className='customCheckbox' value={'С детьми'}>Живу с детьми</Checkbox>
                             </Checkbox.Group>
-                        </div>
-                    )}
-                </Form.Item>
-                <Form.Item>
-                    {getFieldDecorator('isOwnerSmokes', {
-                        rules: [{ required: true, message: 'Пожалуйста, укажите вы курите' }],
-                    })(
-                        <div>
-                            <p className='question'>Вы курите?</p>
-                            <Radio.Group buttonStyle="solid">
-                                <Radio.Button className='customRadio' value={'Да'}>Да</Radio.Button>
-                                <Radio.Button className='customRadio' value={'Нет'}>Нет</Radio.Button>
-                            </Radio.Group>
+                            <Checkbox.Group>
+                                <Checkbox onChange={this.onChangePreference} className='customCheckbox' value={'С животными'}>Живу с животными</Checkbox>
+                            </Checkbox.Group>
+                            <Checkbox.Group>
+                                <Checkbox onChange={this.onChangePreference} className='customCheckbox' value={'Курящий'}>Курю</Checkbox>
+                            </Checkbox.Group>
                         </div>
                     )}
                 </Form.Item>
@@ -170,7 +188,7 @@ class FormYou extends Component {
                     })(
                         <div>
                             <p className='question'>Расскажите про себя: чем занимаетесь и увлекаетесь?</p>
-                            <TextArea rows={4} />
+                            <TextArea className='signupTextArea' rows={4} />
                         </div>
                     )}
                 </Form.Item>

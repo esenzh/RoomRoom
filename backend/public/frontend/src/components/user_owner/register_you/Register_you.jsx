@@ -3,8 +3,6 @@ import { Card } from 'antd';
 import Steps from '../../Steps';
 import Form from './Form_you';
 
-const { Step } = Steps;
-
 class Register_you extends Component {
     constructor(props) {
         super(props);
@@ -14,7 +12,7 @@ class Register_you extends Component {
         return (<div style={{ padding: 10 }}>
             <Steps stepNumber={2} />
             <br /><br />
-            <Card>
+            <Card className='signUpForm'>
                 <Form />
             </Card>
         </div>);
