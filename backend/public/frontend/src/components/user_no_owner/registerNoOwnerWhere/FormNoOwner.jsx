@@ -33,10 +33,8 @@ class FormNoOwner extends Component {
           timeInRoom,
           admissionDay
         };
-        // console.log(userInput);
         localStorage.setItem('userInputWhere', JSON.stringify(userInput));
         this.props.history.push('/signup/who')
-
       }
     })
   };

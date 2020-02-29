@@ -1,13 +1,18 @@
 import React, { Component } from 'react';
-import { InputNumber, Form, Button, Checkbox, Radio, Icon, DatePicker } from 'antd';
+import { InputNumber, Form, Button, Checkbox, Radio, Badge, Select, Icon, DatePicker } from 'antd';
 import { withRouter } from "react-router-dom";
 import { connect } from "react-redux";
 import UploadPhoto from '../../UploadPhoto';
+import { colorMetro, provinceData, cityData } from '../../../dataMetro/station'
+
+const { Option } = Select;
 
 class FormWhere extends Component {
     constructor(props) {
         super(props);
         this.state = {
+            cities: cityData[provinceData[0]],
+            secondCity: cityData[provinceData[0]][0],
             furnitureAndTech: [],
             furnitureInRoom: [],
             nearBy: [],
@@ -47,6 +52,19 @@ class FormWhere extends Component {
         }
     }
 
+    handleProvinceChange = value => {
+        this.setState({
+            cities: cityData[value],
+            secondCity: cityData[value][0]
+        });
+    };
+
+    onSecondCityChange = value => {
+        this.setState({
+            secondCity: value
+        });
+    };
+
     handleSubmit = async event => {
         event.preventDefault();
         this.props.form.validateFields(async (err, values) => {
@@ -67,6 +85,7 @@ class FormWhere extends Component {
                 } = values;
 
                 const userInput = {
+                    metro: this.state.secondCity,
                     distance,
                     totalFloor,
                     floorNumber,
@@ -84,7 +103,6 @@ class FormWhere extends Component {
                     rentalDuration,
                     admissionDay: admissionDay._d
                 }
-                console.log(userInput)
                 localStorage.setItem('userInputWhere', JSON.stringify(userInput));
                 this.props.history.push('/signup/who')
             }
@@ -93,8 +111,37 @@ class FormWhere extends Component {
 
     render() {
         const { getFieldDecorator } = this.props.form;
+        const { cities } = this.state;
         return (
             <Form onSubmit={this.handleSubmit}>
+                <Form.Item>
+                    <div>
+                        <p className='question'>В каком районе? Выбрать метро</p>
+                        <Select
+                            defaultValue={provinceData[0]}
+                            onChange={this.handleProvinceChange}
+                        >
+                            {provinceData.map(province => (
+                                <Option key={province}>
+                                    <Badge color={colorMetro[province]} />
+                                    {province}
+                                </Option>
+                            ))}
+                        </Select>
+                        <Select
+                            mode="multiple"
+                            placeholder="Please select"
+                            onChange={this.onSecondCityChange}
+                            style={{ width: '100%' }}
+                        >
+                            {cities.map(city => (
+                                <Option value={city} key={city}>
+                                    {city}
+                                </Option>
+                            ))}
+                        </Select>
+                    </div>
+                </Form.Item>
                 <Form.Item>
                     {getFieldDecorator('distance', {
                         rules: [{ required: true, message: 'Пожалуйста, введите сколько пешком идти от ближайшего метро' }],
@@ -279,7 +326,7 @@ class FormWhere extends Component {
                             <p className='question'>На какой срок?</p>
                             <Radio.Group buttonStyle="solid">
                                 <Radio.Button className='customRadio' onClick={this.hideInputForDuration} value={'Длительный'}>Длительный</Radio.Button>
-                                <Radio.Button className='customRadio' onClick={this.showInputForDuration}  value={'Не длительный'}>на (от 1 до 12) недель</Radio.Button>
+                                <Radio.Button className='customRadio' onClick={this.showInputForDuration} value={'Не длительный'}>на (от 1 до 12) недель</Radio.Button>
                             </Radio.Group>
                             {this.state.showShortDuration && (<InputNumber min={1} max={12} placeholder='введите срок' />)}
                         </div>
