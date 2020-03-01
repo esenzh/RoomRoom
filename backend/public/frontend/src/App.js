@@ -28,7 +28,7 @@ class App extends React.Component {
     const isLogin = this.props.cookies.get("isLogin");
     return (
         <Router>
-          {this.props.isLogin || isLogin ? <Navbar /> : ""}
+          {/* {this.props.isLogin || isLogin ? <Navbar /> : ""} */}
           <Switch>
             <Route exact path={"/"} component={DashBoard} />
             <Route exact path={"/landing"} component={Landing} />

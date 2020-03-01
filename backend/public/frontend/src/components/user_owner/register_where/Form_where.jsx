@@ -104,7 +104,7 @@ class FormWhere extends Component {
                     admissionDay: admissionDay._d
                 }
                 localStorage.setItem('userInputWhere', JSON.stringify(userInput));
-                this.props.history.push('/signup/who')
+                this.props.history.push('/signup/who_owner')
             }
         })
     }

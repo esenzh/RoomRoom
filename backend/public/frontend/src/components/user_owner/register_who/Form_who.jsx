@@ -16,21 +16,21 @@ class FormWho extends Component {
         this.props.form.validateFields(async (err, values) => {
             if (!err) {
                 const {
-                    peopleNumber,
-                    sex,
+                    peopleNumberPreference,
+                    sexPreference,
                     agePreference,
                 } = values;
 
                 const userInput = {
-                    peopleNumber,
-                    sex,
+                    peopleNumberPreference,
+                    sexPreference,
                     agePreference,
-                    children: this.state.children,
-                    pets: this.state.pets,
-                    smoking: this.state.smoking
+                    childrenPreference: this.state.children,
+                    petsPreference: this.state.pets,
+                    smokingPreference: this.state.smoking
                 }
                 localStorage.setItem('userInputWho', JSON.stringify(userInput))
-                this.props.history.push('/signup/you')
+                this.props.history.push('/signup/you_owner')
             }
         })
     }
@@ -67,7 +67,7 @@ class FormWho extends Component {
         const { getFieldDecorator } = this.props.form;
         return (<Form onSubmit={this.handleSubmit}>
             <Form.Item>
-                {getFieldDecorator('peopleNumber', {
+                {getFieldDecorator('peopleNumberPreference', {
                     rules: [{ required: true, message: 'Пожалуйста, введите сколько человек вы ищете' }],
                 })(
                     <div>
@@ -77,12 +77,12 @@ class FormWho extends Component {
                 )}
             </Form.Item>
             <Form.Item>
-                {getFieldDecorator('sex', {
+                {getFieldDecorator('sexPreference', {
                     rules: [{ required: true, message: 'Пожалуйста, введите какого пола' }],
                 })(
                     <div>
                         <p className='question'>Какого пола?</p>
-                        <Radio.Group buttonStyle="outline">
+                        <Radio.Group buttonStyle="solid">
                             <Radio.Button className='customRadio' value={'М'}>М</Radio.Button>
                             <Radio.Button className='customRadio' value={'Ж'}>Ж</Radio.Button>
                             <Radio.Button className='customRadio' value={'нет предпочтений'}>Нет предпочтений</Radio.Button>
@@ -95,7 +95,7 @@ class FormWho extends Component {
                 {getFieldDecorator('agePreference', {
                     rules: [{ required: true, message: 'Пожалуйста, введите какого возраста' }],
                 })(
-                    <Slider range min={18} max={100} style={{width: 300}}/>
+                    <Slider range min={18} max={100} style={{ width: 300 }} />
                 )}
             </Form.Item>
             <Form.Item>

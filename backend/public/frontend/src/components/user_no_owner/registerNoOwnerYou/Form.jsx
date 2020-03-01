@@ -11,7 +11,9 @@ class FormYou extends Component {
     super(props);
     this.state = {
       disabled: false,
-      petsOfUser: [],
+      children: 'Без детей',
+      pets: 'Без животных',
+      smoking: 'Не курящий'
     }
   }
 
@@ -38,32 +40,55 @@ class FormYou extends Component {
         const userInputYou = {
           sexOfUser,
           ageOfUser,
-          petsOfUser: this.state.petsOfUser,
+          childrenOfUser: this.state.children,
+          petsOfUser: this.state.pets,
+          isUserSmokes: this.state.smoking,
           aboutUser,
           professionOfUser,
           photoOfUser: this.props.photos
         };
-        console.log(userInputYou)
 
-        // const response = await fetch('/api/signup/owner', {
-        //   method: 'POST',
-        //   headers: {'Content-Type': 'application/json'},
-        //   body: JSON.stringify({
-        //     userInputWhere: this.state.userInputWhere,
-        //     userInputWho: this.state.userInputWho,
-        //     userInputYou
-        //   })
-        // });
-        // const result = await response.json();
+        const response = await fetch('/api/signup/noowner', {
+          method: 'POST',
+          headers: {'Content-Type': 'application/json'},
+          body: JSON.stringify({
+            userInputWhere: this.state.userInputWhere,
+            userInputWho: this.state.userInputWho,
+            userInputYou
+          })
+        });
+        const result = await response.json();
       }
     })
   };
 
-  onChangePetsOfOwner = (value) => {
-    this.setState({
-      petsOfUser: value
-    })
-  };
+  onChangePreference = (e) => {
+    if (e.target.value === 'С детьми' && e.target.checked) {
+      this.setState({
+        children: e.target.value
+      })
+    } else if (e.target.value === 'С детьми' && !e.target.checked) {
+      this.setState({
+        children: 'Без детей'
+      })
+    } else if (e.target.value === 'С животными' && e.target.checked) {
+      this.setState({
+        pets: 'С животными'
+      })
+    } else if (e.target.value === 'С животными' && !e.target.checked) {
+      this.setState({
+        pets: 'Без животных'
+      })
+    } else if (e.target.value === 'Курящий' && e.target.checked) {
+      this.setState({
+        smoking: 'Курящий'
+      })
+    } else if (e.target.value === 'Курящий' && !e.target.checked) {
+      this.setState({
+        smoking: 'Не курящий'
+      })
+    }
+  }
 
   render() {
     const { getFieldDecorator } = this.props.form;
@@ -113,10 +138,14 @@ class FormYou extends Component {
           {getFieldDecorator('animalSmokeChild')(
             <div>
               <p className='question'>Вы проживаете с?</p>
-              <Checkbox.Group onChange={this.onChangePetsOfOwner}>
-                <Checkbox className='customCheckbox' value={'С животным'}>С животным</Checkbox>
-                <Checkbox className='customCheckbox' disabled={this.state.disabled} value={'С ребенком'}>С ребенком</Checkbox>
-                <Checkbox className='customCheckbox' disabled={this.state.disabled} value={'Курите'}>Курите</Checkbox>
+              <Checkbox.Group>
+                <Checkbox onChange={this.onChangePreference} className='customCheckbox' value={'С детьми'}>C детьми</Checkbox>
+              </Checkbox.Group>
+              <Checkbox.Group>
+                <Checkbox onChange={this.onChangePreference} className='customCheckbox' value={'С животными'}>C животными</Checkbox>
+              </Checkbox.Group>
+              <Checkbox.Group>
+                <Checkbox onChange={this.onChangePreference} className='customCheckbox' value={'Курящий'}>Курю</Checkbox>
               </Checkbox.Group>
             </div>
           )}

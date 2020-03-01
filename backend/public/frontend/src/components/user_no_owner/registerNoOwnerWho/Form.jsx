@@ -1,5 +1,5 @@
-import React, {Component} from 'react';
-import {Button, Icon, Radio, Form, Slider, Checkbox} from "antd";
+import React, { Component } from 'react';
+import { Button, Icon, Radio, Form, Slider, Checkbox } from "antd";
 import { withRouter } from "react-router-dom";
 
 
@@ -9,7 +9,37 @@ class FormWho extends Component {
     this.state = {
       minAge: 18,
       maxAge: 100,
-      aboutOwner: []
+      children: 'Без детей',
+      pets: 'Без животных',
+      smoking: 'Не курящий'
+    }
+  }
+
+  onChangePreference = (e) => {
+    if (e.target.value === 'С детьми' && e.target.checked) {
+      this.setState({
+        children: e.target.value
+      })
+    } else if (e.target.value === 'С детьми' && !e.target.checked) {
+      this.setState({
+        children: 'Без детей'
+      })
+    } else if (e.target.value === 'С животными' && e.target.checked) {
+      this.setState({
+        pets: 'С животными'
+      })
+    } else if (e.target.value === 'С животными' && !e.target.checked) {
+      this.setState({
+        pets: 'Без животных'
+      })
+    } else if (e.target.value === 'Курящий' && e.target.checked) {
+      this.setState({
+        smoking: 'Курящий'
+      })
+    } else if (e.target.value === 'Курящий' && !e.target.checked) {
+      this.setState({
+        smoking: 'Не курящий'
+      })
     }
   }
 
@@ -18,16 +48,17 @@ class FormWho extends Component {
     this.props.form.validateFields(async (err, values) => {
       if (!err) {
         const {
-          sex,
+          sexPreference,
+          agePreference
         } = values;
 
         const userInput = {
-          sex,
-          age:[this.state.minAge,this.state.maxAge],
-          aboutOwner: this.state.aboutOwner,
-
+          sexPreference,
+          agePreference,
+          childrenPreference: this.state.children,
+          petPreference: this.state.pets,
+          smokingPreference: this.state.smoking
         };
-        console.log(userInput);
         localStorage.setItem('userInputWho', JSON.stringify(userInput));
         this.props.history.push('/signup/you')
 
@@ -46,13 +77,13 @@ class FormWho extends Component {
     });
   };
   render() {
-    const {getFieldDecorator} = this.props.form;
+    const { getFieldDecorator } = this.props.form;
     return (
       <Form onSubmit={this.handleSubmit}>
 
         <Form.Item>
-          {getFieldDecorator('sex', {
-            rules: [{required: true, message: 'С кем вы готовы жить в квартире?'}],
+          {getFieldDecorator('sexPreference', {
+            rules: [{ required: true, message: 'С кем вы готовы жить в квартире?' }],
           })(
             <div>
               <p className='question'>С кем вы готовы жить в квартире?</p>
@@ -64,42 +95,38 @@ class FormWho extends Component {
             </div>
           )}
         </Form.Item>
+        <p className='question'>Какого возраста?</p>
         <Form.Item>
-          {getFieldDecorator('age')(
-            <div>
-              <p className='question'>Какого возраста?</p>
-              <div style={{width: '250px'}}>
-                <Slider range max={100} min={18} value={[this.state.minAge, this.state.maxAge]} onChange={this.onChangeAge}
-                        defaultValue={[this.state.minAge, this.state.maxAge]} marks={{18: '18 лет', 100: '100 лет'}}/>
-
-              </div>
-            </div>
+          {getFieldDecorator('agePreference')(
+            <Slider range max={100} min={18} style={{width: 300}} marks={{ 18: '18', 100: '100' }} />
           )}
         </Form.Item>
         <Form.Item>
           {getFieldDecorator('animalSmokeChild')(
             <div>
-              <p className='question'>Доп информация?</p>
-              <Checkbox.Group onChange={this.onChangeAboutOwner}>
-                <Checkbox className='customCheckbox' value={'С животным'}>С животным</Checkbox>
-                <Checkbox className='customCheckbox' disabled={this.state.disabled} value={'С ребенком'}>С ребенком</Checkbox>
-                <Checkbox className='customCheckbox' disabled={this.state.disabled} value={'Курящего'}>Курящего</Checkbox>
+              <p className='question'>Ваши пожелания?</p>
+              <Checkbox.Group>
+                <Checkbox onChange={this.onChangePreference} className='customCheckbox' value={'С детьми'}>Можно с детьми</Checkbox>
+              </Checkbox.Group>
+              <Checkbox.Group>
+                <Checkbox onChange={this.onChangePreference} className='customCheckbox' value={'С животными'}>Можно с животными</Checkbox>
+              </Checkbox.Group>
+              <Checkbox.Group>
+                <Checkbox onChange={this.onChangePreference} className='customCheckbox' value={'Курящий'}>Можно курящего</Checkbox>
               </Checkbox.Group>
             </div>
           )}
         </Form.Item>
-
-
-        <br/>
+        <br />
         <Form.Item>
           <Button htmlType="submit" type='primary' size='large'>
             Next
-            <Icon type="right"/>
+            <Icon type="right" />
           </Button>
         </Form.Item>
       </Form>
     );
   }
 }
-const FormWher = Form.create({name: 'normal_login'})(FormWho);
+const FormWher = Form.create({ name: 'normal_login' })(FormWho);
 export default withRouter(FormWher);

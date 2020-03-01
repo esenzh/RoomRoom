@@ -52,18 +52,16 @@ class FormYou extends Component {
                     photoOfOwner: this.props.photos
                 }
 
-                console.log(userInputYou)
-
-                // const response = await fetch('/api/signup/owner', {
-                //     method: 'POST',
-                //     headers: { 'Content-Type': 'application/json' },
-                //     body: JSON.stringify({
-                //         userInputWhere: this.state.userInputWhere,
-                //         userInputWho: this.state.userInputWho,
-                //         userInputYou
-                //     })
-                // })
-                // const result = await response.json();
+                const response = await fetch('/api/signup/owner', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        userInputWhere: this.state.userInputWhere,
+                        userInputWho: this.state.userInputWho,
+                        userInputYou
+                    })
+                })
+                const result = await response.json();
             }
         })
     }
@@ -169,12 +167,12 @@ class FormYou extends Component {
                 <Form.Item>
                     {getFieldDecorator('preference')(
                         <div>
-                            <p className='question'>Как вы проживаете?</p>
+                            <p className='question'>Вы проживаете с?</p>
                             <Checkbox.Group>
-                                <Checkbox onChange={this.onChangePreference} className='customCheckbox' value={'С детьми'}>Живу с детьми</Checkbox>
+                                <Checkbox onChange={this.onChangePreference} className='customCheckbox' value={'С детьми'}>C детьми</Checkbox>
                             </Checkbox.Group>
                             <Checkbox.Group>
-                                <Checkbox onChange={this.onChangePreference} className='customCheckbox' value={'С животными'}>Живу с животными</Checkbox>
+                                <Checkbox onChange={this.onChangePreference} className='customCheckbox' value={'С животными'}>C животными</Checkbox>
                             </Checkbox.Group>
                             <Checkbox.Group>
                                 <Checkbox onChange={this.onChangePreference} className='customCheckbox' value={'Курящий'}>Курю</Checkbox>
