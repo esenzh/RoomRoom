@@ -193,20 +193,17 @@ router
     try {
       const user = await Users.findOne({ email });
       const userOwner = await UserOwner.findOne({ email });
-      if (user) {
-        if (user && (await bcrypt.compare(password, user.password))) {
-          req.session.user = user;
-          res.status(200).json({ response: "success" });
-        } else {
-          res.status(400).json({ response: "fail" });
-        }
-      } else if (userOwner) {
-        if (userOwner && (await bcrypt.compare(password, userOwner.password))) {
-          req.session.user = userOwner;
-          res.status(200).json({ response: "success" });
-        } else {
-          res.status(400).json({ response: "fail" });
-        }
+      if (user && (await bcrypt.compare(password, user.password))) {
+        req.session.user = user;
+        res.status(200).json({ response: "success" });
+      } else if (
+        userOwner &&
+        (await bcrypt.compare(password, userOwner.password))
+      ) {
+        req.session.user = userOwner;
+        res.status(200).json({ response: "success" });
+      } else {
+        res.status(400).json({ response: "fail" });
       }
     } catch (e) {
       res.status(400).json({ response: "fail" });
