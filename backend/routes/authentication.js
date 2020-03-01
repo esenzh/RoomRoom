@@ -3,7 +3,8 @@ const bcrypt = require("bcrypt");
 
 const router = express.Router();
 const Users = require("../models/user");
-const UserOwner = require("../models/userOwner");
+const AnketaNoOwner = require("../models/anketaOfNoOwner");
+const AnketaOwner = require("../models/anketaOfOwner");
 const sessionChecker = require("../middleware/auth");
 
 const saltRounds = 10;
@@ -11,38 +12,20 @@ const saltRounds = 10;
 router
   .post("/api/signup", async (req, res, next) => {
     const { first_name, last_name, role, email, password } = req.body;
-    if (role === "Сдаю комнату") {
-      const user = new UserOwner({
-        first_name,
-        last_name,
-        role,
-        email,
-        password: await bcrypt.hash(password, saltRounds)
-      });
-      const dbemail = await UserOwner.findOne({ email });
-      if (dbemail && dbemail.email === email) {
-        res.status(400).json({ response: "emailExist" });
-      } else {
-        await user.save();
-        req.session.user = user;
-        res.status(200).json({ response: "success" });
-      }
-    } else if (role === "Ищу комнату") {
-      const user = new Users({
-        first_name,
-        last_name,
-        role,
-        email,
-        password: await bcrypt.hash(password, saltRounds)
-      });
-      const dbemail = await Users.findOne({ email });
-      if (dbemail && dbemail.email === email) {
-        res.status(400).json({ response: "emailExist" });
-      } else {
-        await user.save();
-        req.session.user = user;
-        res.status(200).json({ response: "success" });
-      }
+    const user = new Users({
+      first_name,
+      last_name,
+      role,
+      email,
+      password: await bcrypt.hash(password, saltRounds)
+    });
+    const dbemail = await Users.findOne({ email });
+    if (dbemail && dbemail.email === email) {
+      res.status(400).json({ response: "emailExist" });
+    } else {
+      await user.save();
+      req.session.user = user;
+      res.status(200).json({ response: "success" });
     }
   })
   .post("/api/signup/noowner", async (req, res, next) => {
@@ -69,33 +52,30 @@ router
     } = req.body.userInputYou;
 
     try {
-      await Users.updateOne(
-        { _id },
-        {
-          $set: {
-            metro,
-            budget,
-            timeInRoom,
-            admissionDay,
-            sexPreference,
-            agePreference,
-            childrenPreference,
-            petPreference,
-            smokingPreference,
-            sexOfUser,
-            ageOfUser,
-            childrenOfUser,
-            petsOfUser,
-            isUserSmokes,
-            aboutUser,
-            professionOfUser,
-            photoOfUser
-          }
-        }
-      );
-      res.status(200);
+      const anketa = new AnketaNoOwner({
+        metro,
+        budget,
+        timeInRoom,
+        admissionDay,
+        sexPreference,
+        agePreference,
+        childrenPreference,
+        petPreference,
+        smokingPreference,
+        sexOfUser,
+        ageOfUser,
+        childrenOfUser,
+        petsOfUser,
+        isUserSmokes,
+        aboutUser,
+        professionOfUser,
+        photoOfUser,
+        authorID: _id
+      });
+      await anketa.save();
+      res.status(200).json({ response: "success" });
     } catch (e) {
-      res.status(400);
+      res.status(400).json({ response: "fail" });
     }
   })
   .post("/api/signup/owner", async (req, res, next) => {
@@ -143,64 +123,54 @@ router
     } = req.body.userInputYou;
 
     try {
-      await UserOwner.updateOne(
-        { _id },
-        {
-          $set: {
-            metro,
-            distance,
-            totalFloor,
-            floorNumber,
-            totalRooms,
-            roomsToRent,
-            typeOfRoom,
-            furnitureAndTech,
-            furnitureInRoom,
-            internet,
-            nearBy,
-            apartmentPhoto,
-            fee,
-            bills,
-            deposit,
-            rentalDuration,
-            admissionDay,
-            peopleNumberPreference,
-            sexPreference,
-            agePreference,
-            childrenPreference,
-            petsPreference,
-            smokingPreference,
-            peopleLivingNumber,
-            sexOfOwner,
-            ageOfOwner,
-            phone,
-            professionOfOwner,
-            childrenOfOwner,
-            petsOfOnwer,
-            isOwnerSmokes,
-            aboutOwner,
-            photoOfOwner
-          }
-        }
-      );
-      res.status(200);
+      const anketa = new AnketaOwner({
+        metro,
+        distance,
+        totalFloor,
+        floorNumber,
+        totalRooms,
+        roomsToRent,
+        typeOfRoom,
+        furnitureAndTech,
+        furnitureInRoom,
+        internet,
+        nearBy,
+        apartmentPhoto,
+        fee,
+        bills,
+        deposit,
+        rentalDuration,
+        admissionDay,
+        peopleNumberPreference,
+        sexPreference,
+        agePreference,
+        childrenPreference,
+        petsPreference,
+        smokingPreference,
+        peopleLivingNumber,
+        sexOfOwner,
+        ageOfOwner,
+        phone,
+        professionOfOwner,
+        childrenOfOwner,
+        petsOfOnwer,
+        isOwnerSmokes,
+        aboutOwner,
+        photoOfOwner,
+        authorID: _id
+      });
+      await anketa.save();
+      res.status(200).json({ response: "success" });
     } catch (e) {
-      res.status(400);
+      res.status(400).json({ response: "fail" });
     }
   })
   .post("/api/login", async (req, res) => {
     const { email, password } = req.body;
     try {
       const user = await Users.findOne({ email });
-      const userOwner = await UserOwner.findOne({ email });
       if (user && (await bcrypt.compare(password, user.password))) {
         req.session.user = user;
-        res.status(200).json({ response: "success" });
-      } else if (
-        userOwner &&
-        (await bcrypt.compare(password, userOwner.password))
-      ) {
-        req.session.user = userOwner;
         res.status(200).json({ response: "success" });
       } else {
         res.status(400).json({ response: "fail" });
