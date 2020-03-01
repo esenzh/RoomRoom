@@ -34,7 +34,7 @@ class Login extends Component {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({
-                        username: values.username,
+                        email: values.email,
                         password: values.password
                     })
                 })
@@ -47,7 +47,7 @@ class Login extends Component {
                         iconLoading: false
                     })
                 } else {
-                    openNotification('topRight', 'warning', 'Warning', 'Неверный логин и пароль, пожалуйста попробуйте еще раз!')
+                    openNotification('topRight', 'warning', 'Warning', 'Неверный email и пароль, пожалуйста попробуйте еще раз!')
                     this.setState({ iconLoading: false })
                 }
             }
@@ -69,12 +69,13 @@ class Login extends Component {
                     <br/>
                     <Form onSubmit={this.handleSubmit}>
                         <Form.Item>
-                            {getFieldDecorator('username', {
-                                rules: [{ required: true, message: 'Пожалуйста, введите логин!' }],
+                            {getFieldDecorator('email', {
+                                rules: [{ required: true, message: 'Пожалуйста, введите E-mail!' }],
                             })(
                                 <Input
-                                    prefix={<Icon type="user" style={{ color: 'rgba(0,0,0,.25)' }} />}
-                                    placeholder="Логин"
+                                    prefix={<Icon type="mail" style={{ color: 'rgba(0,0,0,.25)' }} />}
+                                    type='mail'
+                                    placeholder="E-mail"
                                 />,
                             )}
                         </Form.Item>

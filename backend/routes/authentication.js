@@ -189,40 +189,29 @@ router
     }
   })
   .post("/api/login", async (req, res) => {
-    const { username, password } = req.body;
-    const user = await Users.findOne({ username });
-    const userOwner = await UserOwners.findOne({ username });
-
-    if (user) {
-      console.log("user");
-      if (user && (await bcrypt.compare(password, user.password))) {
-        req.session.user = user;
-        res.status(200).json({ response: "success" });
-      } else {
-        res.status(400).json({ response: "fail" });
+    const { email, password } = req.body;
+    try {
+      const user = await Users.findOne({ email });
+      const userOwner = await UserOwner.findOne({ email });
+      if (user) {
+        if (user && (await bcrypt.compare(password, user.password))) {
+          req.session.user = user;
+          res.status(200).json({ response: "success" });
+        } else {
+          res.status(400).json({ response: "fail" });
+        }
+      } else if (userOwner) {
+        if (userOwner && (await bcrypt.compare(password, userOwner.password))) {
+          req.session.user = userOwner;
+          res.status(200).json({ response: "success" });
+        } else {
+          res.status(400).json({ response: "fail" });
+        }
       }
-    }
-
-    if (userOwner) {
-      console.log("userOwner");
-      if (userOwner && (await bcrypt.compare(password, userOwner.password))) {
-        req.session.user = userOwner;
-        res.status(200).json({ response: "success" });
-      } else {
-        res.status(400).json({ response: "fail" });
-      }
+    } catch (e) {
+      res.status(400).json({ response: "fail" });
     }
   })
-  // .post("/api/login", async (req, res) => {
-  //   const { username, password } = req.body;
-  //   const user = await Users.findOne({ username });
-  //   if (user && (await bcrypt.compare(password, user.password))) {
-  //     req.session.user = user;
-  //     res.status(200).json({ response: "success" });
-  //   } else {
-  //     res.status(400).json({ response: "fail" });
-  //   }
-  // })
   .get("/api/logout", async (req, res, next) => {
     try {
       await req.session.destroy();
