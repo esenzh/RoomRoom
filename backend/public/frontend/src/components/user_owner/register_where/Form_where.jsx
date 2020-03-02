@@ -281,7 +281,7 @@ class FormWhere extends Component {
                 </Form.Item>
                 <Form.Item>
                     {getFieldDecorator('fee', {
-                        rules: [{ required: true, message: 'Пожалуйста, введите cколько оплата' }],
+                        rules: [{ required: true, message: 'Пожалуйста, укажите арендную плату в месяц за Вашу комнату' }],
                     })(
                         <div>
                             <p className='question'>Какова арендная плата в месяц за Вашу комнату?</p>
@@ -294,7 +294,7 @@ class FormWhere extends Component {
                 </Form.Item>
                 <Form.Item>
                     {getFieldDecorator('bills', {
-                        rules: [{ required: true, message: 'Пожалуйста, введите коммунальные платежи' }],
+                        rules: [{ required: true, message: 'Пожалуйста, введите размер коммунальных платежей' }],
                     })(
                         <div>
                             <p className='question'>Коммунальные платежи:</p>
@@ -320,7 +320,7 @@ class FormWhere extends Component {
                 </Form.Item>
                 <Form.Item>
                     {getFieldDecorator('rentalDuration', {
-                        rules: [{ required: true, message: 'Пожалуйста, введите на какой срок' }],
+                        rules: [{ required: true, message: 'Пожалуйста, введите плнируемый срок сдачи комнаты в аренду' }],
                     })(
                         <div>
                             <p className='question'>На какой срок планируете сдавать комнату?</p>
@@ -337,7 +337,7 @@ class FormWhere extends Component {
                     style={{ display: 'inline-block', width: 'calc(50% - 12px)' }}
                 >
                     {getFieldDecorator('admissionDay', {
-                        rules: [{ required: true, message: 'Пожалуйста, введите когда возможно заехать' }],
+                        rules: [{ required: true, message: 'Пожалуйста, введите дату начала проживания арендатора' }],
                     })(
                         <DatePicker size='large' placeholder="Выберите дату" />
                     )}

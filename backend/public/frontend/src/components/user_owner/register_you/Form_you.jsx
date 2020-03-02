@@ -129,7 +129,7 @@ class FormYou extends Component {
                 </Form.Item>
                 <Form.Item>
                     {getFieldDecorator('sexOfOwner', {
-                        rules: [{ required: true, message: 'Пожалуйста, укажите какой ваш пол' }],
+                        rules: [{ required: true, message: 'Пожалуйста, укажите какой Ваш пол' }],
                     })(
                         <div>
                             <p className='question'>Какой Ваш пол?</p>
@@ -143,7 +143,7 @@ class FormYou extends Component {
                 </Form.Item>
                 <Form.Item>
                     {getFieldDecorator('ageOfOwner', {
-                        rules: [{ required: true, message: 'Пожалуйста, введите какой ваш возраст' }],
+                        rules: [{ required: true, message: 'Пожалуйста, введите какой Ваш возраст' }],
                     })(
                         <div>
                             <p className='question'>Какой Ваш возраст?</p>
@@ -162,10 +162,10 @@ class FormYou extends Component {
                 </Form.Item>
                 <Form.Item>
                     {getFieldDecorator('professionOfOwner', {
-                        rules: [{ required: true, message: 'Пожалуйста, укажите чем вы занимаетесь' }],
+                        rules: [{ required: true, message: 'Пожалуйста, укажите чем Вы занимаетесь' }],
                     })(
                         <div>
-                            <p className='question'>Чем вы занимаетесь?</p>
+                            <p className='question'>Чем Вы занимаетесь?</p>
                             <Radio.Group buttonStyle="solid">
                                 <Radio.Button className='customRadio' value={'Учусь'}>Учусь</Radio.Button>
                                 <Radio.Button className='customRadio' value={'Работаю'}>Работаю</Radio.Button>
