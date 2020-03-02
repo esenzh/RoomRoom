@@ -12,6 +12,7 @@ const saltRounds = 10;
 router
   .post("/api/signup", async (req, res, next) => {
     const { first_name, last_name, role, email, password } = req.body;
+    console.log(first_name, last_name, role, email, password);
     const user = new Users({
       first_name,
       last_name,
@@ -19,6 +20,7 @@ router
       email,
       password: await bcrypt.hash(password, saltRounds)
     });
+    console.log(user);
     const dbemail = await Users.findOne({ email });
     if (dbemail && dbemail.email === email) {
       res.status(400).json({ response: "emailExist" });
@@ -171,8 +173,10 @@ router
       const user = await Users.findOne({ email });
       if (user && (await bcrypt.compare(password, user.password))) {
         req.session.user = user;
+        console.log("success")
         res.status(200).json({ response: "success" });
       } else {
+        console.log("fail")
         res.status(400).json({ response: "fail" });
       }
     } catch (e) {

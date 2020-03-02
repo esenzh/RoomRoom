@@ -42,7 +42,7 @@ class Signup extends Component {
                     password,
                     role,
                 } = values
-
+                console.log('Запрос ушел');
                 const response = await fetch('/api/signup', {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
@@ -55,6 +55,7 @@ class Signup extends Component {
                     })
                 })
                 const result = await response.json();
+                console.log(result);
                 if (result.response === 'success') {
                     this.props.cookies.set('isLogin', true);
                     this.setState({

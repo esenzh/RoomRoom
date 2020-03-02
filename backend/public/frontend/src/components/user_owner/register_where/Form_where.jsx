@@ -144,10 +144,10 @@ class FormWhere extends Component {
                 </Form.Item>
                 <Form.Item>
                     {getFieldDecorator('distance', {
-                        rules: [{ required: true, message: 'Пожалуйста, введите сколько пешком идти от ближайшего метро' }],
+                        rules: [{ required: true, message: 'Пожалуйста, укажите как долго идти пешком от ближайшего метро до Вашего дома' }],
                     })(
                         <div>
-                            <p className='question'>Сколько пешком идти от ближайшего метро?</p>
+                            <p className='question'>Как долго идти пешком от ближайшего метро до Вашего дома?</p>
                             <InputNumber min={1} />
                             &nbsp;
                            <label>( от 0 до 60 мин)</label>
@@ -159,7 +159,7 @@ class FormWhere extends Component {
                         rules: [{ required: true, message: 'Пожалуйста, введите сколько этажей в доме' }],
                     })(
                         <div>
-                            <p className='question'>Сколько этажей в доме?</p>
+                            <p className='question'>Сколько этажей в Вашем доме?</p>
                             <InputNumber min={1} />
                         </div>
                     )}
@@ -169,7 +169,7 @@ class FormWhere extends Component {
                         rules: [{ required: true, message: 'Пожалуйста, введите на каком этаже' }],
                     })(
                         <div>
-                            <p className='question'>На каком этаже?</p>
+                            <p className='question'>На каком этаже Ваша квартира?</p>
                             <InputNumber min={1} />
                         </div>
                     )}
@@ -179,7 +179,7 @@ class FormWhere extends Component {
                         rules: [{ required: true, message: 'Пожалуйста, введите сколько комнат в квартире' }],
                     })(
                         <div>
-                            <p className='question'>Сколько комнат в квартире?</p>
+                            <p className='question'>Сколько комнат в Вашей квартире?</p>
                             <InputNumber min={1} />
                         </div>
                     )}
@@ -189,7 +189,7 @@ class FormWhere extends Component {
                         rules: [{ required: true, message: 'Пожалуйста, введите сколько комнат сдаётся' }],
                     })(
                         <div>
-                            <p className='question'>Сколько комнат сдаётся?</p>
+                            <p className='question'>Сколько комнат сдаёте?</p>
                             <InputNumber min={1} />
                         </div>
                     )}
@@ -227,7 +227,7 @@ class FormWhere extends Component {
                         rules: [{ required: true, message: 'Пожалуйста, укажите какая мебель есть в комнате' }],
                     })(
                         <div>
-                            <p className='question'>Какая мебель есть в комнате?</p>
+                            <p className='question'>Какая мебель есть в комнате, которая сдается?</p>
                             <Checkbox.Group onChange={this.onChangeFurnitureInRoom}>
                                 <Checkbox className='customCheckbox' value={'Кровать'}>Кровать</Checkbox>
                                 <Checkbox className='customCheckbox' value={'Диван'}>Диван</Checkbox>
@@ -284,7 +284,7 @@ class FormWhere extends Component {
                         rules: [{ required: true, message: 'Пожалуйста, введите cколько оплата' }],
                     })(
                         <div>
-                            <p className='question'>Сколько оплата?</p>
+                            <p className='question'>Какова арендная плата в месяц за Вашу комнату?</p>
                             <InputNumber
                                 min={0}
                                 placeholder='₽'
@@ -323,7 +323,7 @@ class FormWhere extends Component {
                         rules: [{ required: true, message: 'Пожалуйста, введите на какой срок' }],
                     })(
                         <div>
-                            <p className='question'>На какой срок?</p>
+                            <p className='question'>На какой срок планируете сдавать комнату?</p>
                             <Radio.Group buttonStyle="solid">
                                 <Radio.Button className='customRadio' onClick={this.hideInputForDuration} value={'Длительный'}>Длительный</Radio.Button>
                                 <Radio.Button className='customRadio' onClick={this.showInputForDuration} value={'Не длительный'}>на (от 1 до 12) недель</Radio.Button>
@@ -332,7 +332,7 @@ class FormWhere extends Component {
                         </div>
                     )}
                 </Form.Item>
-                <p className='question'>Когда возможно заехать?</p>
+                <p className='question'>Когда возможно заехать в комнату?</p>
                 <Form.Item
                     style={{ display: 'inline-block', width: 'calc(50% - 12px)' }}
                 >

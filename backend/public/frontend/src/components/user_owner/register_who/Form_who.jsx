@@ -71,7 +71,7 @@ class FormWho extends Component {
                     rules: [{ required: true, message: 'Пожалуйста, введите сколько человек вы ищете' }],
                 })(
                     <div>
-                        <p className='question'>Сколько человек вы ищете?</p>
+                        <p className='question'>Сколько человек может проживать в Вашей комнате?</p>
                         <InputNumber min={1} />
                     </div>
                 )}

@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { InputNumber, Form, Select, Radio, Input, Button, Checkbox } from 'antd';
 import { connect } from "react-redux";
 import UploadPhoto from '../../UploadPhoto';
+import {Redirect} from "react-router-dom";
 
 const { TextArea } = Input;
 const { Option } = Select;
@@ -12,7 +13,8 @@ class FormYou extends Component {
         this.state = {
             children: 'Без детей',
             pets: 'Без животных',
-            smoking: 'Не курящий'
+            smoking: 'Не курящий',
+            isRedirect: false,
         }
     }
 
@@ -62,6 +64,12 @@ class FormYou extends Component {
                     })
                 })
                 const result = await response.json();
+                if (result.response === 'success') {
+                    this.setState({
+                        isRedirect: true
+                    })
+                }
+                console.log(result);
             }
         })
     }
@@ -95,6 +103,9 @@ class FormYou extends Component {
     }
 
     render() {
+        if (this.state.isRedirect) {
+            return <Redirect to={'/'} />
+        }
         const { getFieldDecorator } = this.props.form;
         const prefixSelector = getFieldDecorator('prefix', {
             initialValue: '+7',
@@ -120,7 +131,7 @@ class FormYou extends Component {
                         rules: [{ required: true, message: 'Пожалуйста, укажите какой ваш пол' }],
                     })(
                         <div>
-                            <p className='question'>Какой ваш пол?</p>
+                            <p className='question'>Какой Ваш пол?</p>
                             <Radio.Group buttonStyle="solid">
                                 <Radio.Button className='customRadio' value={'М'}>М</Radio.Button>
                                 <Radio.Button className='customRadio' value={'Ж'}>Ж</Radio.Button>
@@ -134,7 +145,7 @@ class FormYou extends Component {
                         rules: [{ required: true, message: 'Пожалуйста, введите какой ваш возраст' }],
                     })(
                         <div>
-                            <p className='question'>Какой ваш возраст?</p>
+                            <p className='question'>Какой Ваш возраст?</p>
                             <InputNumber min={18} max={100} />
                         </div>
                     )}
@@ -167,7 +178,7 @@ class FormYou extends Component {
                 <Form.Item>
                     {getFieldDecorator('preference')(
                         <div>
-                            <p className='question'>Вы проживаете с?</p>
+                            <p className='question'>С кем Вы проживаете?</p>
                             <Checkbox.Group>
                                 <Checkbox onChange={this.onChangePreference} className='customCheckbox' value={'С детьми'}>C детьми</Checkbox>
                             </Checkbox.Group>
