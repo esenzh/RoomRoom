@@ -15,6 +15,7 @@ class FormYou extends Component {
             pets: 'Без животных',
             smoking: 'Не курящий',
             isRedirect: false,
+            iconLoading: false
         }
     }
 
