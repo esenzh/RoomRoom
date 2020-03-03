@@ -166,7 +166,7 @@ class Signup extends Component {
                             )}
                         </Form.Item>
                         < Form.Item>
-                            <Button style={{backgroundColor: '#4A76A8', width: '50%'}} htmlType="submit" loading={this.state.iconLoading} icon='solution'>
+                            <Button style={{backgroundColor: '#4A76A8', width: '100%', align: "center"}} htmlType="submit" loading={this.state.iconLoading} icon='solution'>
                                 Start!
                             </Button>
                         </Form.Item>
