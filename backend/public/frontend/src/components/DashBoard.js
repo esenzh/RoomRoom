@@ -205,7 +205,7 @@ class DashBoard extends Component {
   };
 
   render() {
-    if (this.state.isRedirect) {
+    if (!this.state.isRedirect) {
       return <Redirect to={"/login"}/>;
     }
     if (this.state.redirectToAnket) {
