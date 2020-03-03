@@ -95,8 +95,8 @@ class Signup extends Component {
                 <Card style={{ borderRadius: '10px', marginTop: '10px', backgroundColor: 'white' }}>
                     <div style={{ textAlign: 'center' }}>
                         <img style={{ width: '130px' }} src={logo} alt="" />
-                        <h3 style={{ color: '#4a76a8' }}>Добро пожаловать в RoomRoom!<br />
-                            Форма регистрации</h3>
+                        <h3 style={{color: '#4a76a8'}}>
+                            Зарегистрируйся сейчас и найди<br/> классного соседа!</h3>
                     </div>
                     <br />
                     <Form onSubmit={this.handleSubmit}>
@@ -166,15 +166,14 @@ class Signup extends Component {
                             )}
                         </Form.Item>
                         < Form.Item>
-                            <Button style={{ backgroundColor: '#4A76A8', color: '#ffffff' }} htmlType="submit" loading={this.state.iconLoading} icon='solution'>
-                                Зарегестрироваться
-                        </Button>
-                            &nbsp;&nbsp;&nbsp;
-                        Или <Link to={"/login"}>Войти</Link>
+                            <Button style={{backgroundColor: '#4A76A8', width: '50%'}} htmlType="submit" loading={this.state.iconLoading} icon='solution'>
+                                Start!
+                            </Button>
                         </Form.Item>
                     </Form>
+                    <p align={'center'}>Ты уже в RoomRoom?<br/><Link to={"/login"}>Войти</Link></p>
                 </Card>
-            </div >
+            </div>
         );
     }
 }
