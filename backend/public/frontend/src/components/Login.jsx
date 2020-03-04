@@ -93,8 +93,9 @@ class Login extends Component {
                             <Button style={{ backgroundColor: '#4A76A8', color: '#ffffff' }} htmlType="submit" className="login-form-button" loading={this.state.iconLoading} icon='login'>
                                 Войти
                             </Button>
-                            Или <Link to={"/signupAll"}>зарегистрируйтесь!</Link><br/>
-                            <Link to={"/signup"}>Не помню пароль!</Link>
+
+                           <div align={'center'}>Или <Link to={"/signup"}>зарегистрируйтесь!</Link><br/><Link to={"/aboutproject"}>О проекте!</Link></div>
+                            {/*<Link to={"/signup"}>Не помню пароль!</Link>*/}
                         </Form.Item>
                     </Form>
                 </Card>

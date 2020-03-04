@@ -19,7 +19,8 @@ router
       username,
       password,
       age,
-      nativeLocation
+      nativeLocation,
+      sex
     } = req.body;
     const user = new Users({
       first_name,
@@ -30,6 +31,7 @@ router
       vk,
       age,
       nativeLocation,
+      sex,
       username,
       password: await bcrypt.hash(password, saltRounds)
     });

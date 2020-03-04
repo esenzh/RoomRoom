@@ -14,6 +14,7 @@ import WrappedDynamicRule from "./components/WrappedDynamicRule";
 import Logout from "./components/Logout";
 import DashBoard from "./components/DashBoard";
 import EditProfile from "./components/EditProfile";
+import AboutProject from "./components/AboutProject";
 
 class App extends React.Component {
   render() {
@@ -28,7 +29,8 @@ class App extends React.Component {
             <Route exact path={"/profile"} component={Profile} />
             <Route path={"/profile/edit"} component={EditProfile} />
             <Route exact path={"/login"} component={Login} />
-            <Route exact path={"/signup"} component={SignupAll} />
+            <Route exact path={"/signup"} component={Signup} />
+            <Route exact path={"/aboutproject"} component={AboutProject} />
             <Route exact path={"/signupAll"} component={SignupAll} />
             <Route exact path={"/logout"} component={Logout} />
           </Switch>
