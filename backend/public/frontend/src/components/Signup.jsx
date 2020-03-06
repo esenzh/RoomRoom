@@ -6,9 +6,10 @@ import {
     Input,
     Select,
     Button,
+    Radio,
     Card,
     notification,
-    Icon
+    Icon,
 } from 'antd';
 import { Redirect, Link } from 'react-router-dom';
 import UploadPhoto from './UploadPhoto';
@@ -31,6 +32,7 @@ class Signup extends Component {
         confirmDirty: false,
         isRedirect: false,
         iconLoading: false,
+        value: 1,
     };
 
     handleSubmit = e => {
@@ -38,6 +40,7 @@ class Signup extends Component {
         this.props.form.validateFieldsAndScroll(async (err, values) => {
             if (!err) {
                 this.setState({ iconLoading: true })
+                const sex = this.state.value;
                 const {
                     first_name,
                     last_name,
@@ -63,7 +66,8 @@ class Signup extends Component {
                         username,
                         password,
                         age,
-                        nativeLocation
+                        nativeLocation,
+                        sex
                     })
                 })
                 const result = await response.json();
@@ -104,6 +108,12 @@ class Signup extends Component {
             form.validateFields(['confirm'], { force: true });
         }
         callback();
+    };
+
+    onChange = e => {
+        this.setState({
+            value: e.target.value,
+        });
     };
 
     render() {
@@ -192,6 +202,11 @@ class Signup extends Component {
                                     {getFieldDecorator('nativeLocation', {
                                     })(<Input />)}
                                 </Form.Item>
+                                <Radio.Group onChange={this.onChange} value={this.state.value}>
+                                    Ваш пол:
+                                    <Radio style={{marginLeft: "20px"}} value={'male'}>Мужчина</Radio>
+                                    <Radio value={'female'}>Женщина</Radio>
+                                </Radio.Group>
                             </div>
                             <div style={{ marginLeft: '30px' }}>
                                 <Form.Item label="Номер телефона">
@@ -228,7 +243,7 @@ class Signup extends Component {
                                         ],
                                     })(<Input.Password />)}
                                 </Form.Item>
-                                <Form.Item label="Подвердите пароль" hasFeedback>
+                                <Form.Item label="Еще раз пароль" hasFeedback>
                                     {getFieldDecorator('confirm', {
                                         rules: [
                                             {
@@ -248,7 +263,8 @@ class Signup extends Component {
                                 Зарегестрироваться
                         </Button>
                             &nbsp;&nbsp;&nbsp;
-                        Или <Link to={"/login"}>Войти!</Link>
+                        Или <Link to={"/login"}>Войти!</Link><br/>
+                          <Link to={"/aboutproject"}>О проекте!</Link>
                         </Form.Item>
                     </Form>
                 </Card>
