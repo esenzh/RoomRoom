@@ -2,8 +2,8 @@ var express = require("express");
 var router = express.Router();
 const nodemailer = require("nodemailer");
 const Form = require("../models/form");
-const AnketaOfOwner = require("../models/AnketaOfOwner");
-const AnketaOfNoOwner = require("../models/AnketaOfOwner");
+const AnketaOfOwner = require("../models/anketaOfOwner");
+const AnketaOfNoOwner = require("../models/anketaOfOwner");
 
 const User = require("../models/user");
 const sessionChecker = require('../middleware/auth');
