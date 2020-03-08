@@ -56,14 +56,14 @@ class Signup extends Component {
                 })
                 const result = await response.text();
                 alert(result);
-                // if (result.response === 'success') {
-                //     this.props.cookies.set('isLogin', true);
+                if (result.response === 'success') {
+                    this.props.cookies.set('isLogin', true);
                     this.setState({
                         role: role,
                         isRedirect: true,
                         iconLoading: false
                     })
-                // } else
+                } else
                     if (result.response === 'emailExist') {
                     openNotification('topRight', 'warning', 'Warning', 'Этот E-mail уже используется!')
                     this.setState({ iconLoading: false })
