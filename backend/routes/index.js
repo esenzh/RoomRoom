@@ -2,6 +2,9 @@ var express = require("express");
 var router = express.Router();
 const nodemailer = require("nodemailer");
 const Form = require("../models/form");
+const AnketaOfOwner = require("../models/AnketaOfOwner");
+const AnketaOfNoOwner = require("../models/AnketaOfOwner");
+
 const User = require("../models/user");
 const sessionChecker = require('../middleware/auth');
 
@@ -402,6 +405,111 @@ router.get("/api/likes/mutual", async (req, res) => {
             } else {
                 res.status(200).json({response: "nomatch"});
             }
+        }
+    } catch (e) {
+        res.status(400).json({response: "fail"});
+    }
+});
+
+router.get("/getAllOwner", async (req, res) => {
+    try {
+
+        let User = await User.find();
+        let AnketaOfOwner = await AnketaOfOwner.find();
+        let sendAllOwner = [];
+        for (let i = 0; i < User.length; i++) {
+            for (let j = 0; j < AnketaOfOwner.length ; j++) {
+                if(User[i].id=== AnketaOfOwner[i].authorID){
+                    let AnyOwner = {
+                        first_name: User.first_name,
+                        last_name: User.last_name,
+                        role: User.role,
+                        email: User.email,
+                        password: User.password,
+                        anketaID: User.anketaID,
+                        metro: AnketaOfOwner.,
+                        distance: AnketaOfOwner.,
+                        totalFloor: AnketaOfOwner.,
+                        floorNumber: AnketaOfOwner.,
+                        totalRooms: AnketaOfOwner.,
+                        roomsToRent: AnketaOfOwner.,
+                        typeOfRoom: AnketaOfOwner.,
+                        furnitureAndTech: AnketaOfOwner.,
+                        furnitureInRoom: AnketaOfOwner.,
+                        internet: AnketaOfOwner.,
+                        nearBy: AnketaOfOwner.,
+                        apartmentPhoto: AnketaOfOwner.,
+                        fee: AnketaOfOwner.,
+                        bills: AnketaOfOwner.,
+                        deposit: AnketaOfOwner.,
+                        rentalDuration: AnketaOfOwner.,
+                        admissionDay: AnketaOfOwner.,
+                        peopleNumberPreference: AnketaOfOwner.,
+                        sexPreference: AnketaOfOwner.,
+                        agePreference: AnketaOfOwner.,
+                        childrenPreference: AnketaOfOwner.,
+                        petsPreference: AnketaOfOwner.,
+                        smokingPreference: AnketaOfOwner.,
+                        peopleLivingNumber: AnketaOfOwner.,
+                        sexOfOwner: AnketaOfOwner.,
+                        ageOfOwner: AnketaOfOwner.,
+                        phone: AnketaOfOwner.,
+                        professionOfOwner: AnketaOfOwner.,
+                        childrenOfOwner: AnketaOfOwner.,
+                        petsOfOnwer: AnketaOfOwner.,
+                        isOwnerSmokes: AnketaOfOwner.,
+                        aboutOwner: AnketaOfOwner.,
+                        photoOfOwner: AnketaOfOwner.,
+                        authorID: AnketaOfOwner.authorID
+                    }
+                    sendAllOwner.push(AnyOwner)
+            }
+        }
+                res.status(200).json({response: sendAllOwner});
+        }
+    } catch (e) {
+        res.status(400).json({response: "fail"});
+    }
+});
+
+router.get("/getAllNoOwner", async (req, res) => {
+    try {
+        let User = await User.find();
+        let AnketaOfNoOwner = await AnketaOfNoOwner.find();
+        let sendAllNoOwner = [];
+        for (let i = 0; i < User.length; i++) {
+            for (let j = 0; j < AnketaOfNoOwner.length ; j++) {
+                if(User[i].id=== AnketaOfNoOwner[i].authorID){
+                    let AnyOwner = {
+                        first_name: User.first_name,
+                        last_name: User.last_name,
+                        role: User.role,
+                        email: User.email,
+                        password: User.password,
+                        anketaID: User.anketaID,
+                        metro: AnketaOfNoOwner.metro,
+                        budget: AnketaOfNoOwner.budget,
+                        duration: AnketaOfNoOwner.duration,
+                        admissionDay: AnketaOfNoOwner.admissionDay,
+                        sexPreference: AnketaOfNoOwner.sexPreference,
+                        agePreference: AnketaOfNoOwner.agePreference,
+                        childrenPreference: AnketaOfNoOwner.childrenPreference,
+                        petPreference: AnketaOfNoOwner.petPreference,
+                        smokingPreference: AnketaOfNoOwner.,
+                        sexOfUser: AnketaOfNoOwner.smokingPreference,
+                        ageOfUser: AnketaOfNoOwner.ageOfUser,
+                        childrenOfUser: AnketaOfNoOwner.childrenOfUser,
+                        petsOfUser: AnketaOfNoOwner.petsOfUser,
+                        isOwnerSmokes: AnketaOfNoOwner.isOwnerSmokes,
+                        aboutUser: AnketaOfNoOwner.aboutUser,
+                        professionOfUser: AnketaOfNoOwner.professionOfUser,
+                        photoOfUser: AnketaOfNoOwner.photoOfUser,
+                        authorID: AnketaOfNoOwner.authorID
+                    }
+                    sendAllNoOwner.push(AnyOwner)
+                }
+            }
+            res.status(200).json({response: sendAllNoOwner});
         }
     } catch (e) {
         res.status(400).json({response: "fail"});
