@@ -21,6 +21,7 @@ import Register_you_owner from "./components/user_owner/register_you/Register_yo
 import Register_where_noowner from "./components/user_no_owner/registerNoOwnerWhere/RegisterWhereNoOwner";
 import Register_who_noowner from "./components/user_no_owner/registerNoOwnerWho/RegisterWhoNoOwner";
 import Register_you_noowner from "./components/user_no_owner/registerNoOwnerYou/RegisterYouNoOwner";
+import DashBoardOwner from "./components/DashBoardOwner";
 
 
 class App extends React.Component {
@@ -30,7 +31,7 @@ class App extends React.Component {
         <Router>
           {/* {this.props.isLogin || isLogin ? <Navbar /> : ""} */}
           <Switch>
-            <Route exact path={"/"} component={DashBoard} />
+            <Route exact path={"/"} component={DashBoardOwner} />
             <Route exact path={"/landing"} component={Landing} />
             <Route exact path={"/anketa"} component={WrappedDynamicRule} />
             <Route exact path={"/profile"} component={Profile} />
