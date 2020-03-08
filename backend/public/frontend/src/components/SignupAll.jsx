@@ -54,20 +54,20 @@ class Signup extends Component {
                         role,
                     })
                 })
-                const result = await response.text();
-                alert(result);
+                const result = await response.json();
+
                 if (result.response === 'success') {
-                    this.props.cookies.set('isLogin', true);
+                    // this.props.cookies.set('isLogin', true);
                     this.setState({
                         role: role,
                         isRedirect: true,
                         iconLoading: false
                     })
-                } else
-                    if (result.response === 'emailExist') {
-                    openNotification('topRight', 'warning', 'Warning', 'Этот E-mail уже используется!')
-                    this.setState({ iconLoading: false })
-                }
+                    } else if (result.response === 'emailExist') {
+                        openNotification('topRight', 'warning', 'Warning', 'Этот E-mail уже используется!')
+                        this.setState({iconLoading: false})
+                    }
+
             } else {
                 openNotification('topRight', 'warning', 'Warning', 'Выберите поле "Сдаю комнату" или поле "Ищу комнату"!')
             }
