@@ -495,7 +495,7 @@ router.get("/getAllNoOwner", async (req, res) => {
                         agePreference: AnketaOfNoOwner.agePreference,
                         childrenPreference: AnketaOfNoOwner.childrenPreference,
                         petPreference: AnketaOfNoOwner.petPreference,
-                        smokingPreference: AnketaOfNoOwner.,
+                        smokingPreference: AnketaOfNoOwner.smokingPreference,
                         sexOfUser: AnketaOfNoOwner.smokingPreference,
                         ageOfUser: AnketaOfNoOwner.ageOfUser,
                         childrenOfUser: AnketaOfNoOwner.childrenOfUser,
