@@ -411,7 +411,7 @@ router.get("/api/likes/mutual", async (req, res) => {
     }
 });
 
-router.get("/getAllOwner", async (req, res) => {
+router.get("/api/getAllOwner", async (req, res) => {
     try {
 
         let User = await User.find();
@@ -472,7 +472,7 @@ router.get("/getAllOwner", async (req, res) => {
     }
 });
 
-router.get("/getAllNoOwner", async (req, res) => {
+router.get("/api/getAllNoOwner", async (req, res) => {
     try {
         let User = await User.find();
         let AnketaOfNoOwner = await AnketaOfNoOwner.find();
