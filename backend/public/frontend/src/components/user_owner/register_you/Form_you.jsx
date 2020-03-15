@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { InputNumber, Form, Select, Radio, Input, Button, Checkbox } from 'antd';
 import { connect } from "react-redux";
+import { Redirect } from 'react-router-dom';
 import UploadPhoto from '../../UploadPhoto';
 
 const { TextArea } = Input;
@@ -10,6 +11,7 @@ class FormYou extends Component {
     constructor(props) {
         super(props);
         this.state = {
+            isRedirect: false,
             children: 'Без детей',
             pets: 'Без животных',
             smoking: 'Не курящий'
@@ -62,6 +64,13 @@ class FormYou extends Component {
                     })
                 })
                 const result = await response.json();
+                if(result.response === 'success') {
+                    this.setState({
+                        isRedirect: true
+                    })
+                } else {
+
+                }
             }
         })
     }
@@ -95,6 +104,9 @@ class FormYou extends Component {
     }
 
     render() {
+        if (this.state.isRedirect) {
+            return <Redirect to={'/profile'} />
+        }
         const { getFieldDecorator } = this.props.form;
         const prefixSelector = getFieldDecorator('prefix', {
             initialValue: '+7',
