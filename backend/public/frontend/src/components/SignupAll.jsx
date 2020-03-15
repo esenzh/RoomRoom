@@ -42,7 +42,7 @@ class Signup extends Component {
                     password,
                     role,
                 } = values
-
+                console.log('Запрос ушел');
                 const response = await fetch('/api/signup', {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
@@ -55,17 +55,19 @@ class Signup extends Component {
                     })
                 })
                 const result = await response.json();
+
                 if (result.response === 'success') {
-                    this.props.cookies.set('isLogin', true);
+                    // this.props.cookies.set('isLogin', true);
                     this.setState({
                         role: role,
                         isRedirect: true,
                         iconLoading: false
                     })
-                } else if (result.response === 'emailExist') {
-                    openNotification('topRight', 'warning', 'Warning', 'Этот E-mail уже используется!')
-                    this.setState({ iconLoading: false })
-                }
+                    } else if (result.response === 'emailExist') {
+                        openNotification('topRight', 'warning', 'Warning', 'Этот E-mail уже используется!')
+                        this.setState({iconLoading: false})
+                    }
+
             } else {
                 openNotification('topRight', 'warning', 'Warning', 'Выберите поле "Сдаю комнату" или поле "Ищу комнату"!')
             }
@@ -93,8 +95,8 @@ class Signup extends Component {
                 <Card style={{ borderRadius: '10px', marginTop: '10px', backgroundColor: 'white' }}>
                     <div style={{ textAlign: 'center' }}>
                         <img style={{ width: '130px' }} src={logo} alt="" />
-                        <h3 style={{ color: '#4a76a8' }}>Добро пожаловать в RoomRoom!<br />
-                            Форма регистрации</h3>
+                        <h3 style={{color: '#4a76a8'}}>
+                            Зарегистрируйся сейчас и найди<br/> классного соседа!</h3>
                     </div>
                     <br />
                     <Form onSubmit={this.handleSubmit}>
@@ -164,15 +166,14 @@ class Signup extends Component {
                             )}
                         </Form.Item>
                         < Form.Item>
-                            <Button style={{ backgroundColor: '#4A76A8', color: '#ffffff' }} htmlType="submit" loading={this.state.iconLoading} icon='solution'>
-                                Зарегестрироваться
-                        </Button>
-                            &nbsp;&nbsp;&nbsp;
-                        Или <Link to={"/login"}>Войти</Link>
+                            <Button style={{backgroundColor: '#4A76A8', width: '100%', align: "center"}} htmlType="submit" loading={this.state.iconLoading} icon='solution'>
+                                Start!
+                            </Button>
                         </Form.Item>
                     </Form>
+                    <p align={'center'}>Ты уже в RoomRoom?<br/><Link to={"/login"}>Войти</Link></p>
                 </Card>
-            </div >
+            </div>
         );
     }
 }

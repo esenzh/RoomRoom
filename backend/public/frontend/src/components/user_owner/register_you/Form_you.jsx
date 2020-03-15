@@ -3,6 +3,7 @@ import { InputNumber, Form, Select, Radio, Input, Button, Checkbox } from 'antd'
 import { connect } from "react-redux";
 import { Redirect } from 'react-router-dom';
 import UploadPhoto from '../../UploadPhoto';
+import {Redirect} from "react-router-dom";
 
 const { TextArea } = Input;
 const { Option } = Select;
@@ -14,7 +15,9 @@ class FormYou extends Component {
             isRedirect: false,
             children: 'Без детей',
             pets: 'Без животных',
-            smoking: 'Не курящий'
+            smoking: 'Не курящий',
+            isRedirect: false,
+            iconLoading: false
         }
     }
 
@@ -129,10 +132,10 @@ class FormYou extends Component {
                 </Form.Item>
                 <Form.Item>
                     {getFieldDecorator('sexOfOwner', {
-                        rules: [{ required: true, message: 'Пожалуйста, укажите какой ваш пол' }],
+                        rules: [{ required: true, message: 'Пожалуйста, укажите какой Ваш пол' }],
                     })(
                         <div>
-                            <p className='question'>Какой ваш пол?</p>
+                            <p className='question'>Какой Ваш пол?</p>
                             <Radio.Group buttonStyle="solid">
                                 <Radio.Button className='customRadio' value={'М'}>М</Radio.Button>
                                 <Radio.Button className='customRadio' value={'Ж'}>Ж</Radio.Button>
@@ -143,10 +146,10 @@ class FormYou extends Component {
                 </Form.Item>
                 <Form.Item>
                     {getFieldDecorator('ageOfOwner', {
-                        rules: [{ required: true, message: 'Пожалуйста, введите какой ваш возраст' }],
+                        rules: [{ required: true, message: 'Пожалуйста, введите какой Ваш возраст' }],
                     })(
                         <div>
-                            <p className='question'>Какой ваш возраст?</p>
+                            <p className='question'>Какой Ваш возраст?</p>
                             <InputNumber min={18} max={100} />
                         </div>
                     )}
@@ -162,10 +165,10 @@ class FormYou extends Component {
                 </Form.Item>
                 <Form.Item>
                     {getFieldDecorator('professionOfOwner', {
-                        rules: [{ required: true, message: 'Пожалуйста, укажите чем вы занимаетесь' }],
+                        rules: [{ required: true, message: 'Пожалуйста, укажите чем Вы занимаетесь' }],
                     })(
                         <div>
-                            <p className='question'>Чем вы занимаетесь?</p>
+                            <p className='question'>Чем Вы занимаетесь?</p>
                             <Radio.Group buttonStyle="solid">
                                 <Radio.Button className='customRadio' value={'Учусь'}>Учусь</Radio.Button>
                                 <Radio.Button className='customRadio' value={'Работаю'}>Работаю</Radio.Button>
@@ -175,11 +178,11 @@ class FormYou extends Component {
                             </Radio.Group>
                         </div>
                     )}
-                </Form.Item>
+               Зарег </Form.Item>
                 <Form.Item>
                     {getFieldDecorator('preference')(
                         <div>
-                            <p className='question'>Вы проживаете с?</p>
+                            <p className='question'>С кем Вы проживаете?</p>
                             <Checkbox.Group>
                                 <Checkbox onChange={this.onChangePreference} className='customCheckbox' value={'С детьми'}>C детьми</Checkbox>
                             </Checkbox.Group>
