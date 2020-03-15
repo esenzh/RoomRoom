@@ -177,7 +177,7 @@ class FormYou extends Component {
                             </Radio.Group>
                         </div>
                     )}
-               Зарег </Form.Item>
+               </Form.Item>
                 <Form.Item>
                     {getFieldDecorator('preference')(
                         <div>
