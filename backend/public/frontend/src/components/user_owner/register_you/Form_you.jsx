@@ -3,7 +3,6 @@ import { InputNumber, Form, Select, Radio, Input, Button, Checkbox } from 'antd'
 import { connect } from "react-redux";
 import { Redirect } from 'react-router-dom';
 import UploadPhoto from '../../UploadPhoto';
-import {Redirect} from "react-router-dom";
 
 const { TextArea } = Input;
 const { Option } = Select;
