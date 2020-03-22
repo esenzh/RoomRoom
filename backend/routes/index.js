@@ -418,58 +418,58 @@ router.get("/api/getAllOwner", async (req, res) => {
         let User = await Users.find();
         console.log(User);
         let AnketaOfOwner = await AnketaOfOwners.find();
-        console.log(AnketaOfOwner);
+        // console.log(AnketaOfOwner);
         let sendAllOwner = [];
         for (let i = 0; i < User.length; i++) {
             for (let j = 0; j < AnketaOfOwner.length ; j++) {
-                if(User[i].id=== AnketaOfOwner[i].authorID){
+
+                if(User[i].id === AnketaOfOwner[j].authorID.toString()){
                     let AnyOwner = {
-                        first_name: User.first_name,
-                        last_name: User.last_name,
-                        role: User.role,
-                        email: User.email,
-                        password: User.password,
-                        anketaID: User.anketaID,
-                        metro: AnketaOfOwner.metro,
-                        distance: AnketaOfOwner.distance,
-                        totalFloor: AnketaOfOwner.totalFloor,
-                        floorNumber: AnketaOfOwner.floorNumber,
-                        totalRooms: AnketaOfOwner.totalRooms,
-                        roomsToRent: AnketaOfOwner.roomsToRent,
-                        typeOfRoom: AnketaOfOwner.typeOfRoom,
-                        furnitureAndTech: AnketaOfOwner.furnitureAndTech,
-                        furnitureInRoom: AnketaOfOwner.furnitureInRoom,
-                        internet: AnketaOfOwner.internet,
-                        nearBy: AnketaOfOwner.nearBy,
-                        apartmentPhoto: AnketaOfOwner.apartmentPhoto,
-                        fee: AnketaOfOwner.fee,
-                        bills: AnketaOfOwner.bills,
-                        deposit: AnketaOfOwner.deposit,
-                        rentalDuration: AnketaOfOwner.rentalDuration,
-                        admissionDay: AnketaOfOwner.admissionDay,
-                        peopleNumberPreference: AnketaOfOwner.peopleNumberPreference,
-                        sexPreference: AnketaOfOwner.sexPreference,
-                        agePreference: AnketaOfOwner.agePreference,
-                        childrenPreference: AnketaOfOwner.childrenPreference,
-                        petsPreference: AnketaOfOwner.petsPreference,
-                        smokingPreference: AnketaOfOwner.smokingPreference,
-                        peopleLivingNumber: AnketaOfOwner.peopleLivingNumber,
-                        sexOfOwner: AnketaOfOwner.sexOfOwner,
-                        ageOfOwner: AnketaOfOwner.ageOfOwner,
-                        phone: AnketaOfOwner.phone,
-                        professionOfOwner: AnketaOfOwner.professionOfOwner,
-                        childrenOfOwner: AnketaOfOwner.childrenOfOwner,
-                        petsOfOnwer: AnketaOfOwner.petsOfOnwer,
-                        isOwnerSmokes: AnketaOfOwner.isOwnerSmokes,
-                        aboutOwner: AnketaOfOwner.aboutOwner,
-                        photoOfOwner: AnketaOfOwner.photoOfOwner,
-                        authorID: AnketaOfOwner.authorID
+                        first_name: User[i].first_name,
+                        last_name: User[i].last_name,
+                        role: User[i].role,
+                        email: User[i].email,
+                        password: User[i].password,
+                        anketaID: User[i].anketaID,
+                        metro: AnketaOfOwner[j].metro,
+                        distance: AnketaOfOwner[j].distance,
+                        totalFloor: AnketaOfOwner[j].totalFloor,
+                        floorNumber: AnketaOfOwner[j].floorNumber,
+                        totalRooms: AnketaOfOwner[j].totalRooms,
+                        roomsToRent: AnketaOfOwner[j].roomsToRent,
+                        typeOfRoom: AnketaOfOwner[j].typeOfRoom,
+                        furnitureAndTech: AnketaOfOwner[j].furnitureAndTech,
+                        furnitureInRoom: AnketaOfOwner[j].furnitureInRoom,
+                        internet: AnketaOfOwner[j].internet,
+                        nearBy: AnketaOfOwner[j].nearBy,
+                        apartmentPhoto: AnketaOfOwner[j].apartmentPhoto,
+                        fee: AnketaOfOwner[j].fee,
+                        bills: AnketaOfOwner[j].bills,
+                        deposit: AnketaOfOwner[j].deposit,
+                        rentalDuration: AnketaOfOwner[j].rentalDuration,
+                        admissionDay: AnketaOfOwner[j].admissionDay,
+                        peopleNumberPreference: AnketaOfOwner[j].peopleNumberPreference,
+                        sexPreference: AnketaOfOwner[j].sexPreference,
+                        agePreference: AnketaOfOwner[j].agePreference,
+                        childrenPreference: AnketaOfOwner[j].childrenPreference,
+                        petsPreference: AnketaOfOwner[j].petsPreference,
+                        smokingPreference: AnketaOfOwner[j].smokingPreference,
+                        peopleLivingNumber: AnketaOfOwner[j].peopleLivingNumber,
+                        sexOfOwner: AnketaOfOwner[j].sexOfOwner,
+                        ageOfOwner: AnketaOfOwner[j].ageOfOwner,
+                        phone: AnketaOfOwner[j].phone,
+                        professionOfOwner: AnketaOfOwner[j].professionOfOwner,
+                        childrenOfOwner: AnketaOfOwner[j].childrenOfOwner,
+                        petsOfOnwer: AnketaOfOwner[j].petsOfOnwer,
+                        isOwnerSmokes: AnketaOfOwner[j].isOwnerSmokes,
+                        aboutOwner: AnketaOfOwner[j].aboutOwner,
+                        photoOfOwner: AnketaOfOwner[j].photoOfOwner,
+                        authorID: AnketaOfOwner[j].authorID
                     }
                     sendAllOwner.push(AnyOwner)
             }
-        }        res.status(400).json({response: "fail"});
-            console.log(sendAllOwner);
-            res.status(200).json({response: sendAllOwner});
+        }
+           res.status(200).json({response: sendAllOwner});
         }
     } catch (e) {
         res.status(400).json({response: "fail"});
