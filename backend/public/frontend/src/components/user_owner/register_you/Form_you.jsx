@@ -105,7 +105,7 @@ class FormYou extends Component {
 
     render() {
         if (this.state.isRedirect) {
-            return <Redirect to={'/'} />
+            return <Redirect to={'/profile'} />
         }
         const { getFieldDecorator } = this.props.form;
         const prefixSelector = getFieldDecorator('prefix', {

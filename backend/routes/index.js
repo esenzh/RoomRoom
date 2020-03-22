@@ -2,10 +2,10 @@ var express = require("express");
 var router = express.Router();
 const nodemailer = require("nodemailer");
 const Form = require("../models/form");
-const AnketaOfOwner = require("../models/anketaOfOwner");
-const AnketaOfNoOwner = require("../models/anketaOfOwner");
+const AnketaOfOwners = require("../models/anketaOfOwner");
+const AnketaOfNoOwners = require("../models/anketaOfNoOwner");
 
-const User = require("../models/user");
+const Users = require("../models/user");
 const sessionChecker = require('../middleware/auth');
 
 router.post("/api/newForm", async (req, res, next) => {
@@ -412,10 +412,13 @@ router.get("/api/likes/mutual", async (req, res) => {
 });
 
 router.get("/api/getAllOwner", async (req, res) => {
+    console.log(0);
     try {
-
-        let User = await User.find();
-        let AnketaOfOwner = await AnketaOfOwner.find();
+        console.log(15);
+        let User = await Users.find();
+        console.log(User);
+        let AnketaOfOwner = await AnketaOfOwners.find();
+        console.log(AnketaOfOwner);
         let sendAllOwner = [];
         for (let i = 0; i < User.length; i++) {
             for (let j = 0; j < AnketaOfOwner.length ; j++) {
@@ -464,8 +467,9 @@ router.get("/api/getAllOwner", async (req, res) => {
                     }
                     sendAllOwner.push(AnyOwner)
             }
-        }
-                res.status(200).json({response: sendAllOwner});
+        }        res.status(400).json({response: "fail"});
+            console.log(sendAllOwner);
+            res.status(200).json({response: sendAllOwner});
         }
     } catch (e) {
         res.status(400).json({response: "fail"});
@@ -474,8 +478,8 @@ router.get("/api/getAllOwner", async (req, res) => {
 
 router.get("/api/getAllNoOwner", async (req, res) => {
     try {
-        let User = await User.find();
-        let AnketaOfNoOwner = await AnketaOfNoOwner.find();
+        let User = await Users.find();
+        let AnketaOfNoOwner = await AnketaOfNoOwners.find();
         let sendAllNoOwner = [];
         for (let i = 0; i < User.length; i++) {
             for (let j = 0; j < AnketaOfNoOwner.length ; j++) {

@@ -38,4 +38,4 @@ const anketaOwnerSchema = Schema({
   authorID: {type: Schema.Types.ObjectId, ref: 'User'}
 });
 
-module.exports = mongoose.model("AnketaOwner", anketaOwnerSchema);
+module.exports = mongoose.model("AnketaOfOwner", anketaOwnerSchema);
