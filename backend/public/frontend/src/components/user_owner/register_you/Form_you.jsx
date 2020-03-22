@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
 import { InputNumber, Form, Select, Radio, Input, Button, Checkbox } from 'antd';
 import { connect } from "react-redux";
+import { Redirect } from 'react-router-dom';
 import UploadPhoto from '../../UploadPhoto';
-import {Redirect} from "react-router-dom";
 
 const { TextArea } = Input;
 const { Option } = Select;
@@ -11,6 +11,7 @@ class FormYou extends Component {
     constructor(props) {
         super(props);
         this.state = {
+            isRedirect: false,
             children: 'Без детей',
             pets: 'Без животных',
             smoking: 'Не курящий',
@@ -65,12 +66,13 @@ class FormYou extends Component {
                     })
                 })
                 const result = await response.json();
-                if (result.response === 'success') {
+                if(result.response === 'success') {
                     this.setState({
                         isRedirect: true
                     })
+                } else {
+
                 }
-                console.log(result);
             }
         })
     }
@@ -105,7 +107,7 @@ class FormYou extends Component {
 
     render() {
         if (this.state.isRedirect) {
-            return <Redirect to={'/'} />
+            return <Redirect to={'/profile'} />
         }
         const { getFieldDecorator } = this.props.form;
         const prefixSelector = getFieldDecorator('prefix', {
@@ -175,7 +177,7 @@ class FormYou extends Component {
                             </Radio.Group>
                         </div>
                     )}
-               Зарег </Form.Item>
+               </Form.Item>
                 <Form.Item>
                     {getFieldDecorator('preference')(
                         <div>
