@@ -21,7 +21,7 @@
     "mongoose": "^5.8.7",
     "morgan": "~1.9.1",
     "nodemailer": "^6.4.2",
-    "pug": "2.0.0-beta11",
+    "pug": "3.0.1",
     "test-pages": "^1.0.3",
     "time-rest": "^1.0.1",
     "uuid": "^3.4.0",
